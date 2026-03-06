@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
+import { books, tools, courses, episodes, featuredCrochet } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -55,6 +56,11 @@ export default function Home() {
     return () => obs.disconnect()
   }, [])
 
+  const stat1 = useCountUp(featuredCrochet.length, statsVis)
+  const stat2 = useCountUp(books.length, statsVis)
+  const stat3 = useCountUp(courses.length, statsVis)
+  const stat4 = useCountUp(episodes.length, statsVis)
+  const stat5 = useCountUp(tools.length, statsVis)
   const stat6 = useCountUp(6, statsVis)
 
   const handleNewsletter = () => {
@@ -154,11 +160,11 @@ export default function Home() {
         style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         {[
-          { label: 'Crocheted Pieces', val: '0+' },
-          { label: 'Books Written',    val: '0+' },
-          { label: 'Courses Created',  val: '0+' },
-          { label: 'Podcast Episodes', val: '0+' },
-          { label: 'Organizing Tools', val: '0+' },
+          { label: 'Crocheted Pieces', val: stat1 },
+          { label: 'Books Written',    val: stat2 },
+          { label: 'Courses Created',  val: stat3 },
+          { label: 'Podcast Episodes', val: stat4 },
+          { label: 'Organizing Tools', val: stat5 },
           { label: 'Years Expertise',  val: stat6 },
         ].map(s => (
           <div className="stat-item" key={s.label} style={{ position: 'relative', zIndex: 2 }}>
@@ -215,17 +221,17 @@ export default function Home() {
           </div>
           <div className="flow reveal">
             {[
-              { icon:'🎬', name:'Record Video',    note:'Capture the creation process' },
-              { icon:'📱', name:'Social Posts',    note:'Short clips for Instagram & TikTok' },
-              { icon:'📝', name:'Written Pattern', note:'Script becomes a digital product' },
-              { icon:'📚', name:'Books & Courses', note:'Compiled into full learning guides' },
-              { icon:'🎙️', name:'Podcast & YouTube', note:'Audio & video series for all' },
+              { icon:'🎬', name:'Record Video',      note:'Capture the creation process',        href:'/videos' },
+              { icon:'📱', name:'Social Posts',      note:'Short clips for Instagram & TikTok',  href:'/videos' },
+              { icon:'📝', name:'Written Pattern',   note:'Script becomes a digital product',    href:'/crocheting' },
+              { icon:'📚', name:'Books & Courses',   note:'Compiled into full learning guides',  href:'/books' },
+              { icon:'🎙️', name:'Podcast & YouTube', note:'Audio & video series for all',        href:'/podcasts' },
             ].map(s => (
-              <div className="flow-step" key={s.name}>
+              <Link href={s.href} className="flow-step" key={s.name} style={{ textDecoration: 'none' }}>
                 <div className="flow-node">{s.icon}</div>
                 <div className="flow-name">{s.name}</div>
                 <div className="flow-note">{s.note}</div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -258,6 +264,71 @@ export default function Home() {
                 <div className="res-link">{r.link}</div>
               </Link>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── EFFORTLESS WORKS ── */}
+      <section className="section" id="effortless-works" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)' }}>
+        <RippleCanvas intensity={0.45} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="reveal">
+            <div className="s-tag">Our Business</div>
+            <h2 className="s-title">Effortless<br /><span className="gold">Works</span></h2>
+            <p className="s-sub">The brand behind all the tools, templates, and services — built to help you work smarter, create with intention, and grow with purpose.</p>
+          </div>
+          <div className="pillars-grid reveal" style={{ marginTop: 52 }}>
+            {[
+              { icon: '🗂️', title: 'Organization Templates', desc: 'Google Sheets and Notion templates for individuals and businesses — Back Office, Project Management, Personal Tracker, Life Tracker, and more.', tags: ['Google Sheets', 'Notion', 'Templates'] },
+              { icon: '🔨', title: 'Build Your Own', desc: 'Custom website, app, onboarding system, or personalized Sheets/Notion setup — request bespoke services tailored to your exact needs.', tags: ['Website', 'App', 'Onboarding', 'Fiverr'] },
+              { icon: '🎓', title: 'How-To Courses', desc: 'Step-by-step product videos, self-paced courses, and instructor-led training to help you master every tool we build.', tags: ['Product Videos', 'Self-Paced', 'Instructor Led'] },
+              { icon: '🕌', title: 'Islamic Tools', desc: 'Faith-first templates and trackers — prayer planners, Ramadan organizers, and goal systems built around Islamic values and the Muslim lifestyle.', tags: ['Prayer', 'Ramadan', 'Goals'] },
+            ].map((p, i) => (
+              <div className="pillar" key={p.title} style={{ animationDelay: `${i * 0.08}s` }}>
+                <span className="pillar-icon">{p.icon}</span>
+                <div className="pillar-title">{p.title}</div>
+                <p className="pillar-desc">{p.desc}</p>
+                <div className="pillar-tags">{p.tags.map(t => <span className="ptag" key={t}>{t}</span>)}</div>
+              </div>
+            ))}
+          </div>
+          <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
+            <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit Effortless Works →</a>
+            <Link href="/organize" className="btn-outline">Browse Templates</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── EFFORTLESS QUEST ── */}
+      <section className="section" id="effortless-quest" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg)', borderTop: '1px solid var(--border-dim)' }}>
+        <RippleCanvas intensity={0.45} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="reveal">
+            <div className="s-tag">Coming Soon</div>
+            <h2 className="s-title">Effortless<br /><span className="gold">Quest</span></h2>
+            <p className="s-sub">A gamified community platform where personal development and business growth become a real-life game — with leaderboards, rewards, and a network of driven individuals and businesses.</p>
+          </div>
+          <div className="res-grid reveal" style={{ marginTop: 52 }}>
+            {[
+              { icon: '🏆', name: 'Leaderboards',    desc: 'Monthly, weekly, and yearly rankings — compete with businesses and individuals for real rewards.',     },
+              { icon: '💼', name: 'Business Center', desc: 'Grow and connect your business in a gamified environment built for entrepreneurs and creators.',         },
+              { icon: '📚', name: 'Education Center',desc: 'Level up your skills — earn points, unlock achievements, and build expertise alongside others.',        },
+              { icon: '💡', name: 'Invention Center',desc: 'Ideate, prototype, and launch new projects with community support, feedback, and collaboration.',       },
+              { icon: '🤝', name: 'Charity Center',  desc: 'Earn rewards and recognition for completing charity tasks and giving back to the community.',           },
+              { icon: '👥', name: 'Team Center',     desc: 'Form teams, collaborate on goals, and build lasting connections with like-minded people.',              },
+            ].map(r => (
+              <div className="res-card" key={r.name} style={{ cursor: 'default' }}>
+                <span className="res-icon">{r.icon}</span>
+                <div className="res-name">{r.name}</div>
+                <div className="res-desc">{r.desc}</div>
+                <div className="res-link" style={{ color: 'var(--teal)', fontSize: '.72rem', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase' }}>Coming Soon</div>
+              </div>
+            ))}
+          </div>
+          <div className="reveal" style={{ marginTop: 48 }}>
+            <p style={{ color: 'var(--text-dim)', fontSize: '.9rem', lineHeight: 1.75, maxWidth: 600 }}>
+              Effortless Quest is being built to connect communities of driven individuals, families, and businesses in a real-life gamified experience — with monthly challenges, business competitions, charity rewards, and a place to network, grow, and thrive together.
+            </p>
           </div>
         </div>
       </section>

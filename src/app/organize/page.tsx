@@ -4,18 +4,10 @@ import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import { tools } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
-
-const tools = [
-  { icon: '📋', title: 'Notion Templates', desc: 'Ready-to-use Notion dashboards for daily routines, Islamic goals, Quran tracking, and more.', tags: ['Notion', 'Daily Routine', 'Goals'] },
-  { icon: '📊', title: 'Google Sheets', desc: 'Spreadsheet systems for habit tracking, budgeting, and business planning — with an Islamic mindset.', tags: ['Google Sheets', 'Budgeting', 'Habits'] },
-  { icon: '🕌', title: 'Prayer Planner', desc: 'Plan your day around your five daily prayers — the foundation of a structured Muslim life.', tags: ['Salah', 'Daily Planner', 'Routine'] },
-  { icon: '📅', title: 'Ramadan Planner', desc: 'A full Ramadan planning system covering worship goals, meal planning, and reflection journals.', tags: ['Ramadan', 'Worship', 'Planning'] },
-  { icon: '💼', title: 'Business Tools', desc: 'Halal business planning templates — from idea validation to launch and growth tracking.', tags: ['Business', 'Halal Income', 'Launch'] },
-  { icon: '🎯', title: 'Goal Tracking', desc: 'Long-term goal systems built on Islamic values — tracking dunya and akhirah goals together.', tags: ['Goals', 'Akhirah', 'Mindset'] },
-]
 
 export default function OrganizePage() {
   return (
@@ -37,7 +29,7 @@ export default function OrganizePage() {
             Organization tools built around Islamic values — because when your time is structured with intention, your deen and dunya thrive together.
           </p>
           <div className="hero-actions">
-            <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">Browse Templates →</a>
+            <a href="https://www.effortlessworks.store/000013/pt-sheets" target="_blank" rel="noopener noreferrer" className="btn-gold">Browse Templates →</a>
             <Link href="/roadmap" className="btn-outline">View Roadmap</Link>
           </div>
         </div>
@@ -74,7 +66,7 @@ export default function OrganizePage() {
           <h2 className="nl-title">Get Organized</h2>
           <p className="nl-sub">Browse the full template library at Effortless Works — built for the intentional Muslim.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit the Store →</a>
+            <a href="https://www.effortlessworks.store/000013/pt-sheets" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit the Store →</a>
             <Link href="/" className="btn-outline">← Back Home</Link>
           </div>
         </div>

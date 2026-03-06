@@ -63,13 +63,40 @@ export default function VideosPage() {
         </div>
       </section>
 
+      {/* Where to Watch */}
+      <section className="section" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)' }}>
+        <RippleCanvas intensity={0.45} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="reveal">
+            <div className="s-tag">Find Us On</div>
+            <h2 className="s-title">Where to Watch</h2>
+            <p className="s-sub">Subscribe on your favourite platform — new content added regularly across all channels.</p>
+          </div>
+          <div className="res-grid reveal" style={{ marginTop: 40 }}>
+            {[
+              { icon: '▶️', name: 'YouTube',   href: 'https://www.youtube.com/@MuslimSuccessPath',     desc: 'Full tutorials, series, and Islamic content on YouTube', link: 'Subscribe →' },
+              { icon: '🎵', name: 'TikTok',    href: 'https://www.tiktok.com/@muslim.success.path',    desc: 'Short-form content and quick lessons on TikTok',         link: 'Follow →' },
+              { icon: '📸', name: 'Instagram', href: 'https://www.instagram.com/muslim.success.path',  desc: 'Reels, stories, and behind-the-scenes on Instagram',     link: 'Follow →' },
+              { icon: '✖️', name: 'X',         href: 'https://x.com/muslimsuccess_',                   desc: 'Updates, clips, and community conversations on X',       link: 'Follow →' },
+            ].map(l => (
+              <a href={l.href} className="res-card" key={l.name} target="_blank" rel="noopener noreferrer">
+                <span className="res-icon">{l.icon}</span>
+                <div className="res-name">{l.name}</div>
+                <div className="res-desc">{l.desc}</div>
+                <div className="res-link">{l.link}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="newsletter" style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         <div className="nl-glow" />
         <div className="nl-box reveal" style={{ position: 'relative', zIndex: 2 }}>
           <span className="nl-icon">▶️</span>
           <h2 className="nl-title">Subscribe Today</h2>
-          <p className="nl-sub">New videos every week — subscribe on YouTube and never miss a lesson.</p>
+          <p className="nl-sub">New videos every week across YouTube, TikTok, and Instagram — subscribe and never miss a lesson.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <a href="https://www.youtube.com/@MuslimSuccessPath" target="_blank" rel="noopener noreferrer" className="btn-gold">YouTube Channel →</a>
             <Link href="/" className="btn-outline">← Back Home</Link>

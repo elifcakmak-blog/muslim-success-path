@@ -27,6 +27,13 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(245,200,66,0.18); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(245,200,66,0.38); }
+* { scrollbar-width: thin; scrollbar-color: rgba(245,200,66,0.18) transparent; }
+
 body {
   font-family: 'Satoshi', sans-serif;
   background: var(--bg);
@@ -34,6 +41,7 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
+*, *::before, *::after { cursor: none !important; }
 
 /* ── CANVAS LAYERS ── */
 .fluid-canvas,
@@ -91,6 +99,46 @@ body {
   font-weight: 700 !important; padding: 8px 22px !important; border-radius: 6px !important;
 }
 .nav-cta:hover { background: var(--gold-dim) !important; box-shadow: 0 0 24px var(--gold-glow) !important; }
+
+/* ── NAV DROPDOWN ── */
+.nav-dropdown { position: relative; display: flex; align-items: center; }
+.nav-dropdown > span {
+  font-size: .825rem; font-weight: 500; color: var(--text-dim);
+  padding: 7px 16px; border-radius: 6px; cursor: default;
+  transition: all .2s; user-select: none;
+}
+.nav-dropdown:hover > span { color: var(--gold); background: var(--gold-pale); }
+.nav-dropdown-menu {
+  position: absolute; top: calc(100% + 6px); left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  background: rgba(10,9,14,0.98); border: 1px solid var(--border);
+  border-radius: 10px; padding: 6px; min-width: 168px;
+  opacity: 0; pointer-events: none;
+  transition: opacity .18s, transform .18s;
+  box-shadow: 0 24px 60px rgba(0,0,0,.65);
+  backdrop-filter: blur(24px); z-index: 600;
+}
+.nav-dropdown:hover .nav-dropdown-menu {
+  opacity: 1; pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+.nav-dropdown-menu a {
+  display: block; padding: 8px 14px; border-radius: 6px;
+  font-size: .8rem; font-weight: 500; color: var(--text-dim);
+  text-decoration: none; transition: all .15s; white-space: nowrap;
+}
+.nav-dropdown-menu a:hover { color: var(--gold); background: var(--gold-pale); }
+
+/* ── NAV RESPONSIVE ── */
+@media (max-width: 860px) {
+  .nav { padding: 0 20px; }
+  .nav-links a:not(.nav-cta) { display: none; }
+  .nav-dropdown { display: none; }
+}
+@media (max-width: 480px) {
+  .nav-logo { font-size: 1.35rem; gap: 7px; }
+  .nav-cta { padding: 7px 14px !important; font-size: .78rem !important; }
+}
 
 /* ── HERO ── */
 .hero {

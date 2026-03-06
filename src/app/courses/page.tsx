@@ -5,17 +5,10 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 
+import { courses } from '@/data/siteData'
+
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
-
-const courses = [
-  { icon: '🌟', title: 'Islam for Beginners', desc: 'A complete foundational course for new Muslims and reverts — covering the pillars, beliefs, and daily practices.', tags: ['Beginners', 'Foundation', 'Self-Paced'], status: 'Available' },
-  { icon: '📿', title: 'Mastering Salah', desc: 'Step-by-step guidance on perfecting your prayer — from wudu to the meaning behind every movement.', tags: ['Salah', 'Worship', 'Intermediate'], status: 'Available' },
-  { icon: '📖', title: 'Quran Reading Course', desc: 'Learn to read Arabic and recite Quran with proper tajweed — structured for absolute beginners.', tags: ['Quran', 'Arabic', 'Tajweed'], status: 'Coming Soon' },
-  { icon: '🧠', title: 'Islamic Mindset Reset', desc: 'Transform how you think, plan, and live — aligning your mindset with Quranic principles and prophetic wisdom.', tags: ['Mindset', 'Personal Growth', 'Advanced'], status: 'Coming Soon' },
-  { icon: '🧶', title: 'Crochet Mastery', desc: 'A full crochet course from beginner to confident crocheter — with a focus on modest, Islamic-inspired designs.', tags: ['Crochet', 'Beginner', 'Practical'], status: 'Available' },
-  { icon: '💼', title: 'Halal Business Blueprint', desc: 'Build a purposeful, halal business from the ground up — strategy, systems, and Islamic business ethics.', tags: ['Business', 'Halal', 'Entrepreneurship'], status: 'Coming Soon' },
-]
 
 export default function CoursesPage() {
   return (

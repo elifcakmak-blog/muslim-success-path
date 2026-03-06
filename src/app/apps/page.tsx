@@ -70,6 +70,33 @@ export default function AppsPage() {
         </div>
       </section>
 
+      {/* Follow Development */}
+      <section className="section" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)' }}>
+        <RippleCanvas intensity={0.45} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="reveal">
+            <div className="s-tag">Follow Along</div>
+            <h2 className="s-title">Track Our Progress</h2>
+            <p className="s-sub">Follow our development journey — from open-source work to product announcements and community updates.</p>
+          </div>
+          <div className="res-grid reveal" style={{ marginTop: 40 }}>
+            {[
+              { icon: '💻', name: 'GitHub',    href: 'https://github.com/Muslim-Success-Path',                     desc: 'Follow our open-source work on GitHub',         link: 'Explore →' },
+              { icon: '💼', name: 'LinkedIn',  href: 'https://www.linkedin.com/company/muslim-success-path/about', desc: 'Professional updates and launch announcements', link: 'Follow →' },
+              { icon: '📸', name: 'Instagram', href: 'https://www.instagram.com/muslim.success.path',              desc: "Behind-the-scenes of what we're building",      link: 'Follow →' },
+              { icon: '✖️', name: 'X',         href: 'https://x.com/muslimsuccess_',                               desc: 'Real-time updates and community conversations', link: 'Follow →' },
+            ].map(l => (
+              <a href={l.href} className="res-card" key={l.name} target="_blank" rel="noopener noreferrer">
+                <span className="res-icon">{l.icon}</span>
+                <div className="res-name">{l.name}</div>
+                <div className="res-desc">{l.desc}</div>
+                <div className="res-link">{l.link}</div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="newsletter" style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         <div className="nl-glow" />

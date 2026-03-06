@@ -19,6 +19,20 @@ export default function Nav() {
         <Link href="/crocheting">Crocheting</Link>
         <Link href="/islamic-learning">Islamic Learning</Link>
         <Link href="/organize">Organize</Link>
+
+        {/* Resources dropdown */}
+        <div className="nav-dropdown">
+          <span>Resources ▾</span>
+          <div className="nav-dropdown-menu">
+            <Link href="/books">📖 Books</Link>
+            <Link href="/podcasts">🎙️ Podcasts</Link>
+            <Link href="/videos">▶️ Videos</Link>
+            <Link href="/courses">🎓 Courses</Link>
+            <Link href="/apps">📱 Apps</Link>
+            <Link href="/roadmap">🗺️ Roadmap</Link>
+          </div>
+        </div>
+
         <Link href="/about">About</Link>
         <Link href="/#newsletter" className="nav-cta">Newsletter</Link>
       </div>

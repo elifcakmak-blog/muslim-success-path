@@ -49,10 +49,13 @@ export default function AboutPage() {
             <div className="s-tag">Our Mission</div>
             <h2 className="s-title">Why We<br />Exist</h2>
             <p style={{ color: 'var(--text-dim)', lineHeight: 1.75, marginBottom: 20, fontSize: '.95rem' }}>
-              Muslim Success Path was born from a simple belief: that when learning and creating in line with Islam is effortless, life becomes simpler, more intentional, and more meaningful.
+              Muslim Success Path is dedicated to helping Muslims on a journey of faith, growth, and purposeful living. Our mission is to help you strengthen your iman, develop your skills, and live intentionally in every aspect of life.
+            </p>
+            <p style={{ color: 'var(--text-dim)', lineHeight: 1.75, marginBottom: 20, fontSize: '.95rem' }}>
+              Since 2024, we&apos;ve been sharing insights and practical resources to make learning, worship, and daily routines more meaningful and manageable — combining experience, knowledge, and a focus on faith-centered growth to help Muslims cultivate clarity, discipline, and purpose.
             </p>
             <p style={{ color: 'var(--text-dim)', lineHeight: 1.75, fontSize: '.95rem' }}>
-              Our mission is to make Islamic knowledge accessible and engaging for every Muslim — through books, crochet, courses, podcasts, and tools that serve your deen and your daily life.
+              Today, we are a trusted companion on the path of intentional Muslim living. Our goal is to help you simplify your life, grow spiritually, and achieve your aspirations — through learning resources, practical tools, and creative projects designed to inspire and uplift.
             </p>
           </div>
           <div className="about-quote">

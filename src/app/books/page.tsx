@@ -4,17 +4,16 @@ import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import { books } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
 
-const books = [
-  { icon: '📖', title: 'New Muslim Guide', desc: 'A gentle, comprehensive guide for those who have just embraced Islam — covering the basics with warmth and clarity.', tags: ['Reverts', 'Beginners', 'Essential'] },
-  { icon: '🌸', title: 'Faith & Identity', desc: 'Navigating life as a Muslim in the modern world — building a strong identity grounded in your deen.', tags: ['Identity', 'Modern Muslim', 'Confidence'] },
-  { icon: '🤲', title: 'Worship Made Easy', desc: 'Practical guides to salah, fasting, and dhikr — making your worship consistent and meaningful.', tags: ['Salah', 'Fasting', 'Dhikr'] },
-  { icon: '🌙', title: 'Ramadan Companion', desc: 'A month-by-month and day-by-day companion to make every Ramadan your most impactful yet.', tags: ['Ramadan', 'Worship', 'Reflection'] },
-  { icon: '💛', title: 'Islamic Mindset', desc: 'Reframe your thinking with Islamic principles — productivity, gratitude, patience, and tawakkul.', tags: ['Mindset', 'Growth', 'Tawakkul'] },
-  { icon: '👩‍👧', title: 'Muslim Family Life', desc: 'Building a home rooted in Islam — for new parents, couples, and those raising Muslim children.', tags: ['Family', 'Parenting', 'Home'] },
+const platforms = [
+  { icon: '📕', name: 'Wattpad',   href: 'https://www.wattpad.com/user/muslimsuccesspath',             desc: 'Read our stories and guides free on Wattpad',              link: 'Read →' },
+  { icon: '🛒', name: 'Store',     href: 'https://www.effortlessworks.store/',                         desc: 'Purchase digital books and guides in our online store',    link: 'Shop →' },
+  { icon: '💼', name: 'LinkedIn',  href: 'https://www.linkedin.com/company/muslim-success-path/about', desc: 'Follow our professional updates and announcements',        link: 'Follow →' },
+  { icon: '📸', name: 'Instagram', href: 'https://www.instagram.com/muslim.success.path',              desc: 'New books and behind-the-scenes on Instagram',             link: 'Follow →' },
 ]
 
 export default function BooksPage() {
@@ -58,6 +57,28 @@ export default function BooksPage() {
                 <p className="pillar-desc">{b.desc}</p>
                 <div className="pillar-tags">{b.tags.map(t => <span className="ptag" key={t}>{t}</span>)}</div>
               </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Where to Find */}
+      <section className="section" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)' }}>
+        <RippleCanvas intensity={0.45} />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <div className="reveal">
+            <div className="s-tag">Find Our Books</div>
+            <h2 className="s-title">Where to Read</h2>
+            <p className="s-sub">Browse our books and guides across these platforms — some are free, some available in our store.</p>
+          </div>
+          <div className="res-grid reveal" style={{ marginTop: 40 }}>
+            {platforms.map(l => (
+              <a href={l.href} className="res-card" key={l.name} target="_blank" rel="noopener noreferrer">
+                <span className="res-icon">{l.icon}</span>
+                <div className="res-name">{l.name}</div>
+                <div className="res-desc">{l.desc}</div>
+                <div className="res-link">{l.link}</div>
+              </a>
             ))}
           </div>
         </div>

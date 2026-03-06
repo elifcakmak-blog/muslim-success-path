@@ -9,12 +9,12 @@ const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: fal
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
 
 const resources = [
-  { icon: '📖', title: 'Books for New Muslims', desc: 'Accessible, thoughtful books written for reverts and those beginning their Islamic journey.', tags: ['Reverts', 'Beginners', 'Faith'] },
-  { icon: '🎙️', title: 'Podcasts', desc: 'Faith reflections, life lessons, and Islamic knowledge — one episode at a time.', tags: ['Audio', 'Weekly', 'Reflection'] },
-  { icon: '▶️', title: 'YouTube Series', desc: 'Video lessons covering Quran, seerah, fiqh, and everyday Muslim life.', tags: ['Video', 'YouTube', 'Series'] },
-  { icon: '🎓', title: 'Courses', desc: 'Structured learning paths for deep, transformative understanding of Islam.', tags: ['Structured', 'Self-Paced', 'Certificates'] },
-  { icon: '📿', title: 'Quran Study Guides', desc: 'Companion guides for Quran study — with context, reflection prompts, and journaling space.', tags: ['Quran', 'Tafsir', 'Study'] },
-  { icon: '🌙', title: 'Ramadan Resources', desc: 'Dedicated tools and guides to help you make the most of the blessed month.', tags: ['Ramadan', 'Worship', 'Planning'] },
+  { icon: '📗', title: 'Becoming Muslim As A Revert', desc: 'A compassionate, comprehensive guide for those who have just embraced Islam — covering the essentials with warmth and clarity. Available on Wattpad and in our store.', tags: ['Reverts', 'New Muslims', 'Essential'] },
+  { icon: '🤲', title: 'Muslim Prayer Basics', desc: 'A clear, step-by-step guide to salah for Muslims of all ages — from wudu to the meaning behind every movement. A practical companion for consistent worship.', tags: ['Salah', 'All Ages', 'Guide'] },
+  { icon: '🎙️', title: 'Podcast', desc: 'Faith reflections, life lessons, and Islamic knowledge — one conversation at a time. Available on Spotify and YouTube.', tags: ['Audio', 'Spotify', 'Reflection'] },
+  { icon: '▶️', title: 'YouTube Series', desc: 'Video lessons covering Islamic knowledge, crochet tutorials, productivity, and everyday Muslim life — new content every week.', tags: ['Video', 'YouTube', 'Series'] },
+  { icon: '🎓', title: 'Courses', desc: 'Structured learning paths for deep, transformative understanding of Islam — from foundational beliefs to Quran reading and Islamic mindset.', tags: ['Structured', 'Self-Paced', 'Transformative'] },
+  { icon: '🌙', title: 'Ramadan Resources', desc: 'Dedicated tools and guides to help you make the most of the blessed month — worship planning, reflection journals, and daily goals.', tags: ['Ramadan', 'Worship', 'Planning'] },
 ]
 
 export default function IslamicLearningPage() {
@@ -34,7 +34,7 @@ export default function IslamicLearningPage() {
             an Act of Worship
           </h1>
           <p className="hero-sub">
-            Explore books, podcasts, YouTube series, and courses designed to deepen your understanding of Islam — whether you're a revert, a lifelong Muslim, or somewhere in between.
+            Explore books, podcasts, YouTube series, and courses designed to deepen your understanding of Islam — including <em>Becoming Muslim As A Revert</em> and <em>Muslim Prayer Basics</em> — whether you&apos;re new to the faith or deepening your practice.
           </p>
           <div className="hero-actions">
             <Link href="/books" className="btn-gold">Browse Books →</Link>
