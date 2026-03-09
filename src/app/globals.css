@@ -84,7 +84,9 @@ body {
   display: flex; align-items: center; gap: 10px;
   letter-spacing: .02em;
   text-shadow: 0 0 30px rgba(245,200,66,.3);
+  transition: text-shadow .3s;
 }
+.nav-logo:hover { text-shadow: 0 0 12px rgba(245,200,66,.9), 0 0 30px rgba(245,200,66,.6), 0 0 60px rgba(245,200,66,.3); }
 .star { display: inline-block; animation: spinStar 12s linear infinite; }
 @keyframes spinStar { to { transform: rotate(360deg); } }
 
@@ -411,6 +413,8 @@ footer {
 .footer-legal { display: flex; gap: 16px; }
 .footer-legal a { color: var(--text-muted); text-decoration: none; font-size: .75rem; transition: color .2s; }
 .footer-legal a:hover { color: var(--gold); }
+.footer-dim-link { color: rgba(210, 175, 90, 0.5); text-decoration: none; font-size: .75rem; transition: color .2s; }
+.footer-dim-link:hover { color: var(--gold); }
 .socials { display: flex; gap: 10px; margin-top: 20px; }
 .social-btn {
   width: 34px; height: 34px; border-radius: 6px;
