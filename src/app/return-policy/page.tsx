@@ -10,36 +10,32 @@ const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: fal
 
 const sections = [
   {
-    title: 'Information We Collect',
-    content: 'We collect information you provide directly to us, such as your email address when you subscribe to our newsletter. We may also collect basic usage data through analytics tools to understand how our site is used.',
+    title: 'Digital Products',
+    content: 'Due to the instant and permanent nature of digital downloads, all sales of digital products — including templates, guides, and printables — are final. We do not offer refunds once a digital product has been accessed or downloaded.',
   },
   {
-    title: 'How We Use Your Information',
-    content: 'We use your email address solely to send you our newsletter and updates about new resources, products, and content. We do not sell, rent, or share your personal information with third parties for marketing purposes.',
+    title: 'Technical Issues',
+    content: 'If you experience a technical issue with a digital product (such as a corrupted file or a broken download link), please contact us immediately. We will do our best to resolve the issue and ensure you receive access to the product you purchased.',
   },
   {
-    title: 'Cookies',
-    content: 'Our website may use cookies to improve your browsing experience. These are small files stored on your device that help us understand site usage. You can disable cookies in your browser settings at any time, or read our full Cookie Policy for more details.',
+    title: 'Etsy Orders',
+    content: 'Physical and digital products sold through our Etsy shop (Effortless Works) are subject to Etsy\'s own return and refund policies. Please review the individual listing details and Etsy\'s policies before making a purchase.',
   },
   {
-    title: 'Third-Party Services',
-    content: 'We use trusted third-party services including Etsy (for product sales), YouTube (for video content), Effortless Works, Effortless Quest, and newsletter platforms. These services have their own privacy policies which govern their use of your information.',
+    title: 'Exceptions',
+    content: 'In exceptional circumstances — such as a product being materially different from its description — we will review return requests on a case-by-case basis. Please reach out to us within 7 days of purchase to discuss your situation.',
   },
   {
-    title: 'Data Security',
-    content: 'We take reasonable measures to protect your information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.',
+    title: 'Subscriptions & Newsletter',
+    content: 'Our newsletter is free to subscribe to and free to unsubscribe from at any time. There are no paid subscription products at this time, but this policy will be updated if that changes.',
   },
   {
-    title: 'Your Rights',
-    content: 'You have the right to unsubscribe from our newsletter at any time using the link in any email we send. You may also contact us to request access to, correction of, or deletion of your personal data.',
-  },
-  {
-    title: 'Contact Us',
-    content: 'If you have questions about this Privacy Policy, please reach out to us through our social media channels or the contact information on our website.',
+    title: 'How to Contact Us',
+    content: 'To request support with a purchase or report a technical issue, please reach out through our social media channels or the contact information on our website. We aim to respond within 2–3 business days.',
   },
 ]
 
-export default function PrivacyPolicyPage() {
+export default function ReturnPolicyPage() {
   return (
     <>
       <FluidCanvas />
@@ -50,8 +46,8 @@ export default function PrivacyPolicyPage() {
         <RippleCanvas intensity={0.6} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
           <div className="hero-badge">✦ Legal</div>
-          <h1><span className="gold">Privacy</span> Policy</h1>
-          <p className="hero-sub">Last updated: 2025. We respect your privacy and are committed to protecting your personal information.</p>
+          <h1><span className="gold">Return</span> Policy</h1>
+          <p className="hero-sub">Last updated: 2025. Learn about our refund and return process for Muslim Success Path products.</p>
         </div>
       </section>
 
@@ -67,9 +63,9 @@ export default function PrivacyPolicyPage() {
           ))}
           <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             <Link href="/terms" className="btn-gold">Terms of Service →</Link>
+            <Link href="/privacy-policy" className="btn-gold">Privacy Policy →</Link>
             <Link href="/cookies" className="btn-gold">Cookie Policy →</Link>
             <Link href="/disclaimer" className="btn-gold">Disclaimer →</Link>
-            <Link href="/return-policy" className="btn-gold">Return Policy →</Link>
           </div>
           <div className="reveal" style={{ marginTop: 24 }}>
             <Link href="/" style={{ color: 'var(--text-dim)', fontSize: '.9rem' }}>← Back Home</Link>

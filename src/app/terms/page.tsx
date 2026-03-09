@@ -27,7 +27,7 @@ const sections = [
   },
   {
     title: 'Third-Party Links',
-    content: 'Our website contains links to third-party platforms including Etsy, YouTube, and social media. We are not responsible for the content, privacy practices, or terms of those external sites.',
+    content: 'Our website contains links to third-party platforms including Etsy, YouTube, Effortless Works, Effortless Quest, and social media. We are not responsible for the content, privacy practices, or terms of those external sites.',
   },
   {
     title: 'Disclaimer',
@@ -55,7 +55,7 @@ export default function TermsPage() {
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
           <div className="hero-badge">✦ Legal</div>
           <h1>Terms of <span className="gold">Service</span></h1>
-          <p className="hero-sub">Last updated: 2024. Please read these terms carefully before using Muslim Success Path.</p>
+          <p className="hero-sub">Last updated: 2025. Please read these terms carefully before using Muslim Success Path.</p>
         </div>
       </section>
 
@@ -69,8 +69,14 @@ export default function TermsPage() {
               {i < sections.length - 1 && <div style={{ marginTop: 48, height: 1, background: 'var(--border-dim)' }} />}
             </div>
           ))}
-          <div className="reveal" style={{ marginTop: 48 }}>
-            <Link href="/" className="btn-gold">← Back Home</Link>
+          <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+            <Link href="/privacy-policy" className="btn-gold">Privacy Policy →</Link>
+            <Link href="/cookies" className="btn-gold">Cookie Policy →</Link>
+            <Link href="/disclaimer" className="btn-gold">Disclaimer →</Link>
+            <Link href="/return-policy" className="btn-gold">Return Policy →</Link>
+          </div>
+          <div className="reveal" style={{ marginTop: 24 }}>
+            <Link href="/" style={{ color: 'var(--text-dim)', fontSize: '.9rem' }}>← Back Home</Link>
           </div>
         </div>
       </section>

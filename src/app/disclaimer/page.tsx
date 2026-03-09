@@ -10,36 +10,36 @@ const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: fal
 
 const sections = [
   {
-    title: 'Information We Collect',
-    content: 'We collect information you provide directly to us, such as your email address when you subscribe to our newsletter. We may also collect basic usage data through analytics tools to understand how our site is used.',
+    title: 'Educational Purpose Only',
+    content: 'All content on Muslim Success Path — including Islamic resources, lifestyle guidance, productivity tips, and crochet patterns — is provided for educational and inspirational purposes only. It is not intended as professional, legal, financial, or medical advice.',
   },
   {
-    title: 'How We Use Your Information',
-    content: 'We use your email address solely to send you our newsletter and updates about new resources, products, and content. We do not sell, rent, or share your personal information with third parties for marketing purposes.',
+    title: 'Islamic Knowledge Disclaimer',
+    content: 'The Islamic content shared on this platform is based on general knowledge and is meant to inspire and educate. It does not constitute formal religious rulings (fatwa). For specific religious guidance relevant to your personal situation, please consult a qualified Islamic scholar.',
   },
   {
-    title: 'Cookies',
-    content: 'Our website may use cookies to improve your browsing experience. These are small files stored on your device that help us understand site usage. You can disable cookies in your browser settings at any time, or read our full Cookie Policy for more details.',
+    title: 'No Guarantees',
+    content: 'We do our best to ensure all information on this site is accurate and up to date. However, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, or suitability of the information provided.',
   },
   {
-    title: 'Third-Party Services',
-    content: 'We use trusted third-party services including Etsy (for product sales), YouTube (for video content), Effortless Works, Effortless Quest, and newsletter platforms. These services have their own privacy policies which govern their use of your information.',
+    title: 'External Links',
+    content: 'Our website includes links to external sites including Effortless Works, Effortless Quest, Etsy, YouTube, and social media platforms. We are not responsible for the content or practices of those external websites.',
   },
   {
-    title: 'Data Security',
-    content: 'We take reasonable measures to protect your information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.',
+    title: 'Affiliate & Product Links',
+    content: 'Some links on this site may be affiliate links, meaning we may earn a small commission if you make a purchase through them — at no extra cost to you. We only recommend products and resources we genuinely believe in.',
   },
   {
-    title: 'Your Rights',
-    content: 'You have the right to unsubscribe from our newsletter at any time using the link in any email we send. You may also contact us to request access to, correction of, or deletion of your personal data.',
+    title: 'Limitation of Liability',
+    content: 'Muslim Success Path and Effortless Works shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of this website or reliance on any content provided here.',
   },
   {
     title: 'Contact Us',
-    content: 'If you have questions about this Privacy Policy, please reach out to us through our social media channels or the contact information on our website.',
+    content: 'If you have questions about this disclaimer, please reach out through our social media channels or the contact information on our website.',
   },
 ]
 
-export default function PrivacyPolicyPage() {
+export default function DisclaimerPage() {
   return (
     <>
       <FluidCanvas />
@@ -50,8 +50,8 @@ export default function PrivacyPolicyPage() {
         <RippleCanvas intensity={0.6} />
         <div className="hero-content" style={{ position: 'relative', zIndex: 2 }}>
           <div className="hero-badge">✦ Legal</div>
-          <h1><span className="gold">Privacy</span> Policy</h1>
-          <p className="hero-sub">Last updated: 2025. We respect your privacy and are committed to protecting your personal information.</p>
+          <h1>Our <span className="gold">Disclaimer</span></h1>
+          <p className="hero-sub">Last updated: 2025. Please read this disclaimer before relying on any content from Muslim Success Path.</p>
         </div>
       </section>
 
@@ -67,8 +67,8 @@ export default function PrivacyPolicyPage() {
           ))}
           <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
             <Link href="/terms" className="btn-gold">Terms of Service →</Link>
+            <Link href="/privacy-policy" className="btn-gold">Privacy Policy →</Link>
             <Link href="/cookies" className="btn-gold">Cookie Policy →</Link>
-            <Link href="/disclaimer" className="btn-gold">Disclaimer →</Link>
             <Link href="/return-policy" className="btn-gold">Return Policy →</Link>
           </div>
           <div className="reveal" style={{ marginTop: 24 }}>
