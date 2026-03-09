@@ -69,11 +69,11 @@ export default function TermsPage() {
               {i < sections.length - 1 && <div style={{ marginTop: 48, height: 1, background: 'var(--border-dim)' }} />}
             </div>
           ))}
-          <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 16, flexWrap: 'wrap' }}>
-            <Link href="/privacy-policy" className="btn-gold">Privacy Policy →</Link>
-            <Link href="/cookies" className="btn-gold">Cookie Policy →</Link>
-            <Link href="/disclaimer" className="btn-gold">Disclaimer →</Link>
-            <Link href="/return-policy" className="btn-gold">Return Policy →</Link>
+          <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 10, flexWrap: 'nowrap', flexDirection: 'row' }}>
+            <Link href="/privacy-policy" className="btn-gold" style={{ padding: "10px 18px", fontSize: ".8rem", whiteSpace: "nowrap" }}>Privacy Policy →</Link>
+            <Link href="/cookies" className="btn-gold" style={{ padding: "10px 18px", fontSize: ".8rem", whiteSpace: "nowrap" }}>Cookie Policy →</Link>
+            <Link href="/disclaimer" className="btn-gold" style={{ padding: "10px 18px", fontSize: ".8rem", whiteSpace: "nowrap" }}>Disclaimer →</Link>
+            <Link href="/return-policy" className="btn-gold" style={{ padding: "10px 18px", fontSize: ".8rem", whiteSpace: "nowrap" }}>Return Policy →</Link>
           </div>
           <div className="reveal" style={{ marginTop: 24 }}>
             <Link href="/" style={{ color: 'var(--text-dim)', fontSize: '.9rem' }}>← Back Home</Link>
