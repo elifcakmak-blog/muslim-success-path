@@ -3,8 +3,10 @@ import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
+import Pipeline from '@/components/Pipeline'
 import Footer from '@/components/Footer'
-import { books, tools, courses, episodes, featuredCrochet } from '@/data/siteData'
+import ParallaxStars from '@/components/ParallaxStars'
+import { books, tools, courses, episodes, featuredCrochet, videos, apps, etsySales, newsletterSubs } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -31,6 +33,7 @@ export default function Home() {
   const [statsVis, setStatsVis]   = useState(false)
   const [nlStatus, setNlStatus]   = useState<'idle'|'ok'|'err'>('idle')
   const [nlEmail,  setNlEmail]    = useState('')
+  const [homeMenuOpen, setHomeMenuOpen] = useState(false)
   const statsRef = useRef<HTMLDivElement>(null)
 
   // Reveal on scroll
@@ -58,11 +61,15 @@ export default function Home() {
   }, [])
 
   const stat1 = useCountUp(featuredCrochet.length, statsVis)
-  const stat2 = useCountUp(books.length, statsVis)
-  const stat3 = useCountUp(courses.length, statsVis)
-  const stat4 = useCountUp(episodes.length, statsVis)
-  const stat5 = useCountUp(tools.length, statsVis)
-  const stat6 = useCountUp(6, statsVis)
+  const stat2 = useCountUp(books.length,           statsVis)
+  const stat3 = useCountUp(tools.length,           statsVis)
+  const stat4 = useCountUp(videos.length,          statsVis)
+  const stat5 = useCountUp(episodes.length,        statsVis)
+  const stat6 = useCountUp(apps.length,            statsVis)
+  const stat7 = useCountUp(courses.length,         statsVis)
+  const stat8 = useCountUp(etsySales,              statsVis)
+  const stat9 = useCountUp(6,                      statsVis)
+  const stat10 = useCountUp(newsletterSubs, statsVis)
 
   const handleNewsletter = () => {
     if (nlEmail && nlEmail.includes('@')) {
@@ -83,7 +90,7 @@ export default function Home() {
       <nav className={scrolled ? 'nav scrolled' : 'nav'}>
         <a href="#" className="nav-logo">
           <span className="star">✦</span>
-          Muslim Success Path
+          <span style={{ whiteSpace: 'nowrap' }}>Muslim Success Path</span>
         </a>
         <div className="nav-links">
           <a href="#pillars">Explore</a>
@@ -92,7 +99,26 @@ export default function Home() {
           <a href="#about">About</a>
           <a href="#newsletter" className="nav-cta">Newsletter</a>
         </div>
+        <button
+          className="nav-hamburger"
+          onClick={() => setHomeMenuOpen(!homeMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          <span className={homeMenuOpen ? 'ham-bar bar1 open' : 'ham-bar bar1'} />
+          <span className={homeMenuOpen ? 'ham-bar bar2 open' : 'ham-bar bar2'} />
+          <span className={homeMenuOpen ? 'ham-bar bar3 open' : 'ham-bar bar3'} />
+        </button>
       </nav>
+
+      {/* Mobile drawer */}
+      <div className={homeMenuOpen ? 'mobile-menu open' : 'mobile-menu'}>
+        <a href="#pillars"    className="mobile-link" onClick={() => setHomeMenuOpen(false)}>Explore</a>
+        <a href="#pipeline"   className="mobile-link" onClick={() => setHomeMenuOpen(false)}>How It Works</a>
+        <a href="#resources"  className="mobile-link" onClick={() => setHomeMenuOpen(false)}>Resources</a>
+        <a href="#about"      className="mobile-link" onClick={() => setHomeMenuOpen(false)}>About</a>
+        <a href="#newsletter" className="mobile-link mobile-cta" onClick={() => setHomeMenuOpen(false)}>Newsletter ✦</a>
+      </div>
+      {homeMenuOpen && <div className="mobile-backdrop" onClick={() => setHomeMenuOpen(false)} />}
 
       {/* ── HERO — full ripple intensity ── */}
       <section className="hero" id="home" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -114,7 +140,6 @@ export default function Home() {
           </div>
         </div>
         <div className="hero-visual" style={{ position: 'relative', zIndex: 2 }}>
-          {/* Islamic crescent + star SVG — CSS float animation, very lightweight */}
           <svg
             viewBox="0 0 200 200"
             width="220"
@@ -135,8 +160,6 @@ export default function Home() {
                 50%       { filter: drop-shadow(0 0 32px rgba(201,163,79,0.95)) brightness(1.35); }
               }
             `}</style>
-
-            {/* Crescent: large circle minus offset circle clipped */}
             <defs>
               <mask id="crescentMask">
                 <circle cx="95" cy="100" r="62" fill="white" />
@@ -144,8 +167,6 @@ export default function Home() {
               </mask>
             </defs>
             <circle cx="95" cy="100" r="62" fill="#C9A34F" mask="url(#crescentMask)" />
-
-            {/* 5-pointed star */}
             <g transform="translate(148, 68) scale(0.85)">
               <polygon
                 points="0,-22 5.1,-7 21,-7 8.6,5.3 13.6,21 0,11 -13.6,21 -8.6,5.3 -21,-7 -5.1,-7"
@@ -161,17 +182,22 @@ export default function Home() {
         style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         {[
-          { label: 'Crocheted Pieces', val: stat1 },
-          { label: 'Books Written',    val: stat2 },
-          { label: 'Courses Created',  val: stat3 },
-          { label: 'Podcast Episodes', val: stat4 },
-          { label: 'Organizing Tools', val: stat5 },
-          { label: 'Years Expertise',  val: stat6 },
+          { label: 'Crocheted Pieces',          val: stat1, href: '/crocheting' },
+          { label: 'Books Written',             val: stat2, href: '/books' },
+          { label: 'Organizing Tools',          val: stat3, href: '/organize' },
+          { label: 'Videos Created',            val: stat4, href: '/videos' },
+          { label: 'Podcast Episodes',          val: stat5, href: '/podcasts' },
+          { label: 'Apps & Websites',           val: stat6, href: '/apps' },
+          { label: 'Courses Created',           val: stat7, href: '/courses' },
+          { label: 'Etsy Sales',                val: stat8, href: 'https://www.etsy.com/shop/EffortlessWorks' },
+          { label: 'Newsletter Subscribers', val: stat10, href: '/#newsletter' },
+          { label: 'Years Expertise',           val: stat9, href: '/about' },
+          
         ].map(s => (
-          <div className="stat-item" key={s.label} style={{ position: 'relative', zIndex: 2 }}>
+          <a href={s.href} key={s.label} className="stat-item" style={{ position: 'relative', zIndex: 2, textDecoration: 'none' }}>
             <div className="stat-num">{s.val}</div>
             <div className="stat-label">{s.label}</div>
-          </div>
+          </a>
         ))}
       </div>
 
@@ -212,31 +238,7 @@ export default function Home() {
       </section>
 
       {/* ── PIPELINE — soft ripple ── */}
-      <section className="section pipeline" id="pipeline" style={{ position: 'relative', overflow: 'hidden' }}>
-        <RippleCanvas intensity={0.45} />
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <div className="reveal">
-            <div className="s-tag">How It Works</div>
-            <h2 className="s-title">One Creation,<br />Many Paths</h2>
-            <p className="s-sub">Every video, post, or idea gets transformed into a full ecosystem of value and resources.</p>
-          </div>
-          <div className="flow reveal">
-            {[
-              { icon:'🎬', name:'Record Video',      note:'Capture the creation process',        href:'/videos' },
-              { icon:'📱', name:'Social Posts',      note:'Short clips for Instagram & TikTok',  href:'/videos' },
-              { icon:'📝', name:'Written Pattern',   note:'Script becomes a digital product',    href:'/crocheting' },
-              { icon:'📚', name:'Books & Courses',   note:'Compiled into full learning guides',  href:'/books' },
-              { icon:'🎙️', name:'Podcast & YouTube', note:'Audio & video series for all',        href:'/podcasts' },
-            ].map(s => (
-              <Link href={s.href} className="flow-step" key={s.name} style={{ textDecoration: 'none' }}>
-                <div className="flow-node">{s.icon}</div>
-                <div className="flow-name">{s.name}</div>
-                <div className="flow-note">{s.note}</div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <Pipeline />
 
       {/* ── RESOURCES — soft ripple ── */}
       <section className="section resources" id="resources" style={{ position: 'relative', overflow: 'hidden' }}>
@@ -247,18 +249,19 @@ export default function Home() {
             <h2 className="s-title">Explore Everything</h2>
             <p className="s-sub">From books and podcasts to crochet patterns and organizational tools — find what you need.</p>
           </div>
-          <div className="res-grid reveal">
+          <div className="res-grid">
             {[
-              { icon:'📻', name:'Podcasts',         href:'/podcasts',   desc:'Faith reflections and life lessons, one episode at a time',        link:'Listen →' },
-              { icon:'📱', name:'Apps',             href:'/apps',       desc:'Digital tools built to support your Islamic lifestyle',             link:'Explore →' },
-              { icon:'📖', name:'Books',            href:'/books',      desc:'Written for reverts, learners, and growing Muslims',                link:'Read →' },
-              { icon:'🎓', name:'Courses',          href:'/courses',    desc:'Structured learning paths for real transformation',                 link:'Learn →' },
-              { icon:'▶️', name:'Videos',           href:'/videos',     desc:'Watch, learn, and be inspired on YouTube',                         link:'Watch →' },
-              { icon:'🗂️', name:'Organization',    href:'/organize',   desc:'Templates and systems for an intentional life',                    link:'Simplify →' },
-              { icon:'🧶', name:'Crochet Patterns', href:'/crocheting', desc:'Step-by-step guides with full video walkthroughs',                 link:'Explore →' },
-              { icon:'🗺️', name:'Roadmap',         href:'/roadmap',    desc:"See all upcoming projects, launches, and what's next",             link:'View Map →' },
-            ].map(r => (
-              <Link href={r.href} className="res-card" key={r.name}>
+              { icon:'🧶', name:'Crocheting',        href:'/crocheting',       desc:'Handmade patterns, physical products, and step-by-step video walkthroughs',  link:'Explore →' },
+              { icon:'☪️', name:'Islamic Learning', href:'/islamic-learning', desc:'Quran reflections, books, podcasts, and guides for every Muslim',             link:'Learn →' },
+              { icon:'🗂️', name:'Organization',    href:'/organize',         desc:'Templates and systems for an intentional, productive life',                   link:'Simplify →' },
+              { icon:'📖', name:'Books',            href:'/books',            desc:'Written for reverts, learners, and growing Muslims',                          link:'Read →' },
+              { icon:'🎓', name:'Courses',          href:'/courses',          desc:'Structured learning paths for real transformation',                           link:'Learn →' },
+              { icon:'📻', name:'Podcasts',         href:'/podcasts',         desc:'Faith reflections and life lessons, one episode at a time',                   link:'Listen →' },
+              { icon:'▶️', name:'Videos',           href:'/videos',           desc:'Watch, learn, and be inspired on YouTube',                                    link:'Watch →' },
+              { icon:'📱', name:'Apps',             href:'/apps',             desc:'Digital tools built to support your Islamic lifestyle',                       link:'Explore →' },
+              { icon:'🗺️', name:'Roadmap',         href:'/roadmap',          desc:"See all upcoming projects, launches, and what's next",                        link:'View Map →' },
+            ].map((r, i) => (
+              <Link href={r.href} className="res-card reveal" key={r.name} style={{ transitionDelay: `${i * 0.07}s` }}>
                 <span className="res-icon">{r.icon}</span>
                 <div className="res-name">{r.name}</div>
                 <div className="res-desc">{r.desc}</div>
@@ -270,33 +273,360 @@ export default function Home() {
       </section>
 
       {/* ── EFFORTLESS WORKS ── */}
-      <section className="section" id="effortless-works" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)' }}>
-        <RippleCanvas intensity={0.45} />
-        <div style={{ position: 'relative', zIndex: 2 }}>
-          <div className="reveal">
-            <div className="s-tag">Our Business</div>
-            <h2 className="s-title">Effortless<br /><span className="gold">Works</span></h2>
-            <p className="s-sub">The brand behind all the tools, templates, and services — built to help you work smarter, create with intention, and grow with purpose.</p>
-          </div>
-          <div className="pillars-grid reveal" style={{ marginTop: 52 }}>
-            {[
-              { icon: '🗂️', title: 'Organization Templates', desc: 'Google Sheets and Notion templates for individuals and businesses — Back Office, Project Management, Personal Tracker, Life Tracker, and more.', tags: ['Google Sheets', 'Notion', 'Templates'] },
-              { icon: '🔨', title: 'Build Your Own', desc: 'Custom website, app, onboarding system, or personalized Sheets/Notion setup — request bespoke services tailored to your exact needs.', tags: ['Website', 'App', 'Onboarding', 'Fiverr'] },
-              { icon: '🎓', title: 'How-To Courses', desc: 'Step-by-step product videos, self-paced courses, and instructor-led training to help you master every tool we build.', tags: ['Product Videos', 'Self-Paced', 'Instructor Led'] },
-              { icon: '🕌', title: 'Islamic Tools', desc: 'Faith-first templates and trackers — prayer planners, Ramadan organizers, and goal systems built around Islamic values and the Muslim lifestyle.', tags: ['Prayer', 'Ramadan', 'Goals'] },
-            ].map((p, i) => (
-              <div className="pillar" key={p.title} style={{ animationDelay: `${i * 0.08}s` }}>
-                <span className="pillar-icon">{p.icon}</span>
-                <div className="pillar-title">{p.title}</div>
-                <p className="pillar-desc">{p.desc}</p>
-                <div className="pillar-tags">{p.tags.map(t => <span className="ptag" key={t}>{t}</span>)}</div>
+      <section id="effortless-works" style={{
+        position: 'relative', overflow: 'hidden',
+        background: '#0C0D0E',
+        borderTop: '1px solid rgba(245,200,66,0.25)',
+        padding: 'clamp(64px, 10vw, 120px) clamp(24px, 6vw, 80px)',
+      }}>
+        {/* Parallax stars — z1 so they sit above the base bg */}
+        <div style={{ position: 'absolute', inset: 0, zIndex: 1, pointerEvents: 'none' }}>
+          <ParallaxStars count={90} />
+        </div>
+
+        {/* Gold → sage top glow */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, right: 0, height: 180,
+          background: 'linear-gradient(to bottom, rgba(245,200,66,0.05), transparent)',
+          pointerEvents: 'none', zIndex: 2,
+        }} />
+        {/* Grain overlay */}
+        <div style={{
+          position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 2, opacity: 0.35,
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E")`,
+        }} />
+
+        <div style={{ position: 'relative', zIndex: 3, maxWidth: 1100, margin: '0 auto' }}>
+
+          {/* Header */}
+          <div className="reveal" style={{ marginBottom: 72 }}>
+
+            {/* MSP gold bridge bar */}
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 12, marginBottom: 24,
+            }}>
+              <div style={{ width: 28, height: 1, background: '#F5C842', opacity: 0.5 }} />
+              <span style={{
+                fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em',
+                textTransform: 'uppercase', color: 'rgba(245,200,66,0.6)',
+                fontFamily: "'DM Sans', sans-serif",
+              }}>Muslim Success Path</span>
+              <div style={{ width: 28, height: 1, background: '#F5C842', opacity: 0.5 }} />
+              <span style={{ color: 'rgba(255,255,255,0.12)', fontSize: '.7rem' }}>✦</span>
+              <div style={{ width: 28, height: 1, background: '#7BBFA0', opacity: 0.5 }} />
+              <span style={{
+                fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em',
+                textTransform: 'uppercase', color: 'rgba(123,191,160,0.6)',
+                fontFamily: "'DM Sans', sans-serif",
+              }}>Effortless Works</span>
+              <div style={{ width: 28, height: 1, background: '#7BBFA0', opacity: 0.5 }} />
+            </div>
+
+            <div style={{
+              fontSize: '.65rem', fontWeight: 500, letterSpacing: '.16em',
+              textTransform: 'uppercase', color: '#7BBFA0',
+              fontFamily: "'DM Sans', sans-serif", marginBottom: 20,
+            }}>
+              Sister Brand
+            </div>
+            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 24 }}>
+              <div>
+                <style>{`
+                  @keyframes waterShimmer {
+                    0%   { background-position: 0% center; }
+                    100% { background-position: 200% center; }
+                  }
+                  @keyframes waterWave {
+                    0%, 100% { opacity: 1; }
+                    50%       { opacity: 0.88; }
+                  }
+                  .ew-logo {
+                    font-family: 'Cormorant Garamond', Georgia, serif;
+                    font-size: clamp(2.8rem, 6vw, 5rem);
+                    font-weight: 300;
+                    line-height: 1.05;
+                    margin: 0 0 16px;
+                    background: linear-gradient(
+                      110deg,
+                      #7BBFA0 0%,
+                      #a8d4c2 12%,
+                      #E8E4DC 24%,
+                      #F5C842 34%,
+                      #ffe9a0 40%,
+                      #ffffff 46%,
+                      #ffe9a0 52%,
+                      #F5C842 58%,
+                      #E8E4DC 70%,
+                      #a8d4c2 82%,
+                      #7BBFA0 100%
+                    );
+                    background-size: 300% auto;
+                    -webkit-background-clip: text;
+                    -webkit-text-fill-color: transparent;
+                    background-clip: text;
+                    animation: waterShimmer 6s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate,
+                               waterWave 6s ease-in-out infinite;
+                  }
+                `}</style>
+                <h2 className="ew-logo">
+                  Effortless <span style={{ fontStyle: 'italic' }}>Works</span>
+                </h2>
+                <p style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: '.95rem', color: 'rgba(232,228,220,0.5)',
+                  lineHeight: 1.75, maxWidth: 480, margin: 0,
+                }}>
+                  Templates, spreadsheets, and courses for the person building something — in business, in life, and in faith.
+                </p>
               </div>
-            ))}
+              <a
+                href="https://www.effortlessworks.store/"
+                target="_blank" rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '11px 26px', borderRadius: 2,
+                  background: '#7BBFA0', color: '#0C0D0E',
+                  fontSize: '.75rem', fontWeight: 500, letterSpacing: '.08em',
+                  textTransform: 'uppercase', textDecoration: 'none',
+                  fontFamily: "'DM Sans', sans-serif",
+                  whiteSpace: 'nowrap', flexShrink: 0,
+                  transition: 'opacity .2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.opacity = '0.8')}
+                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+              >
+                Visit Site →
+              </a>
+            </div>
           </div>
-          <div className="reveal" style={{ marginTop: 48, display: 'flex', gap: 14, flexWrap: 'wrap' }}>
-            <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit Effortless Works →</a>
-            <Link href="/organize" className="btn-outline">Browse Templates</Link>
-          </div>
+
+          {/* Centre spine line — blended gold → sage */}
+          <div style={{
+            position: 'absolute', left: '50%', top: 0, bottom: 0,
+            width: 1,
+            background: 'linear-gradient(to bottom, transparent, rgba(245,200,66,0.2) 10%, rgba(123,191,160,0.15) 40%, rgba(123,191,160,0.15) 85%, transparent)',
+            pointerEvents: 'none', zIndex: 0,
+            transform: 'translateX(-50%)',
+          }} />
+
+          {/* Zigzag grid clusters */}
+          {[
+            {
+              label: '💼 Business', align: 'right' as const,
+              href: 'https://www.effortlessworks.store/business',
+              desc: 'Tools for running and growing your business.',
+              links: [
+                { name: 'Back Office', sub: 'Sheets', href: 'https://www.effortlessworks.store/000009/bo-sheets', icon: '📊' },
+                { name: 'Back Office', sub: 'Notion', href: 'https://www.effortlessworks.store/000009/bo-notion', icon: '📋' },
+                { name: 'Project Mgmt', sub: 'Sheets', href: 'https://www.effortlessworks.store/000010/pm-sheets', icon: '📁' },
+                { name: 'Project Mgmt', sub: 'Notion', href: 'https://www.effortlessworks.store/000010/pm-notion', icon: '🗂️' },
+                { name: 'Product Videos', sub: 'How To', href: 'https://www.effortlessworks.store/000011/b-productvideos', icon: '▶️' },
+                { name: 'Self-Paced', sub: 'Course', href: 'https://www.effortlessworks.store/000011/b-selfpaced', icon: '🎓' },
+                { name: 'Instructor Led', sub: 'Course', href: 'https://www.effortlessworks.store/000011/b-instructorled', icon: '👩‍🏫' },
+              ],
+            },
+            {
+              label: '🧍 Individuals', align: 'left' as const,
+              href: 'https://www.effortlessworks.store/individuals',
+              desc: 'Tools for your personal goals, habits, and life.',
+              links: [
+                { name: 'Life Tracker', sub: 'Sheets', href: 'https://www.effortlessworks.store/000012/lt-sheets', icon: '🌱' },
+                { name: 'Life Tracker', sub: 'Notion', href: 'https://www.effortlessworks.store/000012/lt-notion', icon: '📓' },
+                { name: 'Personal Trackers', sub: 'Sheets', href: 'https://www.effortlessworks.store/000013/pt-sheets', icon: '✅' },
+                { name: 'Personal Trackers', sub: 'Notion', href: 'https://www.effortlessworks.store/000013/pt-notion', icon: '🗒️' },
+                { name: 'Personal Projects', sub: 'Sheets', href: 'https://www.effortlessworks.store/000014/pp-sheets', icon: '💡' },
+                { name: 'Personal Projects', sub: 'Notion', href: 'https://www.effortlessworks.store/000014/pp-notion', icon: '📌' },
+                { name: 'Product Videos', sub: 'How To', href: 'https://www.effortlessworks.store/000015/p-productvideos', icon: '▶️' },
+                { name: 'Self-Paced', sub: 'Course', href: 'https://www.effortlessworks.store/000015/p-selfpaced', icon: '🎓' },
+                { name: 'Instructor Led', sub: 'Course', href: 'https://www.effortlessworks.store/000015/p-instructorled', icon: '👩‍🏫' },
+              ],
+            },
+            {
+              label: '🔨 Build Your Own', align: 'right' as const,
+              href: 'https://www.effortlessworks.store/build-your-own',
+              desc: 'Custom builds tailored to your exact needs.',
+              links: [
+                { name: 'Website', sub: 'Builder', href: 'https://www.effortlessworks.store/build-your-own', icon: '🌐' },
+                { name: 'App', sub: 'Builder', href: 'https://www.effortlessworks.store/build-your-own', icon: '📱' },
+                { name: 'Onboarding', sub: 'Builder', href: 'https://www.effortlessworks.store/build-your-own', icon: '🚀' },
+                { name: 'Custom', sub: 'Sheets', href: 'https://www.effortlessworks.store/build-your-own', icon: '📊' },
+                { name: 'Custom', sub: 'Notion', href: 'https://www.effortlessworks.store/build-your-own', icon: '📋' },
+              ],
+            },
+            {
+              label: '🏆 Effortless Quest', align: 'left' as const,
+              href: 'https://www.effortlessworks.store/000005/about',
+              desc: 'A gamified community platform — coming soon.',
+              links: [
+                { name: 'About', sub: 'Quest', href: 'https://www.effortlessworks.store/000005/about', icon: '✦' },
+                { name: 'How To', sub: 'Play', href: 'https://www.effortlessworks.store/000005/howtoplay', icon: '🎮' },
+                { name: 'Road', sub: 'Map', href: 'https://www.effortlessworks.store/000005/roadmap', icon: '🗺️' },
+              ],
+            },
+          ].map((cluster, i) => {
+            const quotes = [
+              '"Sales, clients, projects — all tracked and organised."',
+              '"Your whole life, in one place."',
+              '"Built exactly the way you need it."',
+              '"Where growth becomes a game."',
+            ]
+            const watermarks = ['BUSINESS', 'PERSONAL', 'CUSTOM', 'QUEST']
+            return (
+              <div key={cluster.label} style={{ position: 'relative', marginBottom: 64 }}>
+
+                {/* Faded watermark word in empty space */}
+                <div style={{
+                  position: 'absolute',
+                  left: cluster.align === 'right' ? '2%' : 'auto',
+                  right: cluster.align === 'left' ? '2%' : 'auto',
+                  top: '50%', transform: 'translateY(-50%)',
+                  fontFamily: "'Cormorant Garamond', Georgia, serif",
+                  fontSize: 'clamp(3rem, 7vw, 6rem)',
+                  fontWeight: 300, letterSpacing: '.2em',
+                  color: 'rgba(123,191,160,0.04)',
+                  textTransform: 'uppercase',
+                  pointerEvents: 'none', userSelect: 'none',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {watermarks[i]}
+                </div>
+
+                {/* Floating quote in empty space */}
+                <div style={{
+                  position: 'absolute',
+                  left: cluster.align === 'right' ? '3%' : 'auto',
+                  right: cluster.align === 'left' ? '3%' : 'auto',
+                  top: '55%', transform: 'translateY(-50%)',
+                  maxWidth: '38%',
+                  pointerEvents: 'none',
+                }}>
+                  <p style={{
+                    fontFamily: "'Cormorant Garamond', Georgia, serif",
+                    fontSize: 'clamp(.85rem, 1.4vw, 1.05rem)',
+                    fontStyle: 'italic', fontWeight: 300,
+                    color: 'rgba(232,228,220,0.18)',
+                    lineHeight: 1.7, margin: 0,
+                  }}>
+                    {quotes[i]}
+                  </p>
+                  <div style={{ width: 20, height: 1, background: 'rgba(123,191,160,0.2)', marginTop: 10 }} />
+                </div>
+
+                {/* Spine dot — first one gold, rest sage */}
+                <div style={{
+                  position: 'absolute', left: '50%', top: '50%',
+                  transform: 'translate(-50%, -50%)',
+                  width: 6, height: 6, borderRadius: '50%',
+                  background: i === 0 ? 'rgba(245,200,66,0.5)' : 'rgba(123,191,160,0.3)',
+                  boxShadow: i === 0 ? '0 0 10px rgba(245,200,66,0.25)' : '0 0 10px rgba(123,191,160,0.2)',
+                  zIndex: 1,
+                }} />
+
+                {/* Cluster card */}
+                <div className="reveal" style={{
+                  display: 'flex',
+                  justifyContent: cluster.align === 'right' ? 'flex-end' : 'flex-start',
+                  position: 'relative', zIndex: 2,
+                  transitionDelay: `${i * 0.15}s`,
+                }}>
+                  <div style={{ maxWidth: 440, width: '100%' }}>
+                    {/* Cluster label + desc */}
+                    <div style={{ marginBottom: 16 }}>
+                      <a href={cluster.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                        <div style={{
+                          fontFamily: "'Cormorant Garamond', Georgia, serif",
+                          fontSize: '1.4rem', fontWeight: 400, color: '#E8E4DC',
+                          marginBottom: 4, display: 'inline-block',
+                          transition: 'color .2s',
+                        }}
+                        onMouseEnter={e => (e.currentTarget.style.color = '#7BBFA0')}
+                        onMouseLeave={e => (e.currentTarget.style.color = '#E8E4DC')}
+                        >{cluster.label} →</div>
+                      </a>
+                      <p style={{
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontSize: '.75rem', color: 'rgba(232,228,220,0.3)',
+                        margin: 0, lineHeight: 1.5,
+                      }}>{cluster.desc}</p>
+                    </div>
+
+                    {/* Mini card grid */}
+                    <div style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(3, 1fr)',
+                      gap: 6, padding: 12,
+                      background: '#131416',
+                      border: '1px solid rgba(255,255,255,0.07)',
+                      borderRadius: 12,
+                      boxShadow: '0 0 40px rgba(245,200,66,0.06), 0 0 80px rgba(245,200,66,0.03)',
+                      position: 'relative',
+                    }}>
+                      <style>{`
+                        @keyframes cardFloat {
+                          0%, 100% { transform: translateY(0px); }
+                          50%       { transform: translateY(-6px); }
+                        }
+                      `}</style>
+                      {/* Gold ambient glow behind whole grid */}
+                      <div style={{
+                        position: 'absolute', inset: -20,
+                        background: 'radial-gradient(ellipse at center, rgba(245,200,66,0.07) 0%, transparent 70%)',
+                        borderRadius: 20, pointerEvents: 'none', zIndex: 0,
+                      }} />
+                      {cluster.links.map((link, li) => (
+                        <a
+                          key={link.href + link.name + link.sub}
+                          href={link.href}
+                          target="_blank" rel="noopener noreferrer"
+                          style={{
+                            textDecoration: 'none',
+                            display: 'flex', flexDirection: 'column',
+                            alignItems: 'center', justifyContent: 'center',
+                            padding: '12px 6px',
+                            background: '#0C0D0E',
+                            border: '1px solid rgba(255,255,255,0.06)',
+                            borderRadius: 8,
+                            transition: 'border-color .25s, background .25s, box-shadow .25s',
+                            gap: 5, textAlign: 'center',
+                            position: 'relative', zIndex: 1,
+                            boxShadow: '0 0 12px rgba(245,200,66,0.06)',
+                            animation: `cardFloat ${3.5 + (li % 3) * 0.6}s ease-in-out infinite`,
+                            animationDelay: `${li * 0.35}s`,
+                          }}
+                          onMouseEnter={e => {
+                            e.currentTarget.style.borderColor = 'rgba(245,200,66,0.4)'
+                            e.currentTarget.style.background = 'rgba(245,200,66,0.05)'
+                            e.currentTarget.style.boxShadow = '0 0 20px rgba(245,200,66,0.2), 0 0 40px rgba(245,200,66,0.08)'
+                            e.currentTarget.style.animationPlayState = 'paused'
+                          }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.borderColor = 'rgba(255,255,255,0.06)'
+                            e.currentTarget.style.background = '#0C0D0E'
+                            e.currentTarget.style.boxShadow = '0 0 12px rgba(245,200,66,0.06)'
+                            e.currentTarget.style.animationPlayState = 'running'
+                          }}
+                        >
+                          <span style={{ fontSize: '1rem', lineHeight: 1 }}>{link.icon}</span>
+                          <div style={{
+                            fontFamily: "'DM Sans', sans-serif",
+                            fontSize: '.58rem', fontWeight: 500,
+                            color: 'rgba(232,228,220,0.65)', lineHeight: 1.3,
+                          }}>{link.name}</div>
+                          <div style={{
+                            fontFamily: "'DM Sans', sans-serif",
+                            fontSize: '.5rem', fontWeight: 400,
+                            color: '#7BBFA0', letterSpacing: '.06em',
+                            textTransform: 'uppercase',
+                          }}>{link.sub}</div>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )
+          })}
+
         </div>
       </section>
 
@@ -311,12 +641,12 @@ export default function Home() {
           </div>
           <div className="res-grid reveal" style={{ marginTop: 52 }}>
             {[
-              { icon: '🏆', name: 'Leaderboards',    desc: 'Monthly, weekly, and yearly rankings — compete with businesses and individuals for real rewards.',     },
-              { icon: '💼', name: 'Business Center', desc: 'Grow and connect your business in a gamified environment built for entrepreneurs and creators.',         },
-              { icon: '📚', name: 'Education Center',desc: 'Level up your skills — earn points, unlock achievements, and build expertise alongside others.',        },
-              { icon: '💡', name: 'Invention Center',desc: 'Ideate, prototype, and launch new projects with community support, feedback, and collaboration.',       },
-              { icon: '🤝', name: 'Charity Center',  desc: 'Earn rewards and recognition for completing charity tasks and giving back to the community.',           },
-              { icon: '👥', name: 'Team Center',     desc: 'Form teams, collaborate on goals, and build lasting connections with like-minded people.',              },
+              { icon: '🏆', name: 'Leaderboards',    desc: 'Monthly, weekly, and yearly rankings — compete with businesses and individuals for real rewards.' },
+              { icon: '💼', name: 'Business Center', desc: 'Grow and connect your business in a gamified environment built for entrepreneurs and creators.' },
+              { icon: '📚', name: 'Education Center',desc: 'Level up your skills — earn points, unlock achievements, and build expertise alongside others.' },
+              { icon: '💡', name: 'Invention Center',desc: 'Ideate, prototype, and launch new projects with community support, feedback, and collaboration.' },
+              { icon: '🤝', name: 'Charity Center',  desc: 'Earn rewards and recognition for completing charity tasks and giving back to the community.' },
+              { icon: '👥', name: 'Team Center',     desc: 'Form teams, collaborate on goals, and build lasting connections with like-minded people.' },
             ].map(r => (
               <div className="res-card" key={r.name} style={{ cursor: 'default' }}>
                 <span className="res-icon">{r.icon}</span>

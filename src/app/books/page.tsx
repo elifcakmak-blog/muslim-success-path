@@ -10,7 +10,7 @@ const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: fal
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
 
 const platforms = [
-  { icon: '📕', name: 'Wattpad',   href: 'https://www.wattpad.com/user/muslimsuccesspath',             desc: 'Read our stories and guides free on Wattpad',              link: 'Read →' },
+  { icon: '📕', name: 'Kindle',   href: 'https://kdp.amazon.com/en_US/',             desc: 'Read our stories and guides free on Wattpad',              link: 'Read →' },
   { icon: '🛒', name: 'Store',     href: 'https://www.effortlessworks.store/',                         desc: 'Purchase digital books and guides in our online store',    link: 'Shop →' },
   { icon: '💼', name: 'LinkedIn',  href: 'https://www.linkedin.com/company/muslim-success-path/about', desc: 'Follow our professional updates and announcements',        link: 'Follow →' },
   { icon: '📸', name: 'Instagram', href: 'https://www.instagram.com/muslim.success.path',              desc: 'New books and behind-the-scenes on Instagram',             link: 'Follow →' },
