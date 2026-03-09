@@ -10,125 +10,144 @@ const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: fal
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
 
 type Status = 'completed' | 'in-progress' | 'upcoming' | 'future'
-type RoadmapItem = { icon: string; title: string; desc: string; status: Status }
+type RoadmapItem = { icon: string; title: string; desc: string; status: Status; repo?: string; links?: { label: string; url: string }[] }
 type Phase = { year: number; month: number; shortLabel: string; period: string; items: RoadmapItem[] }
 
 const allPhases: Phase[] = [
   {
     year: 2024, month: 12, shortLabel: 'Dec', period: 'Dec 2024',
     items: [
-      { icon: '🌐', title: 'Code Personal Brand Website', desc: 'Built full site structure: Home, Newsletter, Podcast, Videos, Apps, Books, About, and Roadmap pages.', status: 'completed' },
-      { icon: '📋', title: 'Policies & Legal Pages', desc: 'Privacy Policy, Terms of Service, Return Policy, Cookie Policy, and Disclaimer pages.', status: 'completed' },
-      { icon: '🤖', title: 'Research AI Models', desc: 'Researched apps and AI tools for future builds.', status: 'completed' },
+      { icon: '🏗️', title: 'Coded First Version of Muslim Success Path Website', desc: 'Built full site structure: Home, Newsletter, Podcast, Videos, Apps, Books, About, and Roadmap pages.', status: 'completed', repo: 'https://github.com/Muslim-Success-Path/old-muslimsuccesspath' },
+      { icon: '🏗️', title: 'Coded First Version of Effortless Works Website', desc: 'Home Page Navs, Business Page Navs, Sub Page Navs, Individual Home Pages, Sub Pages, BYO Pages, and Quest Pages structured.', status: 'completed', repo: 'https://github.com/Effortless-Works-MSP/old-effortlessworks' },
+      { icon: '🏗️', title: 'Coded First Version of Effortless Quest Website ', desc: 'All pre-login pages (Home, About, How To Play) and logged-in Town Hall with all center stubs: Business, Education, Leaderboards, Team, Invention, Charity.', status: 'completed', repo: 'https://github.com/effortless-quest/old-effortlessquest' },
+      { icon: '📋', title: 'Learned and Built the Policies & Legal Pages', desc: 'Privacy Policy, Terms of Service, Return Policy, Cookie Policy, and Disclaimer pages.', status: 'completed', repo: 'https://github.com/effortless-quest/old-luma' },
+      { icon: '🤖', title: 'Research AI Models', desc: 'Researched AI and even tried training our own AI model. Was a great learning experience.', status: 'completed' , repo: 'https://github.com/effortless-quest/old-luma'},
+    ],
+  },
+  {
+    year: 2025, month: 1, shortLabel: 'Jan–Dec', period: '2025',
+    items: [
+      {
+        icon: '🎯',
+        title: 'Career Focus Year',
+        desc: 'A year dedicated to personal career growth outside of our businesses — intentional, necessary, and foundational to what comes next.',
+        status: 'completed',
+        links: [
+          { label: 'Muslim Success Path', url: 'https://www.linkedin.com/company/muslim-success-path' },
+          { label: 'Effortless Works',    url: 'https://www.linkedin.com/company/effortless-works-msp' },
+          { label: 'Effortless Quest',    url: 'https://www.linkedin.com/company/effortless-quest-msp' },
+        ],
+      },
     ],
   },
   {
     year: 2026, month: 1, shortLabel: 'Jan', period: 'Jan 2026',
     items: [
-      { icon: '🔄', title: 'Restructure Personal Brand Site', desc: 'Updated Home page, added Crocheting, Islamic Learning, and Organization pages. Integrated working newsletter subscription.', status: 'completed' },
+      { icon: '🏗️', title: 'Coded 1/2 Second Version of Muslim Success Path Website', desc: 'Updated Home page, added Crocheting, Islamic Learning, and Organization pages. Integrated working newsletter subscription.', status: 'completed' , repo: 'https://github.com/Muslim-Success-Path/old-muslimsuccesspath'},
     ],
   },
   {
     year: 2026, month: 2, shortLabel: 'Feb', period: 'Feb 2026',
     items: [
-      { icon: '🎨', title: 'Personal Website Rebrand', desc: 'Full rebrand — removed personal info, defined goals for all 3 websites, completed coding structure.', status: 'completed' },
-      { icon: '🗂️', title: 'Product Making & Posting Structure', desc: 'Product design routine, making schedule, social posting system, and editing/publishing workflow.', status: 'completed' },
-      { icon: '🏗️', title: 'Effortless Works Website (1/2)', desc: 'Home Page Navs, Business Page Navs, Sub Page Navs, Individual Home Pages, Sub Pages, BYO Pages, and Quest Pages structured.', status: 'completed' },
+      { icon: '🏗️', title: 'Coded 2/2 Second Version of Muslim Success Path Website', desc: 'Full rebrand — removed personal info, defined goals for all 3 websites, completed coding structure.', status: 'completed', repo: 'https://github.com/Muslim-Success-Path/old-muslimsuccesspath' },
+      { icon: '🗂️', title: 'Product Making & Posting Structure', desc: 'Product design routine, making schedule, social posting system, and editing/publishing workflow.', status: 'completed', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
+      { icon: '🏗️', title: 'Coded Second Version of Effortless Works Website', desc: 'Home Page Navs, Business Page Navs, Sub Page Navs, Individual Home Pages, Sub Pages, BYO Pages, and Quest Pages structured.', status: 'completed', repo: 'https://github.com/Effortless-Works-MSP/old-effortlessworks' },
     ],
   },
-  {
+ {
     year: 2026, month: 3, shortLabel: 'Mar', period: 'Mar 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Twisted Headband (physical + digital) and Sentro Hat (physical + digital).', status: 'in-progress' },
-      { icon: '🏗️', title: 'Effortless Works Website (2/2)', desc: 'Finishing all page aesthetics — Home, Business, Individual, Quest, Courses, Contact, and Final Touches.', status: 'in-progress' },
-      { icon: '📊', title: 'Effortless Project Management Sheets', desc: 'Business product line: Project Dashboard, Project Folder, Version Control, and Branch Folder.', status: 'in-progress' },
-      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'in-progress' },
+      { icon: '🏗️', title: 'Coded Third Version of Effortless Works Website (current)', desc: 'Used Claude Ai for the first time on the claude website to help code and design website. Was 10/10 the best expereince. Completed Website in 8 hours.', status: 'completed', repo: 'https://github.com/Effortless-Works-MSP/effortless-works' },
+      { icon: '🏗️', title: 'Coded Third Version of Muslim Success Path Website (current)', desc: 'Used Claude Code for the first time in the terminal to help code and design website. Was 10/10 the best expereince. Completed Website in 4 hours.', status: 'completed', repo: 'https://github.com/Muslim-Success-Path/muslim-success-path' },
+      { icon: '🏗️', title: 'Coded Luma AI App', desc: 'Used Claude Code for the second time in the terminal. I plan on posting it soon to my websites for public use. Completed in 2 hours.', status: 'completed', links: [{ label: 'Effortless Quest', url: 'https://www.effortless.quest/#luma' }] },
+      { icon: '🏗️', title: 'Coded Second Version of Effortless Quest Website', desc: 'Used Claude Website to code All pre-login pages (Home, About, How To Play) and logged-in Town Hall with all center stubs: Business, Education, Leaderboards, Team, Invention, Charity. Coded in 5 hours.', status: 'completed', repo: 'https://github.com/Effortless-Quest/effortless-quest' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Twisted Headband (physical + digital) and Sentro Hat (physical + digital).', status: 'in-progress' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }]},
+      { icon: '📊', title: 'Effortless Project Management Sheets', desc: 'Business product line: Project Dashboard, Project Folder, Version Control, and Branch Folder.', status: 'in-progress', links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000010/pm-sheets' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'in-progress', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
+      { icon: '🏆', title: 'Effortless Quest: Leaderboards & Rewards', desc: 'Community leaderboards for Individuals, Business, Education, Team, Invention, and Charity centers. AI Companion and Town Hall updates.', status: 'in-progress' , repo: 'https://github.com/Effortless-Quest/effortless-quest'},
+      { icon: '👥', title: 'Effortless Quest: My Team Center', desc: 'Team dashboards connecting Back Office, Project Management, Website/App Builders, and Personal Trackers for both Business and Individual users.', status: 'in-progress', repo: 'https://github.com/Effortless-Quest/effortless-quest' },
+      { icon: '💡', title: 'Effortless Quest: Invention Center', desc: 'Idea Room, AI Companion Brainstorm, Idea Tester Room, and Rising Horizons Command Center (Backlog, Roadmap, Goals).', status: 'in-progress', repo: 'https://github.com/Effortless-Quest/effortless-quest' },
+      { icon: '🏢', title: 'Effortless Quest: Business Center', desc: 'Virtual Town Hall Business Location Editor, Business Partnerships, My Team (Lobby, Departments, Chats), and Company Goals & Roadmap.', status: 'in-progress' , repo: 'https://github.com/Effortless-Quest/effortless-quest'},
+      { icon: '🎓', title: 'Effortless Quest: Education Center', desc: 'Courses dashboard featuring Muslim Success Path courses, community videos, podcasts, apps, books, and inventions library.', status: 'in-progress', repo: 'https://github.com/Effortless-Quest/effortless-quest' },
+      { icon: '🤲', title: 'Effortless Quest: Charity Center', desc: 'Community Charity Projects, Free Business Resources, and Free Individual Resources dashboard.', status: 'in-progress' , repo: 'https://github.com/Effortless-Quest/effortless-quest'},
     ],
   },
   {
     year: 2026, month: 4, shortLabel: 'Apr', period: 'Apr 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Sentro Knitted Abaya — physical and digital products.', status: 'upcoming' },
-      { icon: '⚔️', title: 'Effortless Quest: Website Skeleton', desc: 'All pre-login pages (Home, About, How To Play) and logged-in Town Hall with all center stubs: Business, Education, Leaderboards, Team, Invention, Charity.', status: 'upcoming' },
-      { icon: '🛠️', title: 'Effortless Build Your Own (Business)', desc: 'Website Builder, App Builder, Onboarding Course Builder, Sheets System Builder, and Notion System Builder.', status: 'upcoming' },
-      { icon: '📊', title: 'Effortless PM Notion (Business)', desc: 'Notion-format Project Dashboard, Project Folder, Version Control, and Branch Folder.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Sentro Knitted Abaya — physical and digital products.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }]},
+      { icon: '🛠️', title: 'Effortless Build Your Own (Business)', desc: 'Website Builder, App Builder, Onboarding Course Builder, Sheets System Builder, and Notion System Builder.', status: 'upcoming', links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/build-your-own' }]  },
+      { icon: '📊', title: 'Effortless PM Notion (Business)', desc: 'Notion-format Project Dashboard, Project Folder, Version Control, and Branch Folder.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000010/pm-notion' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
     year: 2026, month: 5, shortLabel: 'May', period: 'May 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Men's Pants — physical and digital products.", status: 'upcoming' },
-      { icon: '🛠️', title: 'Effortless Build Your Own (Business)', desc: 'Completing all BYO builder product pages.', status: 'upcoming' },
-      { icon: '📋', title: 'Effortless Back Office Sheets (Business)', desc: 'Sales Tracking, KPI Tracking, Client Tracking, Commission Tracking, Payroll Tracking, and Recruitment Tracking.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Men's Pants — physical and digital products.", status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }]},
+      { icon: '🛠️', title: 'Effortless Build Your Own (Business)', desc: 'Completing all BYO builder product pages.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/build-your-own' }] },
+      { icon: '📋', title: 'Effortless Back Office Sheets (Business)', desc: 'Sales Tracking, KPI Tracking, Client Tracking, Commission Tracking, Payroll Tracking, and Recruitment Tracking.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000009/bo-sheets' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
     year: 2026, month: 6, shortLabel: 'Jun', period: 'Jun 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Sentro Knitted Abaya — second product run.', status: 'upcoming' },
-      { icon: '🏆', title: 'Effortless Quest: Leaderboards & Rewards', desc: 'Community leaderboards for Individuals, Business, Education, Team, Invention, and Charity centers. AI Companion and Town Hall updates.', status: 'upcoming' },
-      { icon: '📋', title: 'Effortless Back Office Notion (Business)', desc: 'Notion versions of Sales, KPI, Client, Commission, Payroll, and Recruitment trackers.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Sentro Knitted Abaya — second product run.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }]},
+      { icon: '📋', title: 'Effortless Back Office Notion (Business)', desc: 'Notion versions of Sales, KPI, Client, Commission, Payroll, and Recruitment trackers.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000009/bo-notion' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
     year: 2026, month: 7, shortLabel: 'Jul', period: 'Jul 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Men's Pants — second run.", status: 'upcoming' },
-      { icon: '👥', title: 'Effortless Quest: My Team Center', desc: 'Team dashboards connecting Back Office, Project Management, Website/App Builders, and Personal Trackers for both Business and Individual users.', status: 'upcoming' },
-      { icon: '📈', title: 'Effortless Personal Trackers Sheets', desc: 'Faith, Family, Self-Care, Nutrition, Exercise, Skills, Business, and Education milestone trackers.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Men's Pants — second run.", status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }] },
+      { icon: '📈', title: 'Effortless Personal Trackers Sheets', desc: 'Faith, Family, Self-Care, Nutrition, Exercise, Skills, Business, and Education milestone trackers.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000013/pt-sheets' }]  },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }]  },
     ],
   },
   {
     year: 2026, month: 8, shortLabel: 'Aug', period: 'Aug 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Abaya — third product run.', status: 'upcoming' },
-      { icon: '💡', title: 'Effortless Quest: Invention Center', desc: 'Idea Room, AI Companion Brainstorm, Idea Tester Room, and Rising Horizons Command Center (Backlog, Roadmap, Goals).', status: 'upcoming' },
-      { icon: '📈', title: 'Effortless Personal Trackers Notion', desc: 'Notion versions of all personal milestone tracker pages.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Abaya — third product run.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }]},
+      { icon: '📈', title: 'Effortless Personal Trackers Notion', desc: 'Notion versions of all personal milestone tracker pages.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000013/pt-notion' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
     year: 2026, month: 9, shortLabel: 'Sep', period: 'Sep 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Pants — third run.", status: 'upcoming' },
-      { icon: '🏢', title: 'Effortless Quest: Business Center', desc: 'Virtual Town Hall Business Location Editor, Business Partnerships, My Team (Lobby, Departments, Chats), and Company Goals & Roadmap.', status: 'upcoming' },
-      { icon: '📁', title: 'Effortless Personal Projects Sheets', desc: 'Goals Dashboard, Project Dashboard, Project Folder, Version Control, and Branch Folder for individuals.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Pants — third run.", status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }] },
+      { icon: '📁', title: 'Effortless Personal Projects Sheets', desc: 'Goals Dashboard, Project Dashboard, Project Folder, Version Control, and Branch Folder for individuals.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000014/pp-sheets' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
     year: 2026, month: 10, shortLabel: 'Oct', period: 'Oct 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Abaya — fourth product run.', status: 'upcoming' },
-      { icon: '🎓', title: 'Effortless Quest: Education Center', desc: 'Courses dashboard featuring Muslim Success Path courses, community videos, podcasts, apps, books, and inventions library.', status: 'upcoming' },
-      { icon: '📁', title: 'Effortless Personal Projects Notion', desc: 'Notion versions of individual personal project management tools.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Abaya — fourth product run.', status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }] },
+      { icon: '📁', title: 'Effortless Personal Projects Notion', desc: 'Notion versions of individual personal project management tools.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000014/pp-notion' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
     year: 2026, month: 11, shortLabel: 'Nov', period: 'Nov 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Pants — fourth run.", status: 'upcoming' },
-      { icon: '🤲', title: 'Effortless Quest: Charity Center', desc: 'Community Charity Projects, Free Business Resources, and Free Individual Resources dashboard.', status: 'upcoming' },
-      { icon: '🗂️', title: 'Effortless Life Tracker Sheets', desc: 'Goals Dashboard, Project Dashboard, and full tracking folder set for individuals.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: "Sentro Knitted Men's Shirt and Pants — fourth run.", status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }] },
+      { icon: '🗂️', title: 'Effortless Life Tracker Sheets', desc: 'Goals Dashboard, Project Dashboard, and full tracking folder set for individuals.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000012/lt-sheets' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }]  },
     ],
   },
   {
     year: 2026, month: 12, shortLabel: 'Dec', period: 'Dec 2026',
     items: [
-      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Abaya — fifth product run.', status: 'upcoming' },
-      { icon: '🗂️', title: 'Effortless Life Tracker Notion', desc: 'Notion version of the complete Life Tracker system for individuals.', status: 'upcoming' },
+      { icon: '🧶', title: '2 Crochet Projects', desc: 'Sentro Knitted Hijab and Abaya — fifth product run.', status: 'upcoming', links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/crocheting' }] },
+      { icon: '🗂️', title: 'Effortless Life Tracker Notion', desc: 'Notion version of the complete Life Tracker system for individuals.', status: 'upcoming' , links: [{ label: 'Effortless Works', url: 'https://www.effortlessworks.store/000012/lt-notion' }] },
+      { icon: '🎬', title: 'Monthly Content', desc: '3 YouTube videos, 4 podcast episodes, 4 new book chapters, 8 social posts, 8 newsletters, and 2 updated courses.', status: 'upcoming' , links: [{ label: 'Muslim Success Path', url: 'https://www.muslimsuccesspath.com/#pipeline' }] },
     ],
   },
   {
-    year: 2027, month: 1, shortLabel: 'Jan', period: 'Jan 2027',
-    items: [
-      { icon: '💻', title: 'Luma MacOS App', desc: 'A macOS desktop app — full details coming soon as development begins.', status: 'future' },
-      { icon: '🎙️', title: '5 New Podcast Episodes', desc: 'Expanded podcast season with 5 new episodes.', status: 'future' },
-      { icon: '▶️', title: '3 New YouTube Videos', desc: '3 full-length YouTube productions.', status: 'future' },
-      { icon: '📱', title: '10 Short Videos', desc: '10 short-form videos posted across all platforms.', status: 'future' },
-      { icon: '📚', title: '5 New Book Chapters', desc: 'New chapters for Book 3 in the series.', status: 'future' },
-    ],
-  },
-  {
-    year: 2027, month: 2, shortLabel: 'Feb+', period: 'Feb–Dec 2027',
+    year: 2027, month: 1, shortLabel: 'Jan+', period: 'Feb–Dec 2027',
     items: [
       { icon: '🚀', title: 'Future Projects', desc: 'More exciting projects and builds are being planned for the rest of 2027. Stay tuned for updates via the newsletter.', status: 'future' },
     ],
@@ -144,18 +163,21 @@ const statusStyle: Record<Status, { label: string; dot: string; bg: string; bord
 
 const years = [...new Set(allPhases.map(p => p.year))].sort()
 
-function getPhaseIndex(year: number, month: number) {
-  return allPhases.findIndex(p => p.year === year && p.month === month)
+// Derive the overall status for a phase by priority:
+// in-progress > upcoming > future > completed (only if ALL are completed)
+function getPhaseStatus(items: RoadmapItem[]): Status {
+  if (items.some(i => i.status === 'in-progress')) return 'in-progress'
+  if (items.some(i => i.status === 'upcoming'))    return 'upcoming'
+  if (items.some(i => i.status === 'future'))      return 'future'
+  return 'completed'
 }
 
 function getTodayPhaseIndex(): number {
   const now = new Date()
   const y = now.getFullYear()
   const m = now.getMonth() + 1
-  // Find exact match first
   const exact = allPhases.findIndex(p => p.year === y && p.month === m)
   if (exact !== -1) return exact
-  // Find closest past phase
   let closest = 0
   for (let i = 0; i < allPhases.length; i++) {
     const p = allPhases[i]
@@ -192,7 +214,6 @@ export default function RoadmapPage() {
     goTo(todayIdx.current)
   }
 
-  // scroll active month pill into view
   useEffect(() => {
     if (!stripRef.current) return
     const active = stripRef.current.querySelector('[data-active="true"]') as HTMLElement
@@ -266,9 +287,12 @@ export default function RoadmapPage() {
               style={{ display: 'flex', gap: 0, overflowX: 'auto', padding: '8px 0 20px', scrollbarWidth: 'none', position: 'relative', zIndex: 1, alignItems: 'center' }}
             >
               {yearPhases.map((p) => {
-                const isActive = activeIdx === allPhases.indexOf(p)
-                const isToday = allPhases.indexOf(p) === todayIdx.current
-                const s = statusStyle[p.items[0]?.status ?? 'upcoming']
+                const globalIdx = allPhases.indexOf(p)
+                const isActive = activeIdx === globalIdx
+                const isToday = globalIdx === todayIdx.current
+                // Use derived phase status instead of first item's status
+                const phaseStatus = getPhaseStatus(p.items)
+                const s = statusStyle[phaseStatus]
                 return (
                   <div
                     key={`${p.year}-${p.month}`}
@@ -283,7 +307,7 @@ export default function RoadmapPage() {
                     {/* Dot + pill */}
                     <button
                       data-active={isActive}
-                      onClick={() => goTo(allPhases.indexOf(p))}
+                      onClick={() => goTo(globalIdx)}
                       style={{
                         position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
                         background: isActive ? s.bg : 'var(--bg2)',
@@ -321,10 +345,12 @@ export default function RoadmapPage() {
               <div>
                 <div className="s-tag">{phase.period}</div>
                 <h2 style={{ fontSize: '1.9rem', fontWeight: 800, margin: '8px 0 0', color: 'var(--text)' }}>
-                  {phase.items[0]?.status === 'completed' && <span style={{ color: '#34d399' }}>Completed</span>}
-                  {phase.items[0]?.status === 'in-progress' && <span style={{ color: 'var(--gold)' }}>In Progress</span>}
-                  {phase.items[0]?.status === 'upcoming' && <span style={{ color: 'var(--purple)' }}>Upcoming</span>}
-                  {phase.items[0]?.status === 'future' && <span style={{ color: 'var(--teal)' }}>Future</span>}
+                  {/* Use derived phase status for the header label */}
+                  {(() => {
+                    const overall = getPhaseStatus(phase.items)
+                    const s = statusStyle[overall]
+                    return <span style={{ color: s.color }}>{s.label}</span>
+                  })()}
                 </h2>
               </div>
 
@@ -382,6 +408,120 @@ export default function RoadmapPage() {
                     </div>
                     <div className="res-name">{item.title}</div>
                     <div className="res-desc">{item.desc}</div>
+                    {item.repo && (
+                      <a
+                        href={item.repo}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 14,
+                          fontSize: '.72rem', fontWeight: 700, letterSpacing: '.04em',
+                          padding: '5px 12px', borderRadius: 6,
+                          border: '1px solid var(--border-dim)',
+                          background: 'rgba(255,255,255,0.04)',
+                          color: 'var(--text-dim)', textDecoration: 'none',
+                          transition: 'all .2s',
+                        }}
+                        onMouseEnter={e => {
+                          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'rgba(245,200,66,0.5)'
+                          ;(e.currentTarget as HTMLAnchorElement).style.color = 'var(--gold)'
+                          ;(e.currentTarget as HTMLAnchorElement).style.background = 'rgba(245,200,66,0.08)'
+                        }}
+                        onMouseLeave={e => {
+                          (e.currentTarget as HTMLAnchorElement).style.borderColor = 'var(--border-dim)'
+                          ;(e.currentTarget as HTMLAnchorElement).style.color = 'var(--text-dim)'
+                          ;(e.currentTarget as HTMLAnchorElement).style.background = 'rgba(255,255,255,0.04)'
+                        }}
+                      >
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+                        </svg>
+                        View Repository
+                      </a>
+                    )}
+                    {item.links && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 14 }}>
+                        {item.links.map(link => {
+                          const isMSP = link.url.includes('muslimsuccesspath')
+                          const isLinkedIn = link.url.includes('linkedin')
+                          const isEW = link.url.includes('effortlessworks')
+                          const isEQ = link.url.includes('effortless.quest')
+                          return (
+                            <a
+                              key={link.label}
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              style={{
+                                display: 'inline-flex', alignItems: 'center', gap: 6,
+                                fontSize: '.72rem', fontWeight: 700, letterSpacing: '.04em',
+                                padding: '5px 12px', borderRadius: 6,
+                                border: '1px solid var(--border-dim)',
+                                background: 'rgba(255,255,255,0.04)',
+                                color: 'var(--text-dim)', textDecoration: 'none',
+                                transition: 'all .2s',
+                              }}
+                              onMouseEnter={e => {
+                                const el = e.currentTarget as HTMLAnchorElement
+                                if (isMSP) {
+                                  el.style.borderColor = 'rgba(245,200,66,0.5)'
+                                  el.style.color = 'var(--gold)'
+                                  el.style.background = 'rgba(245,200,66,0.08)'
+                                } else if (isEW) {
+                                  el.style.borderColor = 'rgba(107,153,118,0.6)'
+                                  el.style.color = '#6b9976'
+                                  el.style.background = 'rgba(107,153,118,0.08)'
+                                } else if (isEQ) {
+                                  el.style.borderColor = 'rgba(167,139,250,0.6)'
+                                  el.style.color = '#a78bfa'
+                                  el.style.background = 'rgba(167,139,250,0.08)'
+                                } else {
+                                  el.style.borderColor = 'rgba(10,102,194,0.6)'
+                                  el.style.color = '#0a66c2'
+                                  el.style.background = 'rgba(10,102,194,0.08)'
+                                }
+                              }}
+                              onMouseLeave={e => {
+                                const el = e.currentTarget as HTMLAnchorElement
+                                el.style.borderColor = 'var(--border-dim)'
+                                el.style.color = 'var(--text-dim)'
+                                el.style.background = 'rgba(255,255,255,0.04)'
+                              }}
+                            >
+                              {isMSP ? (
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M21 12.79A9 9 0 1 1 11.21 3a7 7 0 0 0 9.79 9.79z"/>
+                                  <polygon points="18,1 19,3.5 21.5,4 19,5 18,7.5 17,5 14.5,4 17,3.5"/>
+                                </svg>
+                              ) : isEW ? (
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                                  <circle cx="12" cy="12" r="10.5" fill="none" stroke="currentColor" strokeWidth="1.5"/>
+                                  <path d="M6 9.5 C7.5 7.5 10 7.5 12 9 C14 10.5 16.5 10.5 18 8.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                  <circle cx="12" cy="12.5" r="1.5"/>
+                                  <path d="M6 16 Q12 11 18 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                                </svg>
+                              ) : isEQ ? (
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                  <line x1="2" y1="2" x2="12" y2="12"/>
+                                  <path d="M2 2 L5 2 L2 5 Z" fill="currentColor" stroke="none"/>
+                                  <line x1="22" y1="2" x2="12" y2="12"/>
+                                  <path d="M22 2 L19 2 L22 5 Z" fill="currentColor" stroke="none"/>
+                                  <line x1="12" y1="12" x2="5" y2="19"/>
+                                  <line x1="12" y1="12" x2="19" y2="19"/>
+                                  <path d="M4 20 L6 18 L8 20 L6 22 Z" fill="currentColor" stroke="none"/>
+                                  <path d="M20 20 L18 18 L16 20 L18 22 Z" fill="currentColor" stroke="none"/>
+                                </svg>
+                              ) : isLinkedIn ? (
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor">
+                                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                              ) : null}
+                              {link.label}
+                            </a>
+                          )
+                        })}
+                      </div>
+                    )}
                   </div>
                 )
               })}
