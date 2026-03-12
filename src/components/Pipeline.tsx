@@ -91,33 +91,29 @@ function buildDesktopLayout(nodes: typeof PIPELINES[0]['nodes'], w: number, h: n
   })
 }
 
-// ── Mobile layout: two alternating columns, guaranteed MIN_GAP between centres ──
-const NODE_R   = 36   // half the node width/height (80px node = 40px, but we use 36 for a little breathing room)
-const MIN_GAP  = 96   // minimum centre-to-centre vertical gap
-const COL_PAD  = 20   // horizontal padding from edge
+// Mobile layout: two staggered columns with generous spacing so arrows have room
+const NODE_R    = 36   // edge start/end offset radius
+const NODE_SIZE = 72   // rendered node diameter (keep in sync with size var below)
+const MIN_GAP   = 120  // centre-to-centre vertical gap — enough for arrows to arc clearly
+const COL_INSET = 0.22 // columns at 22% / 78% of width — inset enough for outer arrows
 
 function buildMobileLayout(nodes: typeof PIPELINES[0]['nodes'], w: number) {
-  const cx1 = COL_PAD + NODE_R          // left column centre-x
-  const cx2 = w - COL_PAD - NODE_R      // right column centre-x
-
-  // Track the last-placed y in each column so nodes never overlap
-  const colY = [NODE_R + 16, NODE_R + 16 + MIN_GAP * 0.5]  // stagger start heights
-
+  const cx1 = Math.round(w * COL_INSET)
+  const cx2 = Math.round(w * (1 - COL_INSET))
+  // stagger: left col starts higher, right col half-gap lower
+  const colY = [NODE_SIZE / 2 + 24, NODE_SIZE / 2 + 24 + MIN_GAP * 0.5]
   return nodes.map((n, i) => {
-    const col = i % 2          // alternate left / right
+    const col = i % 2
     const x   = col === 0 ? cx1 : cx2
     const y   = colY[col]
-
-    colY[col] += MIN_GAP       // advance column pointer
-
+    colY[col] += MIN_GAP
     return { ...n, x, y }
   })
 }
 
-// Canvas height needed to contain all mobile nodes
 function mobileCanvasHeight(nodeCount: number): number {
   const rowsPerCol = Math.ceil(nodeCount / 2)
-  return rowsPerCol * MIN_GAP + NODE_R + 32
+  return rowsPerCol * MIN_GAP + NODE_SIZE + 48
 }
 
 type NodePos = ReturnType<typeof buildDesktopLayout>[number]
@@ -264,12 +260,17 @@ function GraphView({
           const sx = pa.x + (dx / len) * r, sy = pa.y + (dy / len) * r
           const ex = pb.x - (dx / len) * r, ey = pb.y - (dy / len) * r
 
-          // On mobile: curve outward from the spine so arrows don't pile up
+          // Control point for the quadratic bezier
           let mx: number, my: number
           if (isMobile) {
-            // Midpoint offset perpendicular to the line — alternate sides per index
+            const sameCol = Math.abs(pa.x - pb.x) < 40
             const perp = { x: -dy / len, y: dx / len }
-            const offset = ((i % 2) === 0 ? 1 : -1) * 22
+            // Same-column arrows bow outward to the nearest screen edge
+            // Cross-column arrows get a moderate alternating curve
+            const outward = pa.x < 100 ? -1 : 1  // left col bows left, right col bows right
+            const offset = sameCol
+              ? outward * 56   // big bow so the arc clears both nodes
+              : ((i % 2) === 0 ? 1 : -1) * 38  // cross arrows alternate sides generously
             mx = (sx + ex) / 2 + perp.x * offset
             my = (sy + ey) / 2 + perp.y * offset
           } else {
