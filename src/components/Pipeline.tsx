@@ -133,11 +133,16 @@ function GraphView({
   pipeline,
   width,
   height,
+  scale = 1,
 }: {
   pipeline: typeof PIPELINES[0]
   width: number
   height: number
+  scale?: number
 }) {
+  // s is the inverse of the CSS scale applied outside — makes everything
+  // render at the right visual size regardless of screen width
+  const s = 1 / scale
   const [positions, setPositions] = useState<NodePos[]>(() => buildDesktopLayout(pipeline.nodes, width, height))
   const [selected, setSelected]   = useState<string | null>(null)
   const [tooltip,  setTooltip]    = useState<NodePos | null>(null)
@@ -239,11 +244,11 @@ function GraphView({
         <defs>
           <marker
             id={`arr-${pipeline.id}`}
-            markerWidth="8" markerHeight="8"
-            refX="6" refY="3"
+            markerWidth={8 * s} markerHeight={8 * s}
+            refX={6 * s} refY={3 * s}
             orient="auto"
           >
-            <path d="M0,0 L0,6 L8,3 z" fill={col + '70'} />
+            <path d={`M0,0 L0,${6*s} L${8*s},${3*s} z`} fill={col + '70'} />
           </marker>
         </defs>
         {pipeline.edges.map(([a, b], i) => {
@@ -251,7 +256,7 @@ function GraphView({
           if (!pa || !pb) return null
           const dx = pb.x - pa.x, dy = pb.y - pa.y
           const len = Math.sqrt(dx * dx + dy * dy) || 1
-          const r = 40
+          const r = 40 * s
           const sx = pa.x + (dx / len) * r, sy = pa.y + (dy / len) * r
           const ex = pb.x - (dx / len) * r, ey = pb.y - (dy / len) * r
 
@@ -264,7 +269,7 @@ function GraphView({
               d={`M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
               fill="none"
               stroke={col + '55'}
-              strokeWidth='1.5'
+              {...{strokeWidth: 1.5 * s}}
               strokeDasharray="4 3"
               markerEnd={`url(#arr-${pipeline.id})`}
             />
@@ -276,7 +281,7 @@ function GraphView({
       {positions.map(node => {
         const isSel = selected === node.id
         // Slightly smaller nodes on mobile so labels fit
-        const size = 80
+        const size = Math.round(80 * s)
         return (
           <div
             key={node.id}
@@ -291,7 +296,7 @@ function GraphView({
               height: size,
               borderRadius: '50%',
               background: isSel ? `${col}22` : 'rgba(7,6,10,0.88)',
-              border: `2px solid ${isSel ? col : col + '50'}`,
+              border: `${Math.round(2 * s)}px solid ${isSel ? col : col + '50'}`,
               boxShadow: isSel
                 ? `0 0 24px ${col}70, 0 0 48px ${col}30, inset 0 0 12px ${col}10`
                 : `0 0 12px ${col}18`,
@@ -307,9 +312,9 @@ function GraphView({
               touchAction: 'none',
             }}
           >
-            <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>{node.icon}</div>
+            <div style={{ fontSize: `${1.5 * s}rem`, lineHeight: 1 }}>{node.icon}</div>
             <div style={{
-              fontSize: '.5rem',
+              fontSize: `${0.5 * s}rem`,
               fontWeight: 700,
               letterSpacing: '.05em',
               textTransform: 'uppercase',
@@ -338,16 +343,16 @@ function GraphView({
             top,
             background: 'rgba(7,6,10,0.96)',
             border: `1px solid ${col}55`,
-            borderRadius: 12,
-            padding: '14px 18px',
-            maxWidth: 210,
+            borderRadius: Math.round(12 * s),
+            padding: `${14 * s}px ${18 * s}px`,
+            maxWidth: Math.round(210 * s),
             zIndex: 20,
             boxShadow: `0 8px 32px rgba(0,0,0,0.7), 0 0 24px ${col}18`,
             backdropFilter: 'blur(16px)',
             pointerEvents: 'none',
           }}>
             <div style={{
-              fontSize: '.72rem',
+              fontSize: `${0.72 * s}rem`,
               fontWeight: 700,
               color: col,
               marginBottom: 7,
@@ -357,7 +362,7 @@ function GraphView({
               {tooltip.icon} {tooltip.name}
             </div>
             <div style={{
-              fontSize: '.73rem',
+              fontSize: `${0.73 * s}rem`,
               color: 'rgba(240,234,214,0.5)',
               lineHeight: 1.65,
               fontFamily: 'sans-serif',
@@ -515,7 +520,7 @@ export default function Pipeline() {
                   width: DESKTOP_W,
                   height: DESKTOP_H,
                 }}>
-                  <GraphView pipeline={pipeline} width={DESKTOP_W} height={DESKTOP_H} />
+                  <GraphView pipeline={pipeline} width={DESKTOP_W} height={DESKTOP_H} scale={(containerRef.current?.offsetWidth ?? DESKTOP_W) / DESKTOP_W} />
                 </div>
               </div>
             ) : (
