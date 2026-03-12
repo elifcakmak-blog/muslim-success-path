@@ -92,176 +92,58 @@ function buildDesktopLayout(nodes: typeof PIPELINES[0]['nodes'], w: number, h: n
 }
 
 
-// Mobile layout constants (still used for desktop layout reference)
-const NODE_R    = 36
-const NODE_SIZE = 72
-const ROW_GAP   = 130
+// Mobile layout — 3 columns, small nodes, generous spacing
+const NODE_R    = 26   // half of node size for edge offset
+const NODE_SIZE = 52   // small nodes so there's room for arrows
+const COL_GAP_V = 105  // vertical gap between nodes in same column
+const COL_GAP_H = 0.28 // columns at 28% / 50% / 72% of width
 
 function buildMobileLayout(nodes: typeof PIPELINES[0]['nodes'], w: number) {
-  const cx = Math.round(w / 2)
-  return nodes.map((n, i) => ({
-    ...n,
-    x: cx,
-    y: NODE_SIZE / 2 + 24 + i * ROW_GAP,
-  }))
+  // 3-column positions
+  const cols = [
+    Math.round(w * COL_GAP_H),
+    Math.round(w * 0.5),
+    Math.round(w * (1 - COL_GAP_H)),
+  ]
+  // Track y per column
+  const colY = [
+    NODE_SIZE / 2 + 20,
+    NODE_SIZE / 2 + 20 + COL_GAP_V * 0.4,
+    NODE_SIZE / 2 + 20 + COL_GAP_V * 0.8,
+  ]
+  return nodes.map((n, i) => {
+    const col = i % 3
+    const x   = cols[col]
+    const y   = colY[col]
+    colY[col] += COL_GAP_V
+    return { ...n, x, y }
+  })
 }
 
 function mobileCanvasHeight(nodeCount: number): number {
-  return nodeCount * ROW_GAP + NODE_SIZE + 24
+  const rowsPerCol = Math.ceil(nodeCount / 3)
+  return rowsPerCol * COL_GAP_V + NODE_SIZE + 48
 }
+
+
 
 type NodePos = ReturnType<typeof buildDesktopLayout>[number]
-
-// ── Mobile: clean vertical step list — no SVG tangle ──
-function MobileFlow({ pipeline }: { pipeline: typeof PIPELINES[0] }) {
-  const [expanded, setExpanded] = useState<string | null>(null)
-  const col = pipeline.color
-
-  // Build an ordered walk of the graph using BFS from the first node
-  const ordered: typeof pipeline.nodes = []
-  const visited = new Set<string>()
-  const queue = [pipeline.nodes[0].id]
-  while (queue.length) {
-    const id = queue.shift()!
-    if (visited.has(id)) continue
-    visited.add(id)
-    const node = pipeline.nodes.find(n => n.id === id)
-    if (node) ordered.push(node)
-    pipeline.edges.forEach(([a, b]) => {
-      if (a === id && !visited.has(b)) queue.push(b)
-    })
-  }
-  // Append any nodes not reachable (shouldn't happen but safety net)
-  pipeline.nodes.forEach(n => { if (!visited.has(n.id)) ordered.push(n) })
-
-  return (
-    <div style={{ padding: '20px 16px 28px', position: 'relative' }}>
-      {ordered.map((node, i) => {
-        const isLast = i === ordered.length - 1
-        const isOpen = expanded === node.id
-        // Count how many edges come INTO this node
-        const inCount  = pipeline.edges.filter(([, b]) => b === node.id).length
-        // Count how many edges go OUT of this node
-        const outCount = pipeline.edges.filter(([a]) => a === node.id).length
-
-        return (
-          <div key={node.id} style={{ display: 'flex', gap: 14, alignItems: 'flex-start' }}>
-
-            {/* Left: connector line + step dot */}
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0, width: 36 }}>
-              {/* Top line (hidden for first node) */}
-              <div style={{
-                width: 2,
-                height: i === 0 ? 8 : 20,
-                background: i === 0 ? 'transparent' : `${col}40`,
-              }} />
-              {/* Step circle */}
-              <div
-                onClick={() => setExpanded(isOpen ? null : node.id)}
-                style={{
-                  width: 36, height: 36, borderRadius: '50%',
-                  background: isOpen ? `${col}25` : 'rgba(7,6,10,0.9)',
-                  border: `2px solid ${isOpen ? col : col + '55'}`,
-                  boxShadow: isOpen ? `0 0 16px ${col}60` : `0 0 8px ${col}20`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', flexShrink: 0,
-                  transition: 'all .2s',
-                  fontSize: '1rem',
-                }}
-              >
-                {node.icon}
-              </div>
-              {/* Bottom line (hidden for last node) */}
-              <div style={{
-                width: 2,
-                flexGrow: 1,
-                minHeight: isLast ? 8 : (isOpen ? 72 : 28),
-                background: isLast ? 'transparent' : `${col}40`,
-                transition: 'min-height .25s',
-              }} />
-            </div>
-
-            {/* Right: label + optional detail */}
-            <div
-              onClick={() => setExpanded(isOpen ? null : node.id)}
-              style={{
-                paddingTop: i === 0 ? 8 : 20,
-                paddingBottom: isLast ? 0 : 0,
-                cursor: 'pointer', minWidth: 0, flex: 1,
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <span style={{
-                  fontFamily: 'sans-serif',
-                  fontSize: '.72rem', fontWeight: 700,
-                  letterSpacing: '.07em', textTransform: 'uppercase',
-                  color: isOpen ? col : 'rgba(240,234,214,0.75)',
-                  transition: 'color .2s',
-                }}>
-                  {node.name}
-                </span>
-                {/* Show branch indicators */}
-                {outCount > 1 && (
-                  <span style={{
-                    fontSize: '.5rem', padding: '1px 5px', borderRadius: 3,
-                    background: `${col}20`, color: col,
-                    fontFamily: 'sans-serif', fontWeight: 700, letterSpacing: '.04em',
-                  }}>
-                    {outCount} paths
-                  </span>
-                )}
-                {inCount > 1 && (
-                  <span style={{
-                    fontSize: '.5rem', padding: '1px 5px', borderRadius: 3,
-                    background: 'rgba(255,255,255,0.06)', color: 'rgba(240,234,214,0.35)',
-                    fontFamily: 'sans-serif', fontWeight: 700, letterSpacing: '.04em',
-                  }}>
-                    {inCount} in
-                  </span>
-                )}
-                <span style={{
-                  marginLeft: 'auto', fontSize: '.6rem',
-                  color: `${col}70`, transition: 'transform .2s',
-                  display: 'inline-block', transform: isOpen ? 'rotate(180deg)' : 'none',
-                }}>▾</span>
-              </div>
-
-              {/* Expandable detail */}
-              <div style={{
-                overflow: 'hidden',
-                maxHeight: isOpen ? 120 : 0,
-                transition: 'max-height .25s ease',
-              }}>
-                <p style={{
-                  fontFamily: 'sans-serif',
-                  fontSize: '.72rem', color: 'rgba(240,234,214,0.45)',
-                  lineHeight: 1.65, margin: '6px 0 0',
-                }}>
-                  {node.detail}
-                </p>
-              </div>
-            </div>
-
-          </div>
-        )
-      })}
-    </div>
-  )
-}
-
-
 
 function GraphView({
   pipeline,
   width,
   height,
+  isMobile,
 }: {
   pipeline: typeof PIPELINES[0]
   width: number
   height: number
+  isMobile: boolean
 }) {
   const [positions, setPositions] = useState<NodePos[]>(() =>
-    buildDesktopLayout(pipeline.nodes, width, height)
+    isMobile
+      ? buildMobileLayout(pipeline.nodes, width)
+      : buildDesktopLayout(pipeline.nodes, width, height)
   )
   const [selected, setSelected]   = useState<string | null>(null)
   const [tooltip,  setTooltip]    = useState<NodePos | null>(null)
@@ -270,10 +152,14 @@ function GraphView({
 
   // Recompute layout when pipeline, size or mobile flag changes
   useEffect(() => {
-    setPositions(buildDesktopLayout(pipeline.nodes, width, height))
+    setPositions(
+      isMobile
+        ? buildMobileLayout(pipeline.nodes, width)
+        : buildDesktopLayout(pipeline.nodes, width, height)
+    )
     setSelected(null)
     setTooltip(null)
-  }, [pipeline.id, width, height])
+  }, [pipeline.id, width, height, isMobile])
 
   const getPos = useCallback((id: string) => positions.find(p => p.id === id), [positions])
 
@@ -347,6 +233,12 @@ function GraphView({
 
   // Tooltip: on mobile keep it within bounds more aggressively
   const tooltipStyle = (pos: NodePos) => {
+    if (isMobile) {
+      const tipW = 180
+      const left = Math.max(8, Math.min(width - tipW - 8, pos.x - tipW / 2))
+      const top  = Math.min(pos.y + NODE_R + 6, height - 100)
+      return { left, top }
+    }
     const left = pos.x > width * 0.6 ? pos.x - 210 : pos.x + 50
     const top  = Math.min(Math.max(pos.y - 44, 8), height - 110)
     return { left, top }
@@ -375,12 +267,23 @@ function GraphView({
           if (!pa || !pb) return null
           const dx = pb.x - pa.x, dy = pb.y - pa.y
           const len = Math.sqrt(dx * dx + dy * dy) || 1
-          const r = 40
+          const r = isMobile ? NODE_R : 40
           const sx = pa.x + (dx / len) * r, sy = pa.y + (dy / len) * r
           const ex = pb.x - (dx / len) * r, ey = pb.y - (dy / len) * r
 
-          const mx = (sx + ex) / 2
-          const my = (sy + ey) / 2 - 18
+          let mx: number, my: number
+          if (isMobile) {
+            // Bow perpendicular to the line, alternating sides per edge index
+            // Scale bow by distance so long-range arrows arc wider
+            const perp = { x: -dy / len, y: dx / len }
+            const dist = Math.sqrt(dx*dx + dy*dy)
+            const bow  = (i % 2 === 0 ? 1 : -1) * Math.min(44, 24 + dist * 0.08)
+            mx = (sx + ex) / 2 + perp.x * bow
+            my = (sy + ey) / 2 + perp.y * bow
+          } else {
+            mx = (sx + ex) / 2
+            my = (sy + ey) / 2 - 18
+          }
 
           return (
             <path
@@ -388,7 +291,7 @@ function GraphView({
               d={`M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
               fill="none"
               stroke={col + '55'}
-              strokeWidth='1.5'
+              strokeWidth={isMobile ? '1.4' : '1.5'}
               strokeDasharray="4 3"
               markerEnd={`url(#arr-${pipeline.id})`}
             />
@@ -400,7 +303,7 @@ function GraphView({
       {positions.map(node => {
         const isSel = selected === node.id
         // Slightly smaller nodes on mobile so labels fit
-        const size = 80
+        const size = isMobile ? NODE_SIZE : 80
         return (
           <div
             key={node.id}
@@ -431,9 +334,9 @@ function GraphView({
               touchAction: 'none',
             }}
           >
-            <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>{node.icon}</div>
+            <div style={{ fontSize: isMobile ? '1rem' : '1.5rem', lineHeight: 1 }}>{node.icon}</div>
             <div style={{
-              fontSize: '.5rem',
+              fontSize: isMobile ? '.42rem' : '.5rem',
               fontWeight: 700,
               letterSpacing: '.05em',
               textTransform: 'uppercase',
@@ -464,7 +367,7 @@ function GraphView({
             border: `1px solid ${col}55`,
             borderRadius: 12,
             padding: '14px 18px',
-            maxWidth: 210,
+            maxWidth: isMobile ? 180 : 210,
             zIndex: 20,
             boxShadow: `0 8px 32px rgba(0,0,0,0.7), 0 0 24px ${col}18`,
             backdropFilter: 'blur(16px)',
@@ -624,10 +527,7 @@ export default function Pipeline() {
               </span>
             </div>
 
-            {isMobile
-              ? <MobileFlow pipeline={pipeline} />
-              : <GraphView pipeline={pipeline} width={dims.w} height={dims.h} />
-            }
+            <GraphView pipeline={pipeline} width={dims.w} height={dims.h} isMobile={isMobile} />
           </div>
         </div>
 
