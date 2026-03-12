@@ -31,7 +31,7 @@ function useCountUp(target: number, triggered: boolean, suffix = '+') {
 export default function Home() {
   const [scrolled, setScrolled]   = useState(false)
   const [statsVis, setStatsVis]   = useState(false)
-  const [nlStatus, setNlStatus]   = useState<'idle'|'ok'|'err'>('idle')
+  const [nlStatus, setNlStatus] = useState<'idle'|'ok'|'err'|'noName'|'noEmail'>('idle')
   const [nlEmail,  setNlEmail]    = useState('')
   const [nlName, setNlName] = useState('')
   const [homeMenuOpen, setHomeMenuOpen] = useState(false)
@@ -73,9 +73,14 @@ export default function Home() {
   const stat10 = useCountUp(newsletterSubs, statsVis)
 
 const handleNewsletter = async () => {
+  if (!nlName.trim()) {
+    setNlStatus('noName')
+    setTimeout(() => setNlStatus('idle'), 3000)
+    return
+  }
   if (!nlEmail || !nlEmail.includes('@')) {
-    setNlStatus('err')
-    setTimeout(() => setNlStatus('idle'), 1500)
+    setNlStatus('noEmail')
+    setTimeout(() => setNlStatus('idle'), 3000)
     return
   }
   try {
@@ -90,11 +95,11 @@ const handleNewsletter = async () => {
       setNlName('')
     } else {
       setNlStatus('err')
-      setTimeout(() => setNlStatus('idle'), 1500)
+      setTimeout(() => setNlStatus('idle'), 3000)
     }
   } catch {
     setNlStatus('err')
-    setTimeout(() => setNlStatus('idle'), 1500)
+    setTimeout(() => setNlStatus('idle'), 3000)
   }
 }
 
@@ -735,15 +740,15 @@ const handleNewsletter = async () => {
             type="text"
             placeholder="Your name"
             value={nlName}
-            onChange={e => setNlName(e.target.value)}
-            style={{ width: '100%', maxWidth: 400 }}
+            onChange={e => { setNlName(e.target.value); setNlStatus('idle') }}
+            style={{ width: '100%', maxWidth: 400, borderColor: nlStatus === 'noName' ? '#F5C842' : undefined }}
           />
           <input
             type="email"
             placeholder="your@email.com"
             value={nlEmail}
             onChange={e => { setNlEmail(e.target.value); setNlStatus('idle') }}
-            style={{ borderColor: nlStatus === 'err' ? '#e05555' : undefined, width: '100%', maxWidth: 400 }}
+            style={{ borderColor: nlStatus === 'err' || nlStatus === 'noEmail' ? '#e05555' : undefined, width: '100%', maxWidth: 400 }}
           />
           <button onClick={handleNewsletter}
             style={{ background: nlStatus === 'ok' ? '#2d7a3a' : undefined }}>
@@ -751,8 +756,25 @@ const handleNewsletter = async () => {
           </button>
         </div>
           {nlStatus === 'ok' && (
-            <p style={{ marginTop:12, fontSize:'.8rem', color:'var(--teal)' }}>Jazakallah Khair 🌙</p>
-          )}
+  <p style={{ marginTop: 12, fontSize: '.8rem', color: 'var(--teal)' }}>
+    Jazakallah Khair 🌙 Welcome to the path!
+  </p>
+        )}
+        {nlStatus === 'noName' && (
+          <p style={{ marginTop: 12, fontSize: '.8rem', color: '#F5C842' }}>
+            We'd love to know your name 🌸 Please add it above.
+          </p>
+        )}
+        {nlStatus === 'noEmail' && (
+          <p style={{ marginTop: 12, fontSize: '.8rem', color: '#F5C842' }}>
+            Don't forget your email so we can reach you 💌
+          </p>
+        )}
+        {nlStatus === 'err' && (
+          <p style={{ marginTop: 12, fontSize: '.8rem', color: '#e05555' }}>
+            Something went wrong — please try again.
+          </p>
+        )}
         </div>
       </section>
 
