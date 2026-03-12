@@ -250,7 +250,6 @@ function MobileFlow({ pipeline }: { pipeline: typeof PIPELINES[0] }) {
 }
 
 
-type NodePos = ReturnType<typeof buildDesktopLayout>[number]
 
 function GraphView({
   pipeline,
