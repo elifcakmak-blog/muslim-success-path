@@ -33,6 +33,7 @@ export default function Home() {
   const [statsVis, setStatsVis]   = useState(false)
   const [nlStatus, setNlStatus]   = useState<'idle'|'ok'|'err'>('idle')
   const [nlEmail,  setNlEmail]    = useState('')
+  const [nlName, setNlName] = useState('')
   const [homeMenuOpen, setHomeMenuOpen] = useState(false)
   const statsRef = useRef<HTMLDivElement>(null)
 
@@ -71,15 +72,32 @@ export default function Home() {
   const stat9 = useCountUp(6,                      statsVis)
   const stat10 = useCountUp(newsletterSubs, statsVis)
 
-  const handleNewsletter = () => {
-    if (nlEmail && nlEmail.includes('@')) {
+const handleNewsletter = async () => {
+  if (!nlEmail || !nlEmail.includes('@')) {
+    setNlStatus('err')
+    setTimeout(() => setNlStatus('idle'), 1500)
+    return
+  }
+  try {
+    const res = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: nlEmail, name: nlName }),
+    })
+    if (res.ok) {
       setNlStatus('ok')
       setNlEmail('')
+      setNlName('')
     } else {
       setNlStatus('err')
       setTimeout(() => setNlStatus('idle'), 1500)
     }
+  } catch {
+    setNlStatus('err')
+    setTimeout(() => setNlStatus('idle'), 1500)
   }
+}
+
 
   return (
     <>
@@ -705,26 +723,33 @@ export default function Home() {
       <section className="newsletter" id="newsletter" style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         <div className="nl-glow" />
-        <div className="nl-box reveal" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="nl-box reveal" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
           <span className="nl-icon">✦</span>
           <h2 className="nl-title">Stay on the Path</h2>
           <p className="nl-sub">
             Get updates on new books, crochet patterns, courses, and Islamic resources —
             delivered with intention, not noise.
           </p>
-          <div className="nl-form">
-            <input
-              type="email"
-              placeholder="your@email.com"
-              value={nlEmail}
-              onChange={e => { setNlEmail(e.target.value); setNlStatus('idle') }}
-              style={{ borderColor: nlStatus === 'err' ? '#e05555' : undefined }}
-            />
-            <button onClick={handleNewsletter}
-              style={{ background: nlStatus === 'ok' ? '#2d7a3a' : undefined }}>
-              {nlStatus === 'ok' ? '✓ Subscribed!' : 'Subscribe'}
-            </button>
-          </div>
+          <div className="nl-form" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+          <input
+            type="text"
+            placeholder="Your name"
+            value={nlName}
+            onChange={e => setNlName(e.target.value)}
+            style={{ width: '100%', maxWidth: 400 }}
+          />
+          <input
+            type="email"
+            placeholder="your@email.com"
+            value={nlEmail}
+            onChange={e => { setNlEmail(e.target.value); setNlStatus('idle') }}
+            style={{ borderColor: nlStatus === 'err' ? '#e05555' : undefined, width: '100%', maxWidth: 400 }}
+          />
+          <button onClick={handleNewsletter}
+            style={{ background: nlStatus === 'ok' ? '#2d7a3a' : undefined }}>
+            {nlStatus === 'ok' ? '✓ Subscribed!' : 'Subscribe'}
+          </button>
+        </div>
           {nlStatus === 'ok' && (
             <p style={{ marginTop:12, fontSize:'.8rem', color:'var(--teal)' }}>Jazakallah Khair 🌙</p>
           )}
