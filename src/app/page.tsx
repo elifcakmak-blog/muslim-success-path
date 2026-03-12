@@ -1,5 +1,5 @@
 'use client'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
@@ -29,6 +29,24 @@ function useCountUp(target: number, triggered: boolean, suffix = '+') {
   return val
 }
 
+// Separate component for useSearchParams (must be wrapped in Suspense)
+function HighlightHandler({ onHighlight }: { onHighlight: () => void }) {
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    if (searchParams.get('highlight') === 'newsletter') {
+      const el = document.getElementById('newsletter')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+        setTimeout(() => onHighlight(), 600)
+      }
+      window.history.replaceState({}, '', '/')
+    }
+  }, [searchParams, onHighlight])
+
+  return null
+}
+
 export default function Home() {
   const [scrolled, setScrolled]   = useState(false)
   const [statsVis, setStatsVis]   = useState(false)
@@ -37,7 +55,6 @@ export default function Home() {
   const [nlName, setNlName] = useState('')
   const [homeMenuOpen, setHomeMenuOpen] = useState(false)
   const [nlHighlight, setNlHighlight] = useState(false)
-  const searchParams = useSearchParams()
   const statsRef = useRef<HTMLDivElement>(null)
 
   // Reveal on scroll
@@ -76,19 +93,7 @@ export default function Home() {
   const stat10 = useCountUp(newsletterSubs, statsVis)
 
 
-  // Highlight newsletter section if navigated from footer
-  useEffect(() => {
-    if (searchParams.get('highlight') === 'newsletter') {
-      const el = document.getElementById('newsletter')
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth' })
-        setTimeout(() => setNlHighlight(true), 600)
-        setTimeout(() => setNlHighlight(false), 3000)
-      }
-      // Clean up the URL without pushing a history entry
-      window.history.replaceState({}, '', '/')
-    }
-  }, [searchParams])
+
 
   // Listen for highlight event when already on home page (triggered by Footer)
   useEffect(() => {
@@ -141,6 +146,9 @@ export default function Home() {
     <>
       <FluidCanvas />
       <Cursor />
+      <Suspense fallback={null}>
+        <HighlightHandler onHighlight={() => { setNlHighlight(true); setTimeout(() => setNlHighlight(false), 3000) }} />
+      </Suspense>
 
       {/* ── NAV ── */}
       <nav className={scrolled ? 'nav scrolled' : 'nav'}>
