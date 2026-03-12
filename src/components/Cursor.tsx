@@ -13,6 +13,13 @@ export default function Cursor() {
   const ringRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    // Don't run on touch/coarse-pointer devices (phones, tablets)
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      if (dotRef.current)  dotRef.current.style.display  = 'none'
+      if (ringRef.current) ringRef.current.style.display = 'none'
+      return
+    }
+
     const dot  = dotRef.current
     const ring = ringRef.current
     if (!dot || !ring) return

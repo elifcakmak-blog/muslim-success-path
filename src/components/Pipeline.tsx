@@ -78,7 +78,8 @@ const PIPELINES = [
   },
 ]
 
-function buildLayout(nodes: typeof PIPELINES[0]['nodes'], w: number, h: number) {
+// ── Desktop layout: column × row grid (original behaviour) ──
+function buildDesktopLayout(nodes: typeof PIPELINES[0]['nodes'], w: number, h: number) {
   const count = nodes.length
   const cols = Math.ceil(count / 3)
   return nodes.map((n, i) => {
@@ -90,28 +91,84 @@ function buildLayout(nodes: typeof PIPELINES[0]['nodes'], w: number, h: number) 
   })
 }
 
-type NodePos = ReturnType<typeof buildLayout>[number]
+// ── Mobile layout: two alternating columns, guaranteed MIN_GAP between centres ──
+const NODE_R   = 36   // half the node width/height (80px node = 40px, but we use 36 for a little breathing room)
+const MIN_GAP  = 96   // minimum centre-to-centre vertical gap
+const COL_PAD  = 20   // horizontal padding from edge
 
-function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0], width: number, height: number }) {
-  const [positions, setPositions] = useState<NodePos[]>(() => buildLayout(pipeline.nodes, width, height))
+function buildMobileLayout(nodes: typeof PIPELINES[0]['nodes'], w: number) {
+  const cx1 = COL_PAD + NODE_R          // left column centre-x
+  const cx2 = w - COL_PAD - NODE_R      // right column centre-x
+
+  // Track the last-placed y in each column so nodes never overlap
+  const colY = [NODE_R + 16, NODE_R + 16 + MIN_GAP * 0.5]  // stagger start heights
+
+  return nodes.map((n, i) => {
+    const col = i % 2          // alternate left / right
+    const x   = col === 0 ? cx1 : cx2
+    const y   = colY[col]
+
+    colY[col] += MIN_GAP       // advance column pointer
+
+    return { ...n, x, y }
+  })
+}
+
+// Canvas height needed to contain all mobile nodes
+function mobileCanvasHeight(nodeCount: number): number {
+  const rowsPerCol = Math.ceil(nodeCount / 2)
+  return rowsPerCol * MIN_GAP + NODE_R + 32
+}
+
+type NodePos = ReturnType<typeof buildDesktopLayout>[number]
+
+function GraphView({
+  pipeline,
+  width,
+  height,
+  isMobile,
+}: {
+  pipeline: typeof PIPELINES[0]
+  width: number
+  height: number
+  isMobile: boolean
+}) {
+  const [positions, setPositions] = useState<NodePos[]>(() =>
+    isMobile
+      ? buildMobileLayout(pipeline.nodes, width)
+      : buildDesktopLayout(pipeline.nodes, width, height)
+  )
   const [selected, setSelected]   = useState<string | null>(null)
-  const [tooltip, setTooltip]     = useState<NodePos | null>(null)
-  const dragging = useRef<{ id: string; ox: number; oy: number } | null>(null)
+  const [tooltip,  setTooltip]    = useState<NodePos | null>(null)
+  const dragging  = useRef<{ id: string; ox: number; oy: number } | null>(null)
+  const graphRef  = useRef<HTMLDivElement>(null)
 
+  // Recompute layout when pipeline, size or mobile flag changes
   useEffect(() => {
-    setPositions(buildLayout(pipeline.nodes, width, height))
+    setPositions(
+      isMobile
+        ? buildMobileLayout(pipeline.nodes, width)
+        : buildDesktopLayout(pipeline.nodes, width, height)
+    )
     setSelected(null)
     setTooltip(null)
-  }, [pipeline.id, width, height])
+  }, [pipeline.id, width, height, isMobile])
 
   const getPos = useCallback((id: string) => positions.find(p => p.id === id), [positions])
+
+  const clampPos = useCallback(
+    (x: number, y: number) => ({
+      x: Math.max(44, Math.min(width  - 44, x)),
+      y: Math.max(44, Math.min(height - 44, y)),
+    }),
+    [width, height]
+  )
 
   const onMouseDown = (e: React.MouseEvent, id: string) => {
     e.stopPropagation()
     dragging.current = { id, ox: e.clientX, oy: e.clientY }
     setSelected(id)
   }
-
   const onTouchStart = (e: React.TouchEvent, id: string) => {
     const t = e.touches[0]
     dragging.current = { id, ox: t.clientX, oy: t.clientY }
@@ -119,50 +176,82 @@ function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0],
   }
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
+    // Mouse events — page scroll is never affected by mouse drags
+    const onMouseMove = (e: MouseEvent) => {
       if (!dragging.current) return
       const { id, ox, oy } = dragging.current
       const dx = e.clientX - ox, dy = e.clientY - oy
       dragging.current = { id, ox: e.clientX, oy: e.clientY }
-      setPositions(prev => prev.map(p =>
-        p.id === id
-          ? { ...p, x: Math.max(44, Math.min(width - 44, p.x + dx)), y: Math.max(44, Math.min(height - 44, p.y + dy)) }
-          : p
-      ))
+      setPositions(prev => prev.map(p => {
+        if (p.id !== id) return p
+        const { x, y } = clampPos(p.x + dx, p.y + dy)
+        return { ...p, x, y }
+      }))
     }
+    const onMouseUp = () => { dragging.current = null }
+    window.addEventListener('mousemove', onMouseMove)
+    window.addEventListener('mouseup',   onMouseUp)
+
+    // Touch move attached to the graph container with passive:false so we
+    // can call preventDefault() to block page scroll while dragging a bubble.
+    // Touches outside the graph container are unaffected — normal scroll works.
+    const el = graphRef.current
     const onTouchMove = (e: TouchEvent) => {
       if (!dragging.current) return
+      e.preventDefault() // blocks page scroll only when a bubble is being dragged
       const t = e.touches[0]
       const { id, ox, oy } = dragging.current
       const dx = t.clientX - ox, dy = t.clientY - oy
       dragging.current = { id, ox: t.clientX, oy: t.clientY }
-      setPositions(prev => prev.map(p =>
-        p.id === id
-          ? { ...p, x: Math.max(44, Math.min(width - 44, p.x + dx)), y: Math.max(44, Math.min(height - 44, p.y + dy)) }
-          : p
-      ))
+      setPositions(prev => prev.map(p => {
+        if (p.id !== id) return p
+        const { x, y } = clampPos(p.x + dx, p.y + dy)
+        return { ...p, x, y }
+      }))
     }
-    const onUp = () => { dragging.current = null }
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseup', onUp)
-    window.addEventListener('touchmove', onTouchMove)
-    window.addEventListener('touchend', onUp)
+    const onTouchEnd = () => { dragging.current = null }
+
+    el?.addEventListener('touchmove', onTouchMove, { passive: false })
+    el?.addEventListener('touchend',  onTouchEnd)
+
     return () => {
-      window.removeEventListener('mousemove', onMove)
-      window.removeEventListener('mouseup', onUp)
-      window.removeEventListener('touchmove', onTouchMove)
-      window.removeEventListener('touchend', onUp)
+      window.removeEventListener('mousemove', onMouseMove)
+      window.removeEventListener('mouseup',   onMouseUp)
+      el?.removeEventListener('touchmove', onTouchMove)
+      el?.removeEventListener('touchend',  onTouchEnd)
     }
-  }, [width, height])
+  }, [clampPos])
 
   const col = pipeline.color
 
+  // Tooltip: on mobile keep it within bounds more aggressively
+  const tooltipStyle = (pos: NodePos) => {
+    if (isMobile) {
+      // Always render below the node on mobile, centred
+      const left = Math.max(8, Math.min(width - 188, pos.x - 90))
+      const top  = pos.y + 46
+      return { left, top }
+    }
+    const left = pos.x > width * 0.6 ? pos.x - 210 : pos.x + 50
+    const top  = Math.min(Math.max(pos.y - 44, 8), height - 110)
+    return { left, top }
+  }
+
   return (
-    <div style={{ position: 'relative', width, height }}>
+    <div ref={graphRef} style={{ position: 'relative', width, height }}>
       {/* SVG edges */}
-      <svg width={width} height={height} style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}>
+      <svg
+        width={width}
+        height={height}
+        style={{ position: 'absolute', top: 0, left: 0, pointerEvents: 'none' }}
+      >
         <defs>
-          <marker id={`arr-${pipeline.id}`} markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+          <marker
+            id={`arr-${pipeline.id}`}
+            markerWidth="8" markerHeight="8"
+            refX="6" refY="3"
+            orient="auto"
+          >
             <path d="M0,0 L0,6 L8,3 z" fill={col + '70'} />
           </marker>
         </defs>
@@ -174,14 +263,27 @@ function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0],
           const r = 40
           const sx = pa.x + (dx / len) * r, sy = pa.y + (dy / len) * r
           const ex = pb.x - (dx / len) * r, ey = pb.y - (dy / len) * r
-          const mx = (sx + ex) / 2, my = (sy + ey) / 2 - 18
+
+          // On mobile: curve outward from the spine so arrows don't pile up
+          let mx: number, my: number
+          if (isMobile) {
+            // Midpoint offset perpendicular to the line — alternate sides per index
+            const perp = { x: -dy / len, y: dx / len }
+            const offset = ((i % 2) === 0 ? 1 : -1) * 22
+            mx = (sx + ex) / 2 + perp.x * offset
+            my = (sy + ey) / 2 + perp.y * offset
+          } else {
+            mx = (sx + ex) / 2
+            my = (sy + ey) / 2 - 18
+          }
+
           return (
             <path
               key={i}
               d={`M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
               fill="none"
-              stroke={col + '45'}
-              strokeWidth="1.5"
+              stroke={col + '55'}
+              strokeWidth={isMobile ? '1.8' : '1.5'}
               strokeDasharray="4 3"
               markerEnd={`url(#arr-${pipeline.id})`}
             />
@@ -192,6 +294,8 @@ function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0],
       {/* Nodes */}
       {positions.map(node => {
         const isSel = selected === node.id
+        // Slightly smaller nodes on mobile so labels fit
+        const size = isMobile ? 72 : 80
         return (
           <div
             key={node.id}
@@ -200,29 +304,43 @@ function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0],
             onClick={() => setTooltip(tooltip?.id === node.id ? null : node)}
             style={{
               position: 'absolute',
-              left: node.x - 40, top: node.y - 40,
-              width: 80, height: 80,
+              left: node.x - size / 2,
+              top:  node.y - size / 2,
+              width:  size,
+              height: size,
               borderRadius: '50%',
               background: isSel ? `${col}22` : 'rgba(7,6,10,0.88)',
               border: `2px solid ${isSel ? col : col + '50'}`,
               boxShadow: isSel
                 ? `0 0 24px ${col}70, 0 0 48px ${col}30, inset 0 0 12px ${col}10`
                 : `0 0 12px ${col}18`,
-              display: 'flex', flexDirection: 'column',
-              alignItems: 'center', justifyContent: 'center',
-              cursor: 'grab', userSelect: 'none',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'grab',
+              userSelect: 'none',
               transition: 'border-color .2s, box-shadow .2s, background .2s',
               backdropFilter: 'blur(10px)',
               zIndex: isSel ? 10 : 1,
+              touchAction: 'none',
             }}
           >
-            <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>{node.icon}</div>
+            <div style={{ fontSize: isMobile ? '1.25rem' : '1.5rem', lineHeight: 1 }}>{node.icon}</div>
             <div style={{
-              fontSize: '.5rem', fontWeight: 700, letterSpacing: '.05em', textTransform: 'uppercase',
+              fontSize: isMobile ? '.45rem' : '.5rem',
+              fontWeight: 700,
+              letterSpacing: '.05em',
+              textTransform: 'uppercase',
               color: isSel ? col : 'rgba(240,234,214,0.5)',
-              marginTop: 5, textAlign: 'center', lineHeight: 1.25,
-              maxWidth: 66, fontFamily: 'sans-serif',
-            }}>{node.name}</div>
+              marginTop: 4,
+              textAlign: 'center',
+              lineHeight: 1.25,
+              maxWidth: size - 10,
+              fontFamily: 'sans-serif',
+            }}>
+              {node.name}
+            </div>
           </div>
         )
       })}
@@ -231,23 +349,38 @@ function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0],
       {tooltip && (() => {
         const pos = getPos(tooltip.id)
         if (!pos) return null
-        const left = pos.x > width * 0.6 ? pos.x - 210 : pos.x + 50
-        const top  = Math.min(Math.max(pos.y - 44, 8), height - 110)
+        const { left, top } = tooltipStyle(pos)
         return (
           <div style={{
-            position: 'absolute', left, top,
+            position: 'absolute',
+            left,
+            top,
             background: 'rgba(7,6,10,0.96)',
             border: `1px solid ${col}55`,
-            borderRadius: 12, padding: '14px 18px',
-            maxWidth: 210, zIndex: 20,
+            borderRadius: 12,
+            padding: '14px 18px',
+            maxWidth: isMobile ? 180 : 210,
+            zIndex: 20,
             boxShadow: `0 8px 32px rgba(0,0,0,0.7), 0 0 24px ${col}18`,
             backdropFilter: 'blur(16px)',
             pointerEvents: 'none',
           }}>
-            <div style={{ fontSize: '.72rem', fontWeight: 700, color: col, marginBottom: 7, letterSpacing: '.05em', fontFamily: 'sans-serif' }}>
+            <div style={{
+              fontSize: '.72rem',
+              fontWeight: 700,
+              color: col,
+              marginBottom: 7,
+              letterSpacing: '.05em',
+              fontFamily: 'sans-serif',
+            }}>
               {tooltip.icon} {tooltip.name}
             </div>
-            <div style={{ fontSize: '.73rem', color: 'rgba(240,234,214,0.5)', lineHeight: 1.65, fontFamily: 'sans-serif' }}>
+            <div style={{
+              fontSize: '.73rem',
+              color: 'rgba(240,234,214,0.5)',
+              lineHeight: 1.65,
+              fontFamily: 'sans-serif',
+            }}>
               {tooltip.detail}
             </div>
           </div>
@@ -260,30 +393,43 @@ function GraphView({ pipeline, width, height }: { pipeline: typeof PIPELINES[0],
 export default function Pipeline() {
   const [active, setActive] = useState('crocheting')
   const containerRef = useRef<HTMLDivElement>(null)
-  const [dims, setDims] = useState({ w: 760, h: 440 })
+  const [dims,     setDims]     = useState({ w: 760, h: 440 })
+  const [isMobile, setIsMobile] = useState(false)
 
   useEffect(() => {
     const update = () => {
-      if (containerRef.current) {
-        const w = containerRef.current.offsetWidth
-        setDims({ w, h: Math.min(Math.max(Math.round(w * 0.56), 320), 480) })
-      }
+      if (!containerRef.current) return
+      const w        = containerRef.current.offsetWidth
+      const mobile   = w < 540
+      const pipeline = PIPELINES.find(p => p.id === active)!
+      const h        = mobile
+        ? mobileCanvasHeight(pipeline.nodes.length)
+        : Math.min(Math.max(Math.round(w * 0.56), 320), 480)
+      setDims({ w, h })
+      setIsMobile(mobile)
     }
     update()
     window.addEventListener('resize', update)
     return () => window.removeEventListener('resize', update)
-  }, [])
+  }, [active])
 
   const pipeline = PIPELINES.find(p => p.id === active)!
 
   return (
-    <section className="section pipeline" id="pipeline" style={{ position: 'relative', overflow: 'hidden' }}>
+    <section
+      className="section pipeline"
+      id="pipeline"
+      style={{ position: 'relative', overflow: 'hidden' }}
+    >
       <RippleCanvas intensity={0.45} />
       <div style={{ position: 'relative', zIndex: 2 }}>
 
         {/* Header */}
         <div className="reveal" style={{ textAlign: 'center', marginBottom: 52 }}>
-          <div className="s-tag" style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div
+            className="s-tag"
+            style={{ justifyContent: 'center', display: 'flex', alignItems: 'center', gap: 10 }}
+          >
             <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
             How It Works
             <span style={{ width: 20, height: 1, background: 'var(--gold)', display: 'inline-block' }} />
@@ -296,18 +442,26 @@ export default function Pipeline() {
         </div>
 
         {/* Tab switcher */}
-        <div className="reveal" style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}>
+        <div
+          className="reveal"
+          style={{ display: 'flex', justifyContent: 'center', gap: 10, flexWrap: 'wrap', marginBottom: 36 }}
+        >
           {PIPELINES.map(p => (
             <button
               key={p.id}
               onClick={() => setActive(p.id)}
               style={{
-                padding: '9px 22px', borderRadius: 999, border: '1px solid',
+                padding: '9px 22px',
+                borderRadius: 999,
+                border: '1px solid',
                 borderColor: active === p.id ? p.color : 'rgba(255,255,255,0.1)',
-                background: active === p.id ? `${p.color}15` : 'transparent',
-                color: active === p.id ? p.color : 'rgba(240,234,214,0.4)',
-                fontSize: '.8rem', fontWeight: 600, cursor: 'pointer',
-                transition: 'all .25s', fontFamily: 'inherit',
+                background:  active === p.id ? `${p.color}15` : 'transparent',
+                color:       active === p.id ? p.color : 'rgba(240,234,214,0.4)',
+                fontSize: '.8rem',
+                fontWeight: 600,
+                cursor: 'pointer',
+                transition: 'all .25s',
+                fontFamily: 'inherit',
                 boxShadow: active === p.id ? `0 0 18px ${p.color}30` : 'none',
               }}
             >
@@ -316,13 +470,14 @@ export default function Pipeline() {
           ))}
         </div>
 
-        {/* Graph container — centered */}
+        {/* Graph container */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div
             ref={containerRef}
             className="reveal"
             style={{
-              width: '100%', maxWidth: 820,
+              width: '100%',
+              maxWidth: 820,
               background: 'rgba(255,255,255,0.015)',
               border: `1px solid ${pipeline.color}22`,
               borderRadius: 20,
@@ -334,42 +489,67 @@ export default function Pipeline() {
             <div style={{
               padding: '14px 24px',
               borderBottom: `1px solid ${pipeline.color}18`,
-              display: 'flex', alignItems: 'center', gap: 10,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
             }}>
               <div style={{
                 width: 8, height: 8, borderRadius: '50%',
-                background: pipeline.color, boxShadow: `0 0 8px ${pipeline.color}`,
+                background: pipeline.color,
+                boxShadow: `0 0 8px ${pipeline.color}`,
               }} />
               <span style={{
-                fontSize: '.72rem', fontWeight: 700, color: pipeline.color,
-                letterSpacing: '.09em', textTransform: 'uppercase', fontFamily: 'sans-serif',
+                fontSize: '.72rem',
+                fontWeight: 700,
+                color: pipeline.color,
+                letterSpacing: '.09em',
+                textTransform: 'uppercase',
+                fontFamily: 'sans-serif',
               }}>
                 {pipeline.label} Pipeline
               </span>
               <span style={{
-                marginLeft: 'auto', fontSize: '.62rem',
-                color: 'rgba(240,234,214,0.2)', letterSpacing: '.05em', fontFamily: 'sans-serif',
+                marginLeft: 'auto',
+                fontSize: '.62rem',
+                color: 'rgba(240,234,214,0.2)',
+                letterSpacing: '.05em',
+                fontFamily: 'sans-serif',
               }}>
-                drag nodes · click to expand
+                {isMobile ? 'tap nodes · drag to explore' : 'drag nodes · click to expand'}
               </span>
             </div>
 
-            <GraphView pipeline={pipeline} width={dims.w} height={dims.h} />
+            <GraphView
+              pipeline={pipeline}
+              width={dims.w}
+              height={dims.h}
+              isMobile={isMobile}
+            />
           </div>
         </div>
 
         {/* Legend */}
-        <div className="reveal" style={{
-          display: 'flex', justifyContent: 'center',
-          gap: 20, marginTop: 28, flexWrap: 'wrap',
-          maxWidth: 820, margin: '28px auto 0',
-        }}>
+        <div
+          className="reveal"
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            gap: 20,
+            marginTop: 28,
+            flexWrap: 'wrap',
+            maxWidth: 820,
+            margin: '28px auto 0',
+          }}
+        >
           {pipeline.nodes.map(n => (
             <div key={n.id} style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
               <span style={{ fontSize: '.9rem' }}>{n.icon}</span>
               <span style={{
-                fontSize: '.62rem', color: 'rgba(240,234,214,0.3)',
-                fontFamily: 'sans-serif', letterSpacing: '.04em', textTransform: 'uppercase',
+                fontSize: '.62rem',
+                color: 'rgba(240,234,214,0.3)',
+                fontFamily: 'sans-serif',
+                letterSpacing: '.04em',
+                textTransform: 'uppercase',
               }}>
                 {n.name}
               </span>

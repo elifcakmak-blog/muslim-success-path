@@ -105,7 +105,7 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <span>
-          © 2025{' '}
+          © 2024{' '}
           <Link href="/" className="footer-dim-link">Muslim Success Path</Link>
           {' · '}
           <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="footer-dim-link">Effortless Works</a>
