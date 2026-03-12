@@ -91,29 +91,25 @@ function buildDesktopLayout(nodes: typeof PIPELINES[0]['nodes'], w: number, h: n
   })
 }
 
-// Mobile layout: two staggered columns with generous spacing so arrows have room
-const NODE_R    = 36   // edge start/end offset radius
-const NODE_SIZE = 72   // rendered node diameter (keep in sync with size var below)
-const MIN_GAP   = 120  // centre-to-centre vertical gap — enough for arrows to arc clearly
-const COL_INSET = 0.22 // columns at 22% / 78% of width — inset enough for outer arrows
+// Mobile layout: single centred column, nodes flow straight down.
+// Simple pipelines (≤5 nodes) stay single-column.
+// Complex pipelines (6+ nodes) use two columns ONLY when every node has
+// at most one outgoing edge — otherwise single column wins every time.
+const NODE_R    = 36
+const NODE_SIZE = 72
+const ROW_GAP   = 130  // vertical space between node centres
 
 function buildMobileLayout(nodes: typeof PIPELINES[0]['nodes'], w: number) {
-  const cx1 = Math.round(w * COL_INSET)
-  const cx2 = Math.round(w * (1 - COL_INSET))
-  // stagger: left col starts higher, right col half-gap lower
-  const colY = [NODE_SIZE / 2 + 24, NODE_SIZE / 2 + 24 + MIN_GAP * 0.5]
-  return nodes.map((n, i) => {
-    const col = i % 2
-    const x   = col === 0 ? cx1 : cx2
-    const y   = colY[col]
-    colY[col] += MIN_GAP
-    return { ...n, x, y }
-  })
+  const cx = Math.round(w / 2)
+  return nodes.map((n, i) => ({
+    ...n,
+    x: cx,
+    y: NODE_SIZE / 2 + 24 + i * ROW_GAP,
+  }))
 }
 
 function mobileCanvasHeight(nodeCount: number): number {
-  const rowsPerCol = Math.ceil(nodeCount / 2)
-  return rowsPerCol * MIN_GAP + NODE_SIZE + 48
+  return nodeCount * ROW_GAP + NODE_SIZE + 24
 }
 
 type NodePos = ReturnType<typeof buildDesktopLayout>[number]
@@ -223,9 +219,10 @@ function GraphView({
   // Tooltip: on mobile keep it within bounds more aggressively
   const tooltipStyle = (pos: NodePos) => {
     if (isMobile) {
-      // Always render below the node on mobile, centred
-      const left = Math.max(8, Math.min(width - 188, pos.x - 90))
-      const top  = pos.y + 46
+      // Centre tooltip below the node; clamp so it never overflows screen
+      const tipW = 200
+      const left = Math.max(8, Math.min(width - tipW - 8, pos.x - tipW / 2))
+      const top  = pos.y + 40
       return { left, top }
     }
     const left = pos.x > width * 0.6 ? pos.x - 210 : pos.x + 50
@@ -256,23 +253,24 @@ function GraphView({
           if (!pa || !pb) return null
           const dx = pb.x - pa.x, dy = pb.y - pa.y
           const len = Math.sqrt(dx * dx + dy * dy) || 1
-          const r = 40
+          const r = isMobile ? 37 : 40
           const sx = pa.x + (dx / len) * r, sy = pa.y + (dy / len) * r
           const ex = pb.x - (dx / len) * r, ey = pb.y - (dy / len) * r
 
           // Control point for the quadratic bezier
           let mx: number, my: number
           if (isMobile) {
-            const sameCol = Math.abs(pa.x - pb.x) < 40
-            const perp = { x: -dy / len, y: dx / len }
-            // Same-column arrows bow outward to the nearest screen edge
-            // Cross-column arrows get a moderate alternating curve
-            const outward = pa.x < 100 ? -1 : 1  // left col bows left, right col bows right
-            const offset = sameCol
-              ? outward * 56   // big bow so the arc clears both nodes
-              : ((i % 2) === 0 ? 1 : -1) * 38  // cross arrows alternate sides generously
-            mx = (sx + ex) / 2 + perp.x * offset
-            my = (sy + ey) / 2 + perp.y * offset
+            // Single-column layout: all nodes share the same x centre.
+            // Arrows that skip 1+ rows need to bow left or right so they
+            // don't overlap each other or pass through intermediate nodes.
+            // We alternate sides per edge index and scale the bow by how
+            // far apart the two nodes are vertically.
+            const vertDist = Math.abs(pb.y - pa.y)
+            const skipFactor = Math.max(1, vertDist / ROW_GAP - 0.5)
+            const side = (i % 2 === 0 ? 1 : -1)
+            const bowAmount = 52 * skipFactor   // wider bow for longer-range arrows
+            mx = (sx + ex) / 2 + side * bowAmount
+            my = (sy + ey) / 2
           } else {
             mx = (sx + ex) / 2
             my = (sy + ey) / 2 - 18
