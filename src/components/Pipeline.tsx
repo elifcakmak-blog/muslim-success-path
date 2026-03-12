@@ -142,7 +142,8 @@ function GraphView({
 }) {
   // s is the inverse of the CSS scale applied outside — makes everything
   // render at the right visual size regardless of screen width
-  const s = 1 / scale
+  // Partial inverse: compensates for scaling without going full size
+  const s = 1 / Math.sqrt(scale)
   const [positions, setPositions] = useState<NodePos[]>(() => buildDesktopLayout(pipeline.nodes, width, height))
   const [selected, setSelected]   = useState<string | null>(null)
   const [tooltip,  setTooltip]    = useState<NodePos | null>(null)
