@@ -133,18 +133,12 @@ function GraphView({
   pipeline,
   width,
   height,
-  isMobile,
 }: {
   pipeline: typeof PIPELINES[0]
   width: number
   height: number
-  isMobile: boolean
 }) {
-  const [positions, setPositions] = useState<NodePos[]>(() =>
-    isMobile
-      ? buildMobileLayout(pipeline.nodes, width)
-      : buildDesktopLayout(pipeline.nodes, width, height)
-  )
+  const [positions, setPositions] = useState<NodePos[]>(() => buildDesktopLayout(pipeline.nodes, width, height))
   const [selected, setSelected]   = useState<string | null>(null)
   const [tooltip,  setTooltip]    = useState<NodePos | null>(null)
   const dragging  = useRef<{ id: string; ox: number; oy: number } | null>(null)
@@ -152,14 +146,10 @@ function GraphView({
 
   // Recompute layout when pipeline, size or mobile flag changes
   useEffect(() => {
-    setPositions(
-      isMobile
-        ? buildMobileLayout(pipeline.nodes, width)
-        : buildDesktopLayout(pipeline.nodes, width, height)
-    )
+    setPositions(buildDesktopLayout(pipeline.nodes, width, height))
     setSelected(null)
     setTooltip(null)
-  }, [pipeline.id, width, height, isMobile])
+  }, [pipeline.id, width, height])
 
   const getPos = useCallback((id: string) => positions.find(p => p.id === id), [positions])
 
@@ -233,12 +223,6 @@ function GraphView({
 
   // Tooltip: on mobile keep it within bounds more aggressively
   const tooltipStyle = (pos: NodePos) => {
-    if (isMobile) {
-      const tipW = 180
-      const left = Math.max(8, Math.min(width - tipW - 8, pos.x - tipW / 2))
-      const top  = Math.min(pos.y + NODE_R + 6, height - 100)
-      return { left, top }
-    }
     const left = pos.x > width * 0.6 ? pos.x - 210 : pos.x + 50
     const top  = Math.min(Math.max(pos.y - 44, 8), height - 110)
     return { left, top }
@@ -267,23 +251,12 @@ function GraphView({
           if (!pa || !pb) return null
           const dx = pb.x - pa.x, dy = pb.y - pa.y
           const len = Math.sqrt(dx * dx + dy * dy) || 1
-          const r = isMobile ? NODE_R : 40
+          const r = 40
           const sx = pa.x + (dx / len) * r, sy = pa.y + (dy / len) * r
           const ex = pb.x - (dx / len) * r, ey = pb.y - (dy / len) * r
 
-          let mx: number, my: number
-          if (isMobile) {
-            // Bow perpendicular to the line, alternating sides per edge index
-            // Scale bow by distance so long-range arrows arc wider
-            const perp = { x: -dy / len, y: dx / len }
-            const dist = Math.sqrt(dx*dx + dy*dy)
-            const bow  = (i % 2 === 0 ? 1 : -1) * Math.min(44, 24 + dist * 0.08)
-            mx = (sx + ex) / 2 + perp.x * bow
-            my = (sy + ey) / 2 + perp.y * bow
-          } else {
-            mx = (sx + ex) / 2
-            my = (sy + ey) / 2 - 18
-          }
+          const mx = (sx + ex) / 2
+          const my = (sy + ey) / 2 - 18
 
           return (
             <path
@@ -291,7 +264,7 @@ function GraphView({
               d={`M ${sx} ${sy} Q ${mx} ${my} ${ex} ${ey}`}
               fill="none"
               stroke={col + '55'}
-              strokeWidth={isMobile ? '1.4' : '1.5'}
+              strokeWidth='1.5'
               strokeDasharray="4 3"
               markerEnd={`url(#arr-${pipeline.id})`}
             />
@@ -303,7 +276,7 @@ function GraphView({
       {positions.map(node => {
         const isSel = selected === node.id
         // Slightly smaller nodes on mobile so labels fit
-        const size = isMobile ? NODE_SIZE : 80
+        const size = 80
         return (
           <div
             key={node.id}
@@ -334,9 +307,9 @@ function GraphView({
               touchAction: 'none',
             }}
           >
-            <div style={{ fontSize: isMobile ? '1rem' : '1.5rem', lineHeight: 1 }}>{node.icon}</div>
+            <div style={{ fontSize: '1.5rem', lineHeight: 1 }}>{node.icon}</div>
             <div style={{
-              fontSize: isMobile ? '.42rem' : '.5rem',
+              fontSize: '.5rem',
               fontWeight: 700,
               letterSpacing: '.05em',
               textTransform: 'uppercase',
@@ -367,7 +340,7 @@ function GraphView({
             border: `1px solid ${col}55`,
             borderRadius: 12,
             padding: '14px 18px',
-            maxWidth: isMobile ? 180 : 210,
+            maxWidth: 210,
             zIndex: 20,
             boxShadow: `0 8px 32px rgba(0,0,0,0.7), 0 0 24px ${col}18`,
             backdropFilter: 'blur(16px)',
@@ -404,16 +377,17 @@ export default function Pipeline() {
   const [dims,     setDims]     = useState({ w: 760, h: 440 })
   const [isMobile, setIsMobile] = useState(false)
 
+  const DESKTOP_W = 820
+  const DESKTOP_H = 460
+
   useEffect(() => {
     const update = () => {
       if (!containerRef.current) return
-      const w        = containerRef.current.offsetWidth
-      const mobile   = w < 540
-      const pipeline = PIPELINES.find(p => p.id === active)!
-      const h        = mobile
-        ? mobileCanvasHeight(pipeline.nodes.length)
-        : Math.min(Math.max(Math.round(w * 0.56), 320), 480)
-      setDims({ w, h })
+      const w      = containerRef.current.offsetWidth
+      const mobile = w < 540
+      // On mobile we always render at desktop size then CSS-scale down
+      const h = mobile ? DESKTOP_H : Math.min(Math.max(Math.round(w * 0.56), 320), 480)
+      setDims({ w: mobile ? DESKTOP_W : w, h })
       setIsMobile(mobile)
     }
     update()
@@ -527,7 +501,26 @@ export default function Pipeline() {
               </span>
             </div>
 
-            <GraphView pipeline={pipeline} width={dims.w} height={dims.h} isMobile={isMobile} />
+            {isMobile ? (
+              // Render at full desktop size, scale down to fit the actual container
+              <div style={{
+                width: containerRef.current?.offsetWidth ?? dims.w,
+                height: (containerRef.current?.offsetWidth ?? dims.w) / DESKTOP_W * DESKTOP_H,
+                overflow: 'hidden',
+                position: 'relative',
+              }}>
+                <div style={{
+                  transformOrigin: 'top left',
+                  transform: `scale(${(containerRef.current?.offsetWidth ?? dims.w) / DESKTOP_W})`,
+                  width: DESKTOP_W,
+                  height: DESKTOP_H,
+                }}>
+                  <GraphView pipeline={pipeline} width={DESKTOP_W} height={DESKTOP_H} />
+                </div>
+              </div>
+            ) : (
+              <GraphView pipeline={pipeline} width={dims.w} height={dims.h} />
+            )}
           </div>
         </div>
 
