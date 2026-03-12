@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 import { books } from '@/data/siteData'
 
@@ -93,7 +94,7 @@ export default function BooksPage() {
           <p className="nl-sub">Browse the full collection and find the book that meets you on your journey.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">Shop Now →</a>
-            <Link href="/" className="btn-outline">← Back Home</Link>
+            <BackButton className="btn-outline" />
           </div>
         </div>
       </section>

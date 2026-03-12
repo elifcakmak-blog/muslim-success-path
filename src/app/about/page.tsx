@@ -35,7 +35,7 @@ export default function AboutPage() {
             Muslim Success Path is a platform dedicated to Islamic knowledge and resources that empower individuals on their journey of faith and personal development.
           </p>
           <div className="hero-actions">
-            <Link href="/#newsletter" className="btn-gold">Join the Community →</Link>
+            <Link href="/" className="btn-gold">Join the Community →</Link>
             <Link href="/roadmap" className="btn-outline">View Roadmap</Link>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function AboutPage() {
           <h2 className="nl-title">Join the Path</h2>
           <p className="nl-sub">Follow along on social media or subscribe to the newsletter — we'd love to have you in the community.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link href="/#newsletter" className="btn-gold">Subscribe →</Link>
+            <Link href="/" className="btn-gold">Subscribe →</Link>
             <a href="https://www.instagram.com/muslim.success.path" target="_blank" rel="noopener noreferrer" className="btn-outline">Instagram</a>
           </div>
         </div>

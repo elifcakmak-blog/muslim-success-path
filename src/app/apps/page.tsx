@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
@@ -106,7 +107,7 @@ export default function AppsPage() {
           <p className="nl-sub">Subscribe to the newsletter and get notified the moment our apps launch.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <Link href="/#newsletter" className="btn-gold">Join the Newsletter →</Link>
-            <Link href="/" className="btn-outline">← Back Home</Link>
+            <BackButton className="btn-outline" />
           </div>
         </div>
       </section>

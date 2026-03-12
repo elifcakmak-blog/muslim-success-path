@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
@@ -68,7 +69,7 @@ export default function ReturnPolicyPage() {
             <Link href="/disclaimer" className="btn-gold" style={{ padding: "10px 18px", fontSize: ".8rem", whiteSpace: "nowrap" }}>Disclaimer →</Link>
           </div>
           <div className="reveal" style={{ marginTop: 24 }}>
-            <Link href="/" style={{ color: 'var(--text-dim)', fontSize: '.9rem' }}>← Back Home</Link>
+            <BackButton style={{ color: 'var(--text-dim)', fontSize: '.9rem' }} />
           </div>
         </div>
       </section>

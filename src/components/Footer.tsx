@@ -1,5 +1,6 @@
 'use client'
 import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 
 const socials = [
   {
@@ -56,6 +57,23 @@ const socials = [
 ]
 
 export default function Footer() {
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const handleNewsletter = (e: React.MouseEvent) => {
+    e.preventDefault()
+    if (pathname === '/') {
+      // Already on home — just scroll and glow without touching history
+      const el = document.getElementById('newsletter')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+      // Dispatch a custom event that page.tsx listens for
+      window.dispatchEvent(new CustomEvent('highlight-newsletter'))
+    } else {
+      // On another page — navigate home with the highlight param
+      router.push('/?highlight=newsletter')
+    }
+  }
+
   return (
     <footer>
       <div className="footer-grid">
@@ -73,13 +91,14 @@ export default function Footer() {
           </div>
         </div>
 
+        <div className="footer-cols-row">
         <div className="footer-col">
           <h4>Explore</h4>
           <Link href="/crocheting">Crocheting</Link>
           <Link href="/islamic-learning">Islamic Resources</Link>
           <Link href="/organize">Organization</Link>
           <Link href="/roadmap">Roadmap</Link>
-          <Link href="/#newsletter">Newsletter</Link>
+          <a href="#" onClick={handleNewsletter} style={{ cursor: 'pointer' }}>Newsletter</a>
         </div>
 
         <div className="footer-col">
@@ -89,8 +108,6 @@ export default function Footer() {
           <Link href="/courses">Courses</Link>
           <Link href="/podcasts">Podcasts</Link>
           <Link href="/videos">Videos</Link>
-          
-          
         </div>
 
         <div className="footer-col">
@@ -101,7 +118,8 @@ export default function Footer() {
           <a href="https://www.etsy.com/shop/EffortlessWorks" target="_blank" rel="noopener noreferrer">Etsy Shop</a>
           <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer">Luma AI</a>
         </div>
-      </div>
+        </div>{/* end footer-cols-row */}
+      </div>{/* end footer-grid */}
 
       <div className="footer-bottom">
         <span>

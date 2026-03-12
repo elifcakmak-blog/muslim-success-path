@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 import { tools } from '@/data/siteData'
 
@@ -67,7 +68,7 @@ export default function OrganizePage() {
           <p className="nl-sub">Browse the full template library at Effortless Works — built for the intentional Muslim.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <a href="https://www.effortlessworks.store/000013/pt-sheets" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit the Store →</a>
-            <Link href="/" className="btn-outline">← Back Home</Link>
+            <BackButton className="btn-outline" />
           </div>
         </div>
       </section>

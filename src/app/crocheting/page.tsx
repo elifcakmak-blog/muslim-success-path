@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 import { patterns, featuredCrochet as featured } from '@/data/siteData'
 
@@ -92,7 +93,7 @@ export default function CrochetingPage() {
           <p className="nl-sub">Browse the full pattern library and handmade shop — new designs added regularly.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <a href="https://www.etsy.com/shop/EffortlessWorks" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit Etsy Shop →</a>
-            <Link href="/" className="btn-outline">← Back Home</Link>
+            <BackButton className="btn-outline" />
           </div>
         </div>
       </section>

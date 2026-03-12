@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
@@ -99,7 +100,7 @@ export default function VideosPage() {
           <p className="nl-sub">New videos every week across YouTube, TikTok, and Instagram — subscribe and never miss a lesson.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <a href="https://www.youtube.com/@MuslimSuccessPath" target="_blank" rel="noopener noreferrer" className="btn-gold">YouTube Channel →</a>
-            <Link href="/" className="btn-outline">← Back Home</Link>
+            <BackButton className="btn-outline" />
           </div>
         </div>
       </section>

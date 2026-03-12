@@ -1,5 +1,6 @@
 'use client'
 import { useEffect, useRef, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
@@ -35,6 +36,8 @@ export default function Home() {
   const [nlEmail,  setNlEmail]    = useState('')
   const [nlName, setNlName] = useState('')
   const [homeMenuOpen, setHomeMenuOpen] = useState(false)
+  const [nlHighlight, setNlHighlight] = useState(false)
+  const searchParams = useSearchParams()
   const statsRef = useRef<HTMLDivElement>(null)
 
   // Reveal on scroll
@@ -72,7 +75,32 @@ export default function Home() {
   const stat9 = useCountUp(6,                      statsVis)
   const stat10 = useCountUp(newsletterSubs, statsVis)
 
-const handleNewsletter = async () => {
+
+  // Highlight newsletter section if navigated from footer
+  useEffect(() => {
+    if (searchParams.get('highlight') === 'newsletter') {
+      const el = document.getElementById('newsletter')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth' })
+        setTimeout(() => setNlHighlight(true), 600)
+        setTimeout(() => setNlHighlight(false), 3000)
+      }
+      // Clean up the URL without pushing a history entry
+      window.history.replaceState({}, '', '/')
+    }
+  }, [searchParams])
+
+  // Listen for highlight event when already on home page (triggered by Footer)
+  useEffect(() => {
+    const handler = () => {
+      setNlHighlight(true)
+      setTimeout(() => setNlHighlight(false), 3000)
+    }
+    window.addEventListener('highlight-newsletter', handler)
+    return () => window.removeEventListener('highlight-newsletter', handler)
+  }, [])
+
+  const handleNewsletter = async () => {
   if (!nlName.trim()) {
     setNlStatus('noName')
     setTimeout(() => setNlStatus('idle'), 3000)
@@ -104,6 +132,11 @@ const handleNewsletter = async () => {
 }
 
 
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  }
+
+
   return (
     <>
       <FluidCanvas />
@@ -116,11 +149,11 @@ const handleNewsletter = async () => {
           <span style={{ whiteSpace: 'nowrap' }}>Muslim Success Path</span>
         </a>
         <div className="nav-links">
-          <a href="#pillars">Explore</a>
-          <a href="#pipeline">How It Works</a>
-          <a href="#resources">Resources</a>
-          <a href="#about">About</a>
-          <a href="#newsletter" className="nav-cta">Newsletter</a>
+          <a onClick={() => scrollTo('pillars')} style={{cursor:'pointer'}}>Explore</a>
+          <a onClick={() => scrollTo('pipeline')} style={{cursor:'pointer'}}>How It Works</a>
+          <a onClick={() => scrollTo('resources')} style={{cursor:'pointer'}}>Resources</a>
+          <a onClick={() => scrollTo('about')} style={{cursor:'pointer'}}>About</a>
+          <a onClick={() => scrollTo('newsletter')} className="nav-cta" style={{cursor:'pointer'}}>Newsletter</a>
         </div>
         <button
           className="nav-hamburger"
@@ -135,11 +168,11 @@ const handleNewsletter = async () => {
 
       {/* Mobile drawer */}
       <div className={homeMenuOpen ? 'mobile-menu open' : 'mobile-menu'}>
-        <a href="#pillars"    className="mobile-link" onClick={() => setHomeMenuOpen(false)}>Explore</a>
-        <a href="#pipeline"   className="mobile-link" onClick={() => setHomeMenuOpen(false)}>How It Works</a>
-        <a href="#resources"  className="mobile-link" onClick={() => setHomeMenuOpen(false)}>Resources</a>
-        <a href="#about"      className="mobile-link" onClick={() => setHomeMenuOpen(false)}>About</a>
-        <a href="#newsletter" className="mobile-link mobile-cta" onClick={() => setHomeMenuOpen(false)}>Newsletter ✦</a>
+        <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('pillars') }} style={{cursor:'pointer'}}>Explore</a>
+        <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('pipeline') }} style={{cursor:'pointer'}}>How It Works</a>
+        <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('resources') }} style={{cursor:'pointer'}}>Resources</a>
+        <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('about') }} style={{cursor:'pointer'}}>About</a>
+        <a className="mobile-link mobile-cta" onClick={() => { setHomeMenuOpen(false); scrollTo('newsletter') }} style={{cursor:'pointer'}}>Newsletter ✦</a>
       </div>
       {homeMenuOpen && <div className="mobile-backdrop" onClick={() => setHomeMenuOpen(false)} />}
 
@@ -158,8 +191,8 @@ const handleNewsletter = async () => {
             courses, podcasts, and tools for an intentional life, for every Muslim.
           </p>
           <div className="hero-actions">
-            <a href="#pillars" className="btn-gold">Start Exploring →</a>
-            <a href="#resources" className="btn-outline">Browse Resources</a>
+            <a onClick={() => scrollTo('pillars')} className="btn-gold" style={{cursor:'pointer'}}>Start Exploring →</a>
+            <a onClick={() => scrollTo('resources')} className="btn-outline" style={{cursor:'pointer'}}>Browse Resources</a>
           </div>
         </div>
         <div className="hero-visual" style={{ position: 'relative', zIndex: 2 }}>
@@ -213,11 +246,11 @@ const handleNewsletter = async () => {
           { label: 'Apps & Websites',           val: stat6, href: '/apps' },
           { label: 'Courses Created',           val: stat7, href: '/courses' },
           { label: 'Etsy Sales',                val: stat8, href: 'https://www.etsy.com/shop/EffortlessWorks' },
-          { label: 'Newsletter Subscribers', val: stat10, href: '/#newsletter' },
+          { label: 'Newsletter Subscribers', val: stat10, href: undefined, onClick: () => scrollTo('newsletter') },
           { label: 'Years Expertise',           val: stat9, href: '/about' },
           
         ].map(s => (
-          <a href={s.href} key={s.label} className="stat-item" style={{ position: 'relative', zIndex: 2, textDecoration: 'none' }}>
+          <a href={s.href} onClick={(s as any).onClick} key={s.label} className="stat-item" style={{ position: 'relative', zIndex: 2, textDecoration: 'none', cursor: 'pointer' }}>
             <div className="stat-num">{s.val}</div>
             <div className="stat-label">{s.label}</div>
           </a>
@@ -728,7 +761,7 @@ const handleNewsletter = async () => {
       <section className="newsletter" id="newsletter" style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         <div className="nl-glow" />
-        <div className="nl-box reveal" style={{ position: 'relative', zIndex: 2, textAlign: 'center' }}>
+        <div className="nl-box reveal" style={{ position: 'relative', zIndex: 2, textAlign: 'center', transition: 'box-shadow 0.4s ease', boxShadow: nlHighlight ? '0 0 0 2px rgba(245,200,66,0.6), 0 0 80px rgba(245,200,66,0.35)' : 'none', borderRadius: 16 }}>
           <span className="nl-icon">✦</span>
           <h2 className="nl-title">Stay on the Path</h2>
           <p className="nl-sub">
@@ -741,14 +774,14 @@ const handleNewsletter = async () => {
             placeholder="Your name"
             value={nlName}
             onChange={e => { setNlName(e.target.value); setNlStatus('idle') }}
-            style={{ width: '100%', maxWidth: 400, borderColor: nlStatus === 'noName' ? '#F5C842' : undefined }}
+            style={{ width: '100%', maxWidth: 400, borderColor: nlStatus === 'noName' ? '#F5C842' : nlHighlight ? 'rgba(245,200,66,0.5)' : undefined, boxShadow: nlHighlight ? '0 0 12px rgba(245,200,66,0.2)' : undefined }}
           />
           <input
             type="email"
             placeholder="your@email.com"
             value={nlEmail}
             onChange={e => { setNlEmail(e.target.value); setNlStatus('idle') }}
-            style={{ borderColor: nlStatus === 'err' || nlStatus === 'noEmail' ? '#e05555' : undefined, width: '100%', maxWidth: 400 }}
+            style={{ width: '100%', maxWidth: 400, borderColor: nlStatus === 'err' || nlStatus === 'noEmail' ? '#e05555' : nlHighlight ? 'rgba(245,200,66,0.5)' : undefined, boxShadow: nlHighlight ? '0 0 12px rgba(245,200,66,0.2)' : undefined }}
           />
           <button onClick={handleNewsletter}
             style={{ background: nlStatus === 'ok' ? '#2d7a3a' : undefined }}>

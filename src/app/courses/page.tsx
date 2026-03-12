@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
+import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
 
 import { courses } from '@/data/siteData'
@@ -74,7 +75,7 @@ export default function CoursesPage() {
           <p className="nl-sub">Start your learning journey — new courses added regularly. Sign up to be notified first.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
             <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">View Courses →</a>
-            <Link href="/" className="btn-outline">← Back Home</Link>
+            <BackButton className="btn-outline" />
           </div>
         </div>
       </section>
