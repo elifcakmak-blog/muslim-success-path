@@ -241,6 +241,22 @@ export default function Home() {
       <Pipeline />
 
       {/* ── RESOURCES — soft ripple ── */}
+      <style>{`
+        @media (max-width: 639px) {
+          .res-grid {
+            grid-template-columns: repeat(3, 1fr) !important;
+          }
+          .res-card .res-desc {
+            display: none;
+          }
+          .res-card .res-link {
+            display: none;
+          }
+          .res-card {
+            padding: 16px 8px !important;
+          }
+        }
+      `}</style>
       <section className="section resources" id="resources" style={{ position: 'relative', overflow: 'hidden' }}>
         <RippleCanvas intensity={0.45} />
         <div style={{ position: 'relative', zIndex: 2 }}>
