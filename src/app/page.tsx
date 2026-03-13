@@ -233,7 +233,16 @@ export default function Home() {
               </mask>
             </defs>
             <circle cx="95" cy="100" r="62" fill="#C9A34F" mask="url(#crescentMask)" />
-            <g transform="translate(148, 68) scale(0.85)">
+            <g transform="translate(148, 68) scale(0.85)" style={{ transformOrigin: '148px 68px', transformBox: 'fill-box' }}>
+              <animateTransform
+                attributeName="transform"
+                type="rotate"
+                from="0 0 0"
+                to="360 0 0"
+                dur="12s"
+                repeatCount="indefinite"
+                additive="sum"
+              />
               <polygon
                 points="0,-22 5.1,-7 21,-7 8.6,5.3 13.6,21 0,11 -13.6,21 -8.6,5.3 -21,-7 -5.1,-7"
                 fill="#C9A34F"
@@ -303,6 +312,23 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── INLINE NEWSLETTER NUDGE 1 — after pillars ── */}
+      <div className="reveal" style={{ background: 'var(--bg)', borderTop: '1px solid var(--border-dim)', borderBottom: '1px solid var(--border-dim)', padding: '28px 24px', textAlign: 'center' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '.8rem', letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: 14 }}>✦ Stay on the path — get updates on everything we create</p>
+        {nlStatus === 'ok' ? (
+          <p style={{ color: 'var(--teal)', fontSize: '.85rem' }}>Jazakallah Khair 🌙 You&apos;re on the list!</p>
+        ) : (
+          <div className="nl-nudge-form">
+            <input type="text" placeholder="Your name" value={nlName} onChange={e => { setNlName(e.target.value); setNlStatus('idle') }} />
+            <input type="email" placeholder="your@email.com" value={nlEmail} onChange={e => { setNlEmail(e.target.value); setNlStatus('idle') }} />
+            <button onClick={handleNewsletter}>Subscribe ✦</button>
+          </div>
+        )}
+        {nlStatus === 'noName'  && <p style={{ marginTop: 8, fontSize: '.78rem', color: '#F5C842' }}>We&apos;d love to know your name 🌸</p>}
+        {nlStatus === 'noEmail' && <p style={{ marginTop: 8, fontSize: '.78rem', color: '#F5C842' }}>Don&apos;t forget your email 💌</p>}
+        {nlStatus === 'err'     && <p style={{ marginTop: 8, fontSize: '.78rem', color: '#e05555' }}>Something went wrong — please try again.</p>}
+      </div>
+
       {/* ── PIPELINE — soft ripple ── */}
       <Pipeline />
 
@@ -350,9 +376,44 @@ export default function Home() {
                 <div className="res-link">{r.link}</div>
               </Link>
             ))}
+            <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="res-card reveal" style={{ transitionDelay: '0.7s' }}>
+              <span className="res-icon">📔</span>
+              <div className="res-name">Luma AI</div>
+              <div className="res-desc">A personal AI journaling app — write daily, talk through your thoughts, and reflect with an AI that listens</div>
+              <div className="res-link">Start Journaling →</div>
+            </a>
+            <a href="https://www.etsy.com/shop/EffortlessWorks" target="_blank" rel="noopener noreferrer" className="res-card reveal" style={{ transitionDelay: '0.77s' }}>
+              <span className="res-icon">🛍️</span>
+              <div className="res-name">Etsy Shop</div>
+              <div className="res-desc">Handmade crochet pieces, patterns, and Islamic accessories</div>
+              <div className="res-link">Shop Now →</div>
+            </a>
+            <a href="/#effortless-quest" className="res-card reveal" style={{ transitionDelay: '0.84s' }}>
+              <span className="res-icon">🏆</span>
+              <div className="res-name">Community</div>
+              <div className="res-desc">A gamified platform for growth, connection, and real-life challenges</div>
+              <div className="res-link">Coming Soon →</div>
+            </a>
           </div>
         </div>
       </section>
+
+      {/* ── INLINE NEWSLETTER NUDGE 2 — after resources ── */}
+      <div className="reveal" style={{ background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)', borderBottom: '1px solid var(--border-dim)', padding: '28px 24px', textAlign: 'center' }}>
+        <p style={{ color: 'var(--text-muted)', fontSize: '.8rem', letterSpacing: '.06em', textTransform: 'uppercase', marginBottom: 14 }}>✦ Get notified when new resources drop</p>
+        {nlStatus === 'ok' ? (
+          <p style={{ color: 'var(--teal)', fontSize: '.85rem' }}>Jazakallah Khair 🌙 You&apos;re on the list!</p>
+        ) : (
+          <div className="nl-nudge-form">
+            <input type="text" placeholder="Your name" value={nlName} onChange={e => { setNlName(e.target.value); setNlStatus('idle') }} />
+            <input type="email" placeholder="your@email.com" value={nlEmail} onChange={e => { setNlEmail(e.target.value); setNlStatus('idle') }} />
+            <button onClick={handleNewsletter}>Subscribe ✦</button>
+          </div>
+        )}
+        {nlStatus === 'noName'  && <p style={{ marginTop: 8, fontSize: '.78rem', color: '#F5C842' }}>We&apos;d love to know your name 🌸</p>}
+        {nlStatus === 'noEmail' && <p style={{ marginTop: 8, fontSize: '.78rem', color: '#F5C842' }}>Don&apos;t forget your email 💌</p>}
+        {nlStatus === 'err'     && <p style={{ marginTop: 8, fontSize: '.78rem', color: '#e05555' }}>Something went wrong — please try again.</p>}
+      </div>
 
       {/* ── EFFORTLESS WORKS ── */}
       <section id="effortless-works" style={{

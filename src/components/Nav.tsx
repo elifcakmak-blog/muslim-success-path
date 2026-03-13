@@ -23,7 +23,22 @@ export default function Nav() {
     <>
       <nav className={scrolled ? 'nav scrolled' : 'nav'}>
         <Link href="/" className="nav-logo" onClick={closeMenu}>
-          <span className="star">✦</span>
+          <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+            {/* Crescent moon */}
+            <svg width="18" height="18" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+              <defs>
+                <mask id="navCrescentMask">
+                  <circle cx="18" cy="20" r="13" fill="white" />
+                  <circle cx="25" cy="16" r="10.5" fill="black" />
+                </mask>
+              </defs>
+              <circle cx="18" cy="20" r="13" fill="#F5C842" mask="url(#navCrescentMask)" />
+            </svg>
+            {/* Spinning star */}
+            <svg width="10" height="10" viewBox="0 0 22 22" xmlns="http://www.w3.org/2000/svg" style={{ animation: 'spinStar 12s linear infinite', flexShrink: 0 }}>
+              <polygon points="11,0 13.1,7.5 20.5,7.5 14.7,12.1 16.8,19.6 11,15 5.2,19.6 7.3,12.1 1.5,7.5 8.9,7.5" fill="#F5C842" />
+            </svg>
+          </span>
           <span style={{ whiteSpace: 'nowrap' }}>Muslim Success Path</span>
         </Link>
 
