@@ -5,6 +5,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 import { patterns, featuredCrochet as featured } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
@@ -95,6 +96,7 @@ export default function CrochetingPage() {
             <a href="https://www.etsy.com/shop/EffortlessWorks" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit Etsy Shop →</a>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="crocheting" title="Crocheting" sub="Get notified about new patterns and handmade pieces." icon="🧶" />
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -106,9 +107,9 @@ export default function AppsPage() {
           <h2 className="nl-title">Be First to Know</h2>
           <p className="nl-sub">Subscribe to the newsletter and get notified the moment our apps launch.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link href="/#newsletter" className="btn-gold">Join the Newsletter →</Link>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="apps" title="Apps" sub="Be the first to know when our apps launch." icon="📱" />
         </div>
       </section>
 

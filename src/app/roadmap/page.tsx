@@ -6,6 +6,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -558,9 +559,9 @@ export default function RoadmapPage() {
           <h2 className="nl-title">Stay in the Loop</h2>
           <p className="nl-sub">Subscribe to get notified when new products, courses, apps, and Quest features go live.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link href="/#newsletter" className="btn-gold">Join Newsletter →</Link>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="roadmap" title="Roadmap" sub="Get notified when new milestones are reached." icon="🗺️" />
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -102,6 +103,7 @@ export default function VideosPage() {
             <a href="https://www.youtube.com/@MuslimSuccessPath" target="_blank" rel="noopener noreferrer" className="btn-gold">YouTube Channel →</a>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="videos" title="Videos" sub="Get notified when new videos are published." icon="▶️" />
         </div>
       </section>
 

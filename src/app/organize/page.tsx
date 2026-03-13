@@ -5,6 +5,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 import { tools } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
@@ -70,6 +71,7 @@ export default function OrganizePage() {
             <a href="https://www.effortlessworks.store/000013/pt-sheets" target="_blank" rel="noopener noreferrer" className="btn-gold">Visit the Store →</a>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="organize" title="Organize" sub="Get notified about new templates and tools." icon="🗂️" />
         </div>
       </section>
 

@@ -5,6 +5,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 import { books } from '@/data/siteData'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
@@ -96,6 +97,7 @@ export default function BooksPage() {
             <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">Shop Now →</a>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="books" title="Books" sub="Get notified when new books are released." icon="📚" />
         </div>
       </section>
 
