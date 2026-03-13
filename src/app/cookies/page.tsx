@@ -16,27 +16,27 @@ const sections = [
   },
   {
     title: 'How We Use Cookies',
-    content: 'Muslim Success Path uses cookies to improve your browsing experience, analyze site traffic, and understand which content resonates most with our community. We do not use cookies to collect personal information or serve targeted advertising.',
+    content: 'Muslim Success Path does not directly implement any cookies on this website. We have not coded or installed any cookie-based tracking, analytics, or advertising tools on our end. Any cookies you may encounter while browsing our website come solely from third-party platforms that we link to or embed content from.',
   },
   {
     title: 'Types of Cookies We Use',
-    content: 'We use essential cookies that are necessary for the website to function properly, and analytics cookies that help us understand how visitors navigate our site. Analytics data is aggregated and anonymized.',
+    content: 'We do not set any first-party cookies on this website. We have not implemented essential, analytics, or marketing cookies on our end. This is currently the only cookie setup we have in place. If this changes in the future, this policy will be updated accordingly.',
   },
   {
     title: 'Third-Party Cookies',
-    content: 'Some features on our site — such as embedded YouTube videos or links to Etsy and Effortless Works — may place their own cookies on your device. These are governed by the respective third-party privacy policies.',
+    content: 'Our website contains links and embedded content from third-party platforms including YouTube, GitHub, Amazon Kindle, Amazon Music, Spotify, Apple Podcasts, Apple App Store, Google Play Store, Audible, X (formerly Twitter), LinkedIn, Etsy, Fiverr, TikTok, and Instagram. These platforms may set their own cookies on your device when you interact with or navigate to their content. These cookies are entirely governed by each platform own cookie and privacy policies, and we have no control over them. We encourage you to review the cookie policies of any third-party platforms you visit through our website.',
   },
   {
     title: 'Managing Cookies',
-    content: 'You can control and delete cookies through your browser settings at any time. Disabling cookies may affect some functionality of the website, but core content will remain accessible.',
+    content: 'Since we do not set any cookies ourselves, there is nothing on our end for you to manage. However if you wish to control cookies set by third-party platforms, you can do so through your browser settings at any time. Disabling third-party cookies may affect how some embedded content displays on our website, but all core content will remain fully accessible.',
   },
   {
     title: 'Changes to This Policy',
-    content: 'We may update this Cookie Policy from time to time. Any changes will be reflected on this page with an updated date.',
+    content: 'We may update this Cookie Policy if our setup changes in the future. Any updates will be reflected on this page with a revised date so you are always informed.',
   },
   {
     title: 'Contact Us',
-    content: 'If you have questions about our use of cookies, please reach out through our social media channels or the contact information on our website.',
+    content: 'If you have any questions about cookies on our website, please reach out to us through our social media channels or the contact information provided on our website.',
   },
 ]
 

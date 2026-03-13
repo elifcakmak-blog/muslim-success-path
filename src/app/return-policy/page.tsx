@@ -12,27 +12,31 @@ const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: fal
 const sections = [
   {
     title: 'Digital Products',
-    content: 'Due to the instant and permanent nature of digital downloads, all sales of digital products — including templates, guides, and printables — are final. We do not offer refunds once a digital product has been accessed or downloaded.',
+    content: 'We put genuine care and effort into every digital product we create. All sales are final once a product has been purchased. Because digital products are delivered instantly and access is granted at the time of purchase, we are unable to offer refunds regardless of whether the download link has been clicked or the file has been opened. We encourage you to read the product description carefully before purchasing so you feel confident in your decision. If you are ever unsure whether a product is right for you, please reach out before buying — we are happy to help.',
   },
   {
     title: 'Technical Issues',
-    content: 'If you experience a technical issue with a digital product (such as a corrupted file or a broken download link), please contact us immediately. We will do our best to resolve the issue and ensure you receive access to the product you purchased.',
+    content: 'If you experience a technical issue with any of our digital products — such as a corrupted file or a broken download link — please contact us straight away. We will do everything we can to resolve it quickly and make sure you receive full access to what you purchased. Your satisfaction genuinely matters to us.',
   },
   {
     title: 'Etsy Orders',
-    content: 'Physical and digital products sold through our Etsy shop (Effortless Works) are subject to Etsy\'s own return and refund policies. Please review the individual listing details and Etsy\'s policies before making a purchase.',
+    content: 'Products sold through our Etsy shop are also subject to Etsy own return and refund policies. We encourage you to review the individual listing details and Etsy policies before making a purchase. If you have any questions about an order, you are always welcome to reach out to us directly as well.',
+  },
+  {
+    title: 'Fiverr Orders',
+    content: 'Services offered through our Fiverr profile are subject to Fiverr own terms of service and resolution policies. We take pride in delivering high quality work and will always communicate openly with you throughout the process. If you have any concerns about a Fiverr order, please reach out to us directly and we will do our best to address them alongside Fiverr own processes.',
   },
   {
     title: 'Exceptions',
-    content: 'In exceptional circumstances — such as a product being materially different from its description — we will review return requests on a case-by-case basis. Please reach out to us within 7 days of purchase to discuss your situation.',
+    content: 'We understand that sometimes things do not go as expected. If a product is materially different from its description, we will always review the situation with fairness and care. Please reach out to us within 7 days of purchase and we will do our best to find a resolution that feels right. We never want you to feel unheard or unsupported.',
   },
   {
     title: 'Subscriptions & Newsletter',
-    content: 'Our newsletter is free to subscribe to and free to unsubscribe from at any time. There are no paid subscription products at this time, but this policy will be updated if that changes.',
+    content: 'Our newsletter is completely free to subscribe to and just as easy to leave — you can unsubscribe at any time with no questions asked. There are no paid subscriptions at this time, but if that ever changes, this policy will be updated so you are always informed.',
   },
   {
     title: 'How to Contact Us',
-    content: 'To request support with a purchase or report a technical issue, please reach out through our social media channels or the contact information on our website. We aim to respond within 2–3 business days.',
+    content: 'If you need support with a purchase, have a question, or want to report a technical issue, please do not hesitate to reach out through our social media channels or the contact information provided on our website. We aim to respond within 1 to 3 business days and we genuinely look forward to helping you.',
   },
 ]
 

@@ -12,31 +12,31 @@ const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: fal
 const sections = [
   {
     title: 'Educational Purpose Only',
-    content: 'All content on Muslim Success Path — including Islamic resources, lifestyle guidance, productivity tips, and crochet patterns — is provided for educational and inspirational purposes only. It is not intended as professional, legal, financial, or medical advice.',
+    content: 'Everything shared on Muslim Success Path — including Islamic resources, lifestyle guidance, productivity tips, and crochet patterns — comes from a genuine desire to educate, inspire, and support our community. While we pour care into everything we create, our content is not a substitute for professional, legal, financial, or medical advice. We always encourage you to seek qualified professionals for matters specific to your situation.',
   },
   {
     title: 'Islamic Knowledge Disclaimer',
-    content: 'The Islamic content shared on this platform is based on general knowledge and is meant to inspire and educate. It does not constitute formal religious rulings (fatwa). For specific religious guidance relevant to your personal situation, please consult a qualified Islamic scholar.',
+    content: 'The Islamic content on this platform is shared with sincerity and a deep respect for the deen. It is rooted in general Islamic knowledge and is intended to inspire and educate. It does not constitute a formal religious ruling (fatwa). For guidance specific to your personal circumstances, we lovingly encourage you to consult a qualified Islamic scholar. We are a community of learners, not a source of religious authority.',
   },
   {
-    title: 'No Guarantees',
-    content: 'We do our best to ensure all information on this site is accurate and up to date. However, we make no representations or warranties of any kind, express or implied, about the completeness, accuracy, or suitability of the information provided.',
+    title: 'Our Commitment to Accuracy',
+    content: 'We are committed to providing content that is thoughtful, accurate, and beneficial. We regularly review and update our resources to ensure they remain relevant and reliable. If you ever come across something that seems outdated or incorrect, please do not hesitate to reach out — we genuinely appreciate it and will address it promptly.',
   },
   {
     title: 'External Links',
-    content: 'Our website includes links to external sites including Effortless Works, Effortless Quest, Etsy, YouTube, and social media platforms. We are not responsible for the content or practices of those external websites.',
+    content: 'Our website includes links to third-party platforms such as Etsy, Fiverr, YouTube, and various social media channels. While we only link to platforms we actively use and trust for our own work, we do not control their content or practices. We encourage you to review their individual policies so you can make informed decisions.',
   },
   {
-    title: 'Affiliate & Product Links',
-    content: 'Some links on this site may be affiliate links, meaning we may earn a small commission if you make a purchase through them — at no extra cost to you. We only recommend products and resources we genuinely believe in.',
+    title: 'Affiliate Links',
+    content: 'Muslim Success Path does not use affiliate links. Every resource, platform, or product we mention is shared purely because we believe it adds value to our community — never for financial gain. Our recommendations are always honest and independent.',
   },
   {
     title: 'Limitation of Liability',
-    content: 'Muslim Success Path and Effortless Works shall not be liable for any direct, indirect, incidental, or consequential damages arising from your use of this website or reliance on any content provided here.',
+    content: 'We put our heart into everything we share on Muslim Success Path. However, we ask that you use your own judgment when applying any advice, resources, or information from this website to your personal or professional life. Muslim Success Path and Effortless Works cannot be held liable for outcomes resulting from the use of our content. We are here to support and inspire you, and we trust you to make the best decisions for yourself.',
   },
   {
     title: 'Contact Us',
-    content: 'If you have questions about this disclaimer, please reach out through our social media channels or the contact information on our website.',
+    content: 'If you ever have questions, concerns, or feedback about anything on this website, we genuinely want to hear from you. Please reach out through our social media channels or the contact information provided on our website. Your voice matters to us.',
   },
 ]
 

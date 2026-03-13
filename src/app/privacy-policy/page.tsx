@@ -12,31 +12,31 @@ const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: fal
 const sections = [
   {
     title: 'Information We Collect',
-    content: 'We collect information you provide directly to us, such as your email address when you subscribe to our newsletter. We may also collect basic usage data through analytics tools to understand how our site is used.',
+    content: 'When you subscribe to our newsletter, you provide us with your name and email address. We also note the page from which you subscribed so we can personalize your experience — for example, if you subscribed on our crochet page, you will receive crochet-focused content along with highlights from other areas of our website. This is currently the only information we collect. If anything changes, we will update this policy and let you know.',
   },
   {
     title: 'How We Use Your Information',
-    content: 'We use your email address solely to send you our newsletter and updates about new resources, products, and content. We do not sell, rent, or share your personal information with third parties for marketing purposes.',
+    content: 'Your name and email are used solely to send you our newsletter and updates about new resources, products, and content that we genuinely believe will benefit you. We do not sell, rent, or share your personal information with anyone — and we never intend to. Your information exists in our care for one reason only: to serve you better.',
   },
   {
     title: 'Cookies',
-    content: 'Our website may use cookies to improve your browsing experience. These are small files stored on your device that help us understand site usage. You can disable cookies in your browser settings at any time, or read our full Cookie Policy for more details.',
+    content: 'We do not set any cookies on this website ourselves. We have not implemented any cookie-based tracking, analytics, or marketing tools on our end. However, our website contains links to third-party platforms such as Etsy, Fiverr, YouTube, and social media channels which may set their own cookies on your device when you interact with them. Any cookies you encounter are governed by those platforms own policies. We encourage you to review their cookie policies so you feel fully informed.',
   },
   {
     title: 'Third-Party Services',
-    content: 'We use trusted third-party services including Etsy (for product sales), YouTube (for video content), Effortless Works, Effortless Quest, and newsletter platforms. These services have their own privacy policies which govern their use of your information.',
+    content: 'Our website links to third-party platforms including YouTube, GitHub, Amazon Kindle, Amazon Music, Spotify, Apple Podcasts, Apple App Store, Google Play Store, Audible, X (formerly Twitter), LinkedIn, Etsy, Fiverr, TikTok, and Instagram. These platforms operate independently with their own privacy policies. While we actively use and are present on these platforms, we do not control how they handle your data and encourage you to review their privacy policies before engaging with them.',
   },
   {
     title: 'Data Security',
-    content: 'We take reasonable measures to protect your information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.',
+    content: 'We take the security of your information seriously. Your name and email address are stored securely through Close CRM, a trusted and reputable customer relationship management platform with strong security standards. We carefully chose Close CRM to ensure your data is handled with care and professionalism. While no method of transmission over the internet can be guaranteed as 100% secure, please know that we have taken deliberate steps to work with reliable systems to protect your information. If you would like your data removed at any time, simply reach out to us and we will delete your information promptly and without question. Your trust means everything to us.',
   },
   {
     title: 'Your Rights',
-    content: 'You have the right to unsubscribe from our newsletter at any time using the link in any email we send. You may also contact us to request access to, correction of, or deletion of your personal data.',
+    content: 'You are always in control of your information. You can unsubscribe from our newsletter at any time using the link in any email we send. You can also reach out to us at any time to access, correct, or permanently delete your personal data — no questions asked. We believe your data belongs to you and we will always honor that.',
   },
   {
     title: 'Contact Us',
-    content: 'If you have questions about this Privacy Policy, please reach out to us through our social media channels or the contact information on our website.',
+    content: 'If you ever have questions or concerns about this Privacy Policy or how your information is handled, please do not hesitate to reach out. We are happy to help and always open to feedback. You can contact us through our social media channels or the contact information provided on our website.',
   },
 ]
 
