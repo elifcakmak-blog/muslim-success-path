@@ -153,7 +153,19 @@ export default function Home() {
       {/* ── NAV ── */}
       <nav className={scrolled ? 'nav scrolled' : 'nav'}>
         <a href="#" className="nav-logo">
-          <span className="star">✦</span>
+          <svg width="58" height="48" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+            <defs>
+              <mask id="homeCrescentMask">
+                <circle cx="75" cy="80" r="62" fill="white" />
+                <circle cx="98" cy="68" r="50" fill="black" />
+              </mask>
+            </defs>
+            <circle cx="75" cy="80" r="62" fill="#F5C842" mask="url(#homeCrescentMask)" />
+            <g transform="translate(148, 52)">
+              <animateTransform attributeName="transform" additive="sum" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+              <text x="0" y="0" textAnchor="middle" dominantBaseline="central" fontSize="72" fill="#F5C842" fontFamily="serif">✦</text>
+            </g>
+          </svg>
           <span style={{ whiteSpace: 'nowrap' }}>Muslim Success Path</span>
         </a>
         <div className="nav-links">
@@ -233,20 +245,9 @@ export default function Home() {
               </mask>
             </defs>
             <circle cx="95" cy="100" r="62" fill="#C9A34F" mask="url(#crescentMask)" />
-            <g transform="translate(148, 68) scale(0.85)" style={{ transformOrigin: '148px 68px', transformBox: 'fill-box' }}>
-              <animateTransform
-                attributeName="transform"
-                type="rotate"
-                from="0 0 0"
-                to="360 0 0"
-                dur="12s"
-                repeatCount="indefinite"
-                additive="sum"
-              />
-              <polygon
-                points="0,-22 5.1,-7 21,-7 8.6,5.3 13.6,21 0,11 -13.6,21 -8.6,5.3 -21,-7 -5.1,-7"
-                fill="#C9A34F"
-              />
+            <g transform="translate(148, 68)">
+              <animateTransform attributeName="transform" additive="sum" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+              <text x="0" y="0" textAnchor="middle" dominantBaseline="central" fontSize="72" fill="#C9A34F" fontFamily="serif">✦</text>
             </g>
           </svg>
         </div>

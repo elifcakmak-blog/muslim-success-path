@@ -78,8 +78,21 @@ export default function Footer() {
     <footer>
       <div className="footer-grid">
         <div className="footer-brand">
-          <Link href="/" className="nav-logo" style={{ display: 'inline-flex' }}>
-            <span className="star">✦</span> Muslim Success Path
+          <Link href="/" className="nav-logo" style={{ display: 'inline-flex', alignItems: 'center' }}>
+            <svg width="58" height="48" viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" style={{ flexShrink: 0 }}>
+              <defs>
+                <mask id="footerCrescentMask">
+                  <circle cx="75" cy="80" r="62" fill="white" />
+                  <circle cx="98" cy="68" r="50" fill="black" />
+                </mask>
+              </defs>
+              <circle cx="75" cy="80" r="62" fill="#F5C842" mask="url(#footerCrescentMask)" />
+              <g transform="translate(148, 52)">
+                <animateTransform attributeName="transform" additive="sum" type="rotate" from="0 0 0" to="360 0 0" dur="12s" repeatCount="indefinite" />
+                <text x="0" y="0" textAnchor="middle" dominantBaseline="central" fontSize="72" fill="#F5C842" fontFamily="serif">✦</text>
+              </g>
+            </svg>
+            Muslim Success Path
           </Link>
           <p>Faith-centered resources for learning, creating, and living with intention — every step of the way.</p>
           <div className="socials" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>

@@ -15,7 +15,7 @@ const values = [
   { icon: '🤲', title: 'Faith First',        desc: 'Every resource, product, and piece of content is created with taqwa at the centre — to please Allah and benefit the ummah.' },
   { icon: '💛', title: 'Accessibility',       desc: 'Islamic knowledge and tools should be available to every Muslim, regardless of background, location, or experience level.' },
   { icon: '🌱', title: 'Intentional Growth',  desc: 'We believe in growing both in deen and dunya — and that the two are not in conflict when approached with the right intention.' },
-  { icon: '✦',  title: 'Quality Over Quantity', desc: 'Every book, pattern, template, and course is crafted carefully — not rushed, not generic, but made with care and reflection.' },
+  { icon: '⭐', title: 'Quality Over Quantity', desc: 'Every book, pattern, template, and course is crafted carefully — not rushed, not generic, but made with care and reflection.' },
 ]
 
 const socials: { label: string; handle: string; href: string | null; icon: React.ReactNode }[] = [
@@ -167,7 +167,7 @@ const products: { icon: string; name: string; desc: string; href: string; tag: s
   { icon: '🛍️', name: 'Etsy Shop',           desc: 'Handmade Islamic clothing, crochet pieces, bags, accessories & productivity products', href: 'https://www.etsy.com/shop/EffortlessWorks', tag: 'BOTH', external: true,
     dualLinks: [
       { label: 'Effortless Works', href: 'https://www.etsy.com/shop/EffortlessWorks', comingSoon: false },
-      { label: 'Muslim Success Path', href: null, comingSoon: true },
+      { label: 'Muslim Success Path', href: 'https://www.etsy.com/shop/MuslimSuccessPath', comingSoon: false },
     ]
   },
   { icon: '✦', name: 'Luma AI Journal',      desc: 'Private AI journaling companion — local, personal, daily reflection',               href: 'https://www.effortless.quest/#luma', tag: 'LUMA', external: true },
@@ -232,8 +232,8 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* ── THREE BRANDS ── */}
-      <section className="section" id="brands" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)' }}>
+      {/* ── FOUR BRANDS ── */}
+      <section className="section" id="brands" style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg2)', borderTop: '1px solid var(--border-dim)', maxWidth: '100%', padding: 'clamp(64px, 10vw, 120px) clamp(24px, 4vw, 60px)' }}>
         <RippleCanvas intensity={0.45} />
         <div style={{ position: 'relative', zIndex: 2 }}>
           <div className="reveal" style={{ textAlign: 'center', marginBottom: 52 }}>
@@ -242,7 +242,8 @@ export default function AboutPage() {
             <p className="s-sub">Each platform serves a distinct purpose — together they form a complete ecosystem for the intentional Muslim.</p>
           </div>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24, maxWidth: 1100, margin: '0 auto' }}>
+          <style>{`.brand-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; } @media (max-width: 1100px) { .brand-grid { grid-template-columns: repeat(2, 1fr) !important; } } @media (max-width: 600px) { .brand-grid { grid-template-columns: 1fr !important; } }`}</style>
+          <div className="brand-grid" style={{ maxWidth: 1400, margin: '0 auto', gap: 24 }}>
 
             {/* MSP */}
             <div className="reveal brand-card" style={{ background: 'rgba(245,200,66,0.04)', border: '1px solid rgba(245,200,66,0.18)', borderRadius: 16, padding: 32, display: 'flex', flexDirection: 'column' }}>
@@ -250,7 +251,7 @@ export default function AboutPage() {
                 <Image src="/msp-logo.png" alt="Muslim Success Path" width={52} height={52} style={{ objectFit: 'contain' }} />
               </div>
               <div style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#F5C842', marginBottom: 8 }}>Muslim Success Path</div>
-              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text)', marginBottom: 12, lineHeight: 1.3 }}>Content & Community</h3>
+              <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text)', marginBottom: 12, lineHeight: 1.3 }}>Islam Growth & Crocheting Fun</h3>
               <p style={{ color: 'var(--text-dim)', fontSize: '.88rem', lineHeight: 1.7, marginBottom: 20, flex: 1 }}>
                 The main hub — Islamic learning resources, crochet patterns, podcasts, videos, books, and courses. Everything faith-driven and intentionally made for the Muslim lifestyle.
               </p>
@@ -259,7 +260,7 @@ export default function AboutPage() {
                   <span key={t} className="ptag">{t}</span>
                 ))}
               </div>
-              <a href="https://www.muslimsuccesspath.com" className="btn-gold" style={{ fontSize: '.8rem', padding: '9px 18px', alignSelf: 'flex-start' }}>muslimsuccesspath.com →</a>
+              <a href="https://www.muslimsuccesspath.com" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 18px', borderColor: '#F5C842', color: '#F5C842', alignSelf: 'flex-start', marginTop: 'auto' }}>muslimsuccesspath.com →</a>
               <a href="https://www.linkedin.com/company/muslim-success-path" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'flex-start', background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.2)', borderRadius: 8, padding: '7px 14px', color: '#F5C842', fontSize: '.75rem', fontWeight: 600, textDecoration: 'none' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="#F5C842"><rect x="2" y="2" width="20" height="20" rx="3"/><rect x="6" y="10" width="2.5" height="8" fill="black"/><circle cx="7.25" cy="7.25" r="1.5" fill="black"/><path d="M12 10h2.5v1.5s.5-1.5 2.5-1.5 3 1 3 3.5V18h-2.5v-4c0-1-.5-2-1.5-2s-1.5 1-1.5 2v4H12V10z" fill="black"/></svg>
                 LinkedIn
@@ -285,7 +286,7 @@ export default function AboutPage() {
                   <span key={t} className="ptag" style={{ borderColor: 'rgba(56,189,248,0.3)', color: '#38BDF8' }}>{t}</span>
                 ))}
               </div>
-              <a href="https://www.effortlessworks.store" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 18px', borderColor: '#38BDF8', color: '#38BDF8', alignSelf: 'flex-start' }}>effortlessworks.store →</a>
+              <a href="https://www.effortlessworks.store" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 18px', borderColor: '#38BDF8', color: '#38BDF8', alignSelf: 'flex-start', marginTop: 'auto' }}>effortlessworks.store →</a>
               <a href="https://www.linkedin.com/company/effortless-works-msp" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'flex-start', background: 'rgba(56,189,248,0.08)', border: '1px solid rgba(56,189,248,0.2)', borderRadius: 8, padding: '7px 14px', color: '#38BDF8', fontSize: '.75rem', fontWeight: 600, textDecoration: 'none' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="#38BDF8"><rect x="2" y="2" width="20" height="20" rx="3"/><rect x="6" y="10" width="2.5" height="8" fill="black"/><circle cx="7.25" cy="7.25" r="1.5" fill="black"/><path d="M12 10h2.5v1.5s.5-1.5 2.5-1.5 3 1 3 3.5V18h-2.5v-4c0-1-.5-2-1.5-2s-1.5 1-1.5 2v4H12V10z" fill="black"/></svg>
                 LinkedIn
@@ -311,7 +312,7 @@ export default function AboutPage() {
                   <span key={t} className="ptag" style={{ borderColor: 'rgba(167,139,250,0.3)', color: '#A78BFA' }}>{t}</span>
                 ))}
               </div>
-              <a href="https://www.effortless.quest" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 18px', borderColor: '#A78BFA', color: '#A78BFA', alignSelf: 'flex-start' }}>effortless.quest →</a>
+              <a href="https://www.effortless.quest" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 18px', borderColor: '#A78BFA', color: '#A78BFA', alignSelf: 'flex-start', marginTop: 'auto' }}>effortless.quest →</a>
               <a href="https://www.linkedin.com/company/effortless-quest-msp" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginTop: 10, alignSelf: 'flex-start', background: 'rgba(167,139,250,0.08)', border: '1px solid rgba(167,139,250,0.2)', borderRadius: 8, padding: '7px 14px', color: '#A78BFA', fontSize: '.75rem', fontWeight: 600, textDecoration: 'none' }}>
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="#A78BFA"><rect x="2" y="2" width="20" height="20" rx="3"/><rect x="6" y="10" width="2.5" height="8" fill="black"/><circle cx="7.25" cy="7.25" r="1.5" fill="black"/><path d="M12 10h2.5v1.5s.5-1.5 2.5-1.5 3 1 3 3.5V18h-2.5v-4c0-1-.5-2-1.5-2s-1.5 1-1.5 2v4H12V10z" fill="black"/></svg>
                 LinkedIn
@@ -325,9 +326,7 @@ export default function AboutPage() {
             {/* Luma AI */}
             <div className="reveal brand-card" style={{ background: 'rgba(245,200,66,0.03)', border: '1px solid rgba(245,200,66,0.15)', borderRadius: 16, padding: 32, display: 'flex', flexDirection: 'column' }}>
               <div style={{ width: 52, height: 52, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <svg width="46" height="46" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" style={{ animation: 'spinStar 12s linear infinite' }}>
-                  <polygon points="23,2 27.5,16 42,16 30.5,24.5 35,38.5 23,30 11,38.5 15.5,24.5 4,16 18.5,16" fill="#F5C842" />
-                </svg>
+                <span className="star" style={{ fontSize: '2.4rem', color: '#F5C842' }}>✦</span>
               </div>
               <div style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#F5C842', marginBottom: 8 }}>Luma AI</div>
               <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text)', marginBottom: 12, lineHeight: 1.3 }}>AI Journaling</h3>
@@ -339,7 +338,9 @@ export default function AboutPage() {
                   <span key={t} className="ptag">{t}</span>
                 ))}
               </div>
-              <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="btn-gold" style={{ fontSize: '.8rem', padding: '9px 18px', alignSelf: 'flex-start' }}>luma.effortless.quest →</a>
+              <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 18px', borderColor: '#F5C842', color: '#F5C842', alignSelf: 'flex-start', marginTop: 'auto' }}>luma.effortless.quest →</a>
+              <div style={{ marginTop: 10, height: 31 }} />
+              <div style={{ marginTop: 10, height: 31 }} />
             </div>
 
           </div>
@@ -479,7 +480,7 @@ export default function AboutPage() {
               <h3 style={{ fontSize: '2rem', fontWeight: 800, color: 'var(--text)', marginBottom: 4, lineHeight: 1.2 }}>Elif Çakmak</h3>
               <p style={{ color: 'var(--text-muted)', fontSize: '.8rem', marginBottom: 20, letterSpacing: '.04em' }}>Building faith-driven tools for the ummah ✦</p>
               <p style={{ color: 'var(--text-dim)', lineHeight: 1.75, fontSize: '.92rem', marginBottom: 16 }}>
-                Elif is the founder of Muslim Success Path, Effortless Works, and Effortless Quest — four interconnected platforms built to help Muslims learn, organise, and grow in community.
+                Elif is the founder of Muslim Success Path, Effortless Works, Effortless Quest, and Luma AI — four interconnected platforms built to help Muslims learn, organise, and grow in community.
               </p>
               <p style={{ color: 'var(--text-dim)', lineHeight: 1.75, fontSize: '.92rem', marginBottom: 16 }}>
                 Driven by faith and a passion for purposeful design, she creates everything from handmade crochet patterns and Islamic learning resources to productivity templates and AI tools — all rooted in the belief that a well-organised life and a strong deen go hand in hand.
@@ -501,6 +502,10 @@ export default function AboutPage() {
                 <a href="https://www.effortless.quest" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(167,139,250,0.1)', border: '1px solid rgba(167,139,250,0.25)', borderRadius: 8, padding: '6px 14px', color: '#A78BFA', fontSize: '.75rem', fontWeight: 700, textDecoration: 'none' }}>
                   <Image src="/effortless-quest-logo.png" alt="EQ" width={18} height={18} style={{ objectFit: 'contain' }} />
                   Effortless Quest
+                </a>
+                <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(245,200,66,0.07)', border: '1px solid rgba(245,200,66,0.2)', borderRadius: 8, padding: '6px 14px', color: '#F5C842', fontSize: '.75rem', fontWeight: 700, textDecoration: 'none' }}>
+                  <span style={{ fontSize: '1rem', lineHeight: 1 }}>✦</span>
+                  Luma AI
                 </a>
               </div>
             </div>
@@ -547,9 +552,7 @@ export default function AboutPage() {
             {/* Logo */}
             <div style={{ flexShrink: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
               <div style={{ width: 120, height: 120, borderRadius: 24, overflow: 'hidden', border: '2px solid rgba(245,200,66,0.4)', boxShadow: '0 0 40px rgba(245,200,66,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(245,200,66,0.05)' }}>
-                <svg width="72" height="72" viewBox="0 0 46 46" xmlns="http://www.w3.org/2000/svg" style={{ animation: 'spinStar 12s linear infinite' }}>
-                  <polygon points="23,2 27.5,16 42,16 30.5,24.5 35,38.5 23,30 11,38.5 15.5,24.5 4,16 18.5,16" fill="#F5C842" />
-                </svg>
+                <span className="star" style={{ fontSize: '3.2rem', color: '#F5C842' }}>✦</span>
               </div>
               <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="btn-outline" style={{ fontSize: '.8rem', padding: '9px 20px', borderColor: '#F5C842', color: '#F5C842', whiteSpace: 'nowrap' }}>
                 Try Luma AI →
