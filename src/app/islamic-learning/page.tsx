@@ -4,6 +4,7 @@ import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -87,6 +88,18 @@ export default function IslamicLearningPage() {
               </Link>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="newsletter" style={{ position: 'relative', overflow: 'hidden' }}>
+        <RippleCanvas intensity={0.45} />
+        <div className="nl-glow" />
+        <div className="nl-box reveal" style={{ position: 'relative', zIndex: 2 }}>
+          <span className="nl-icon">☪️</span>
+          <h2 className="nl-title">Keep Learning</h2>
+          <p className="nl-sub">Explore books, podcasts, videos, and courses — everything you need to grow in your deen.</p>
+          <PageNewsletter page="islamic-learning" title="Islamic Learning" sub="Get notified about new Islamic resources." icon="☪️" />
         </div>
       </section>
 

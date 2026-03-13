@@ -4,6 +4,7 @@ import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 
 import { episodes } from '@/data/siteData'
 
@@ -95,6 +96,7 @@ export default function PodcastsPage() {
             <a href="https://open.spotify.com/show/4DmkzfJ7DqrmwTopi3J9Rr" target="_blank" rel="noopener noreferrer" className="btn-gold">Listen on Spotify →</a>
             <a href="https://www.youtube.com/@MuslimSuccessPath" target="_blank" rel="noopener noreferrer" className="btn-outline">YouTube</a>
           </div>
+          <PageNewsletter page="podcasts" title="Podcasts" sub="Get notified when new episodes drop." icon="🎙️" />
         </div>
       </section>
 

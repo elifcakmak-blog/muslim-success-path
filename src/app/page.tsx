@@ -161,6 +161,7 @@ export default function Home() {
           <a onClick={() => scrollTo('pipeline')} style={{cursor:'pointer'}}>How It Works</a>
           <a onClick={() => scrollTo('resources')} style={{cursor:'pointer'}}>Resources</a>
           <a onClick={() => scrollTo('about')} style={{cursor:'pointer'}}>About</a>
+          <Link href="/contact">Contact</Link>
           <a onClick={() => scrollTo('newsletter')} className="nav-cta" style={{cursor:'pointer'}}>Newsletter</a>
         </div>
         <button
@@ -180,6 +181,7 @@ export default function Home() {
         <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('pipeline') }} style={{cursor:'pointer'}}>How It Works</a>
         <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('resources') }} style={{cursor:'pointer'}}>Resources</a>
         <a className="mobile-link" onClick={() => { setHomeMenuOpen(false); scrollTo('about') }} style={{cursor:'pointer'}}>About</a>
+        <Link href="/contact" className="mobile-link" onClick={() => setHomeMenuOpen(false)}>Contact</Link>
         <a className="mobile-link mobile-cta" onClick={() => { setHomeMenuOpen(false); scrollTo('newsletter') }} style={{cursor:'pointer'}}>Newsletter ✦</a>
       </div>
       {homeMenuOpen && <div className="mobile-backdrop" onClick={() => setHomeMenuOpen(false)} />}

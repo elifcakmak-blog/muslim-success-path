@@ -44,6 +44,7 @@ export default function Nav() {
             </div>
           </div>
           <Link href="/about">About</Link>
+          <Link href="/contact">Contact</Link>
           <Link href="/#newsletter" className="nav-cta">Newsletter</Link>
         </div>
 
@@ -84,6 +85,7 @@ export default function Nav() {
         )}
 
         <Link href="/about"        className="mobile-link" onClick={closeMenu}>About</Link>
+        <Link href="/contact"      className="mobile-link" onClick={closeMenu}>Contact</Link>
         <Link href="/#newsletter"  className="mobile-link mobile-cta" onClick={closeMenu}>Newsletter ✦</Link>
       </div>
 

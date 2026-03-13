@@ -4,10 +4,10 @@ const CLOSE_API_URL = 'https://api.close.com/api/v1'
 
 export async function POST(req: Request) {
   try {
-    const { email, name } = await req.json()
+    const { name, email, subject, message } = await req.json()
 
-    if (!email || !email.includes('@')) {
-      return NextResponse.json({ error: 'Invalid email' }, { status: 400 })
+    if (!name || !email || !email.includes('@') || !message) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
     }
 
     const apiKey = process.env.CLOSE_API_KEY
@@ -31,12 +31,12 @@ export async function POST(req: Request) {
     console.log('Search response count:', searchData?.data?.length, 'first match:', searchData?.data?.[0]?.id)
     const existingLead = searchData?.data?.[0] ?? null
 
-    // ── Step 1.5: Get the correct status ID for Newsletter Subscriber ──
+    // ── Step 1.5: Get the correct status ID for Contact Form Submission ──
     const statusRes = await fetch(`${CLOSE_API_URL}/status/lead/`, { headers })
     const statusData = await statusRes.json()
-    const subscriberStatus = statusData?.data?.find((s: { label: string }) => s.label === 'New Muslim Success Path Subscriber!')
-    const subscriberStatusId = subscriberStatus?.id
-    console.log('Subscriber status ID:', subscriberStatusId)
+    const contactStatus = statusData?.data?.find((s: { label: string }) => s.label === 'New Contact Form Submission! - MSP')
+    const contactStatusId = contactStatus?.id
+    console.log('Contact form status ID:', contactStatusId)
 
     let leadId: string
 
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
           headers,
           body: JSON.stringify({
             name: name || email,
-            ...(subscriberStatusId ? { status_id: subscriberStatusId } : { status_label: 'New Muslim Success Path Subscriber!' }),
+            ...(contactStatusId ? { status_id: contactStatusId } : { status_label: 'New Contact Form Submission! - MSP' }),
             contacts: [
               {
                 name: name || undefined,
@@ -69,12 +69,11 @@ export async function POST(req: Request) {
         leadId = leadData.id
         console.log('New lead created for Business Mainframe contact:', leadId)
       } else {
-        // Update status on existing lead
         const updateRes = await fetch(`${CLOSE_API_URL}/lead/${leadId}/`, {
           method: 'PUT',
           headers,
           body: JSON.stringify({
-            ...(subscriberStatusId ? { status_id: subscriberStatusId } : { status_label: 'New Muslim Success Path Subscriber!' }),
+            ...(contactStatusId ? { status_id: contactStatusId } : { status_label: 'New Contact Form Submission! - MSP' }),
           }),
         })
         const updateData = await updateRes.json()
@@ -87,7 +86,7 @@ export async function POST(req: Request) {
         headers,
         body: JSON.stringify({
           name: name || email,
-          ...(subscriberStatusId ? { status_id: subscriberStatusId } : { status_label: 'New Muslim Success Path Subscriber!' }),
+          ...(contactStatusId ? { status_id: contactStatusId } : { status_label: 'New Contact Form Submission! - MSP' }),
           contacts: [
             {
               name: name || undefined,
@@ -108,13 +107,45 @@ export async function POST(req: Request) {
       console.log('New lead created:', leadId)
     }
 
-    // ── Step 3: Create a task to add them to the newsletter ──
+    // ── Step 3: Add note to the lead timeline ──
+    const noteBody = [
+      '📬 New Contact Form Submission! - MSP',
+      '',
+      `Name: ${name}`,
+      `Email: ${email}`,
+      subject ? `Subject: ${subject}` : null,
+      '',
+      'Message:',
+      message,
+    ]
+      .filter(line => line !== null)
+      .join('\n')
+
+    const noteRes = await fetch(`${CLOSE_API_URL}/activity/note/`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        lead_id: leadId,
+        note: noteBody,
+      }),
+    })
+
+    const noteData = await noteRes.json()
+
+    if (!noteRes.ok) {
+      console.error('Close CRM note creation failed:', JSON.stringify(noteData))
+      return NextResponse.json({ error: 'Failed to add note', detail: noteData }, { status: 500 })
+    }
+
+    console.log('Note added to lead:', leadId)
+
+    // ── Step 4: Create a task to reply to the contact form ──
     const taskRes = await fetch(`${CLOSE_API_URL}/task/`, {
       method: 'POST',
       headers,
       body: JSON.stringify({
         lead_id: leadId,
-        text: `📧 Add to MAIN newsletter — Muslim Success Path | ${name || email} | ${email}`,
+        text: `📬 Reply to contact form message from ${name} (${email})${subject ? ` — Subject: ${subject}` : ''}`,
         due_date: new Date().toISOString().split('T')[0],
         is_complete: false,
       }),
@@ -129,7 +160,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, leadId })
 
   } catch (err) {
-    console.error('Newsletter route error:', err)
+    console.error('Contact route error:', err)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 }

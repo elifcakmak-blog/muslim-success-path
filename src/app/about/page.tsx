@@ -4,6 +4,7 @@ import Link from 'next/link'
 import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
+import AboutNewsletter from '@/components/AboutNewsletter'
 
 const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
 const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
@@ -95,9 +96,9 @@ export default function AboutPage() {
           <h2 className="nl-title">Join the Path</h2>
           <p className="nl-sub">Follow along on social media or subscribe to the newsletter — we'd love to have you in the community.</p>
           <div className="hero-actions" style={{ justifyContent: 'center' }}>
-            <Link href="/" className="btn-gold">Subscribe →</Link>
             <a href="https://www.instagram.com/muslim.success.path" target="_blank" rel="noopener noreferrer" className="btn-outline">Instagram</a>
           </div>
+          <AboutNewsletter />
         </div>
       </section>
 

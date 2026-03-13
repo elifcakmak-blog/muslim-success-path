@@ -5,6 +5,7 @@ import RippleCanvas from '@/components/RippleCanvas'
 import Nav from '@/components/Nav'
 import BackButton from '@/components/BackButton'
 import Footer from '@/components/Footer'
+import PageNewsletter from '@/components/PageNewsletter'
 
 import { courses } from '@/data/siteData'
 
@@ -77,6 +78,7 @@ export default function CoursesPage() {
             <a href="https://www.effortlessworks.store/" target="_blank" rel="noopener noreferrer" className="btn-gold">View Courses →</a>
             <BackButton className="btn-outline" />
           </div>
+          <PageNewsletter page="courses" title="Courses" sub="Be the first to know when new courses launch." icon="🎓" />
         </div>
       </section>
 

@@ -82,12 +82,15 @@ export default function Footer() {
             <span className="star">✦</span> Muslim Success Path
           </Link>
           <p>Faith-centered resources for learning, creating, and living with intention — every step of the way.</p>
-          <div className="socials">
+          <div className="socials" style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
             {socials.map(s => (
               <a href={s.href} key={s.href} className="social-btn" target="_blank" rel="noopener noreferrer" aria-label={s.label}>
                 {s.icon}
               </a>
             ))}
+            <Link href="/contact" className="btn-gold" style={{ padding: '7px 16px', fontSize: '.78rem', fontWeight: 700, borderRadius: 6, whiteSpace: 'nowrap' }}>
+              Contact Us
+            </Link>
           </div>
         </div>
 
