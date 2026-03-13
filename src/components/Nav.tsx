@@ -35,12 +35,14 @@ export default function Nav() {
           <div className="nav-dropdown">
             <span style={{ whiteSpace: 'nowrap' }}>Resources ▾</span>
             <div className="nav-dropdown-menu">
-              <Link href="/books">📖 Books</Link>
-              <Link href="/podcasts">🎙️ Podcasts</Link>
-              <Link href="/videos">▶️ Videos</Link>
-              <Link href="/courses">🎓 Courses</Link>
-              <Link href="/apps">📱 Apps</Link>
-              <Link href="/roadmap">🗺️ Roadmap</Link>
+              <div className="nav-dropdown-menu-inner">
+                <Link href="/books">📖 Books</Link>
+                <Link href="/podcasts">🎙️ Podcasts</Link>
+                <Link href="/videos">▶️ Videos</Link>
+                <Link href="/courses">🎓 Courses</Link>
+                <Link href="/apps">📱 Apps</Link>
+                <Link href="/roadmap">🗺️ Roadmap</Link>
+              </div>
             </div>
           </div>
           <Link href="/about">About</Link>
