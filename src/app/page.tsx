@@ -284,31 +284,82 @@ export default function Home() {
           <div className="pillars-head reveal">
             <div>
               <div className="s-tag">What We Offer</div>
-              <h2 className="s-title">Three Paths,<br />One Mission</h2>
+              <h2 className="s-title">Four Paths,<br />One Mission</h2>
             </div>
             <p className="s-sub">Everything we create flows from a single purpose — helping you succeed in this life and the next.</p>
           </div>
           <div className="pillars-grid">
-            {[
-              { num:'01', icon:'🧶', title:'Crocheting',         href:'/crocheting',
-                desc:'Handmade Islamic clothing, hijabs, prayer accessories, and crochet patterns with step-by-step video guides.',
-                tags:['Patterns','Islamic Clothing','Video Guides','Etsy Shop'] },
-              { num:'02', icon:'📖', title:'Islamic Learning',   href:'/islamic-learning',
-                desc:'Quran study guides, books for new Muslims and reverts, podcasts, YouTube series, and courses — built from deep reflection.',
-                tags:['Books','Quran Study','New Muslim Guide','Courses'] },
-              { num:'03', icon:'🗂️', title:'Organize Your Life', href:'/organize',
-                desc:'Notion templates, Google Sheets, and time management systems built to help Muslims stay productive and intentional.',
-                tags:['Templates','Time Management','Goal Tracking','Business Tools'] },
-            ].map((p, i) => (
-              <Link href={p.href} className={`pillar reveal${i === 1 ? ' rd1' : i === 2 ? ' rd2' : ''}`} key={p.num}>
-                <div className="pillar-num">{p.num}</div>
-                <span className="pillar-icon">{p.icon}</span>
-                <div className="pillar-title">{p.title}</div>
-                <p className="pillar-desc">{p.desc}</p>
-                <div className="pillar-tags">{p.tags.map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-                <div className="pillar-arrow">→</div>
-              </Link>
-            ))}
+
+            {/* ── 01: Crocheting + Islamic Learning (combined) ── */}
+            <div className="pillar reveal" style={{ display: 'flex', flexDirection: 'column' }}>
+              <div className="pillar-num">01</div>
+              <div style={{ display: 'flex', gap: 8, marginBottom: 6 }}>
+                <span className="pillar-icon">🧶</span>
+                <span className="pillar-icon">📖</span>
+              </div>
+              <div className="pillar-title">Faith &amp; Craft</div>
+              <p className="pillar-desc">
+                Handmade Islamic crochet pieces and patterns alongside Quran study guides, books for new Muslims, podcasts, and courses — two paths, one purpose.
+              </p>
+              <div className="pillar-tags">
+                {['Patterns','Islamic Clothing','Books','Quran Study','Courses','Etsy Shop'].map(t => <span className="ptag" key={t}>{t}</span>)}
+              </div>
+              <div style={{ display: 'flex', gap: 10, marginTop: 'auto', paddingTop: 20 }}>
+                <Link href="/crocheting" style={{
+                  flex: 1, textAlign: 'center', padding: '8px 0',
+                  background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.25)',
+                  borderRadius: 8, color: '#F5C842', fontSize: '.75rem', fontWeight: 700,
+                  letterSpacing: '.05em', textDecoration: 'none', transition: 'background .2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(245,200,66,0.18)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(245,200,66,0.08)')}>
+                  🧶 Crocheting →
+                </Link>
+                <Link href="/islamic-learning" style={{
+                  flex: 1, textAlign: 'center', padding: '8px 0',
+                  background: 'rgba(123,191,160,0.08)', border: '1px solid rgba(123,191,160,0.25)',
+                  borderRadius: 8, color: '#7BBFA0', fontSize: '.75rem', fontWeight: 700,
+                  letterSpacing: '.05em', textDecoration: 'none', transition: 'background .2s',
+                }}
+                onMouseEnter={e => (e.currentTarget.style.background = 'rgba(123,191,160,0.18)')}
+                onMouseLeave={e => (e.currentTarget.style.background = 'rgba(123,191,160,0.08)')}>
+                  📖 Islamic Learning →
+                </Link>
+              </div>
+            </div>
+
+            {/* ── 02: Organize Your Life ── */}
+            <Link href="/organize" className="pillar reveal rd1">
+              <div className="pillar-num">02</div>
+              <span className="pillar-icon">🗂️</span>
+              <div className="pillar-title">Organize Your Life</div>
+              <p className="pillar-desc">Notion templates, Google Sheets, and time management systems built to help Muslims stay productive and intentional.</p>
+              <div className="pillar-tags">{['Templates','Time Management','Goal Tracking','Business Tools'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
+              <div className="pillar-arrow">→</div>
+            </Link>
+
+            {/* ── 03: Community → Effortless Quest ── */}
+            <Link href="#effortless-quest" className="pillar reveal rd2">
+              <div className="pillar-num">03</div>
+              <span className="pillar-icon">👥</span>
+              <div className="pillar-title">Community</div>
+              <p className="pillar-desc">A gamified community platform where personal development and business growth become a real-life game — with leaderboards, rewards, and driven people.</p>
+              <div className="pillar-tags">{['Effortless Quest','Leaderboards','Challenges','Coming Soon'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
+              <div className="pillar-arrow">→</div>
+            </Link>
+
+            {/* ── 04: Luma AI ── */}
+            <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="pillar reveal rd3">
+              <div className="pillar-num">04</div>
+              <span className="pillar-icon">🪞</span>
+              <div className="pillar-title">Luma AI</div>
+              <p className="pillar-desc">
+                Your private AI companion for self-discovery. Journal your thoughts, and Luma remembers — drawing on your past reflections to help you understand yourself more deeply. Available on desktop so Luma is always with you.
+              </p>
+              <div className="pillar-tags">{['AI Journaling','Local AI','Recalls Memories','Desktop App','Inner Growth'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
+              <div className="pillar-arrow">→</div>
+            </a>
+
           </div>
         </div>
       </section>
