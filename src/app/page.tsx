@@ -335,7 +335,7 @@ export default function Home() {
               <div className="pillar-title">Organize Your Life</div>
               <p className="pillar-desc">Notion templates, Google Sheets, and time management systems built to help Muslims stay productive and intentional.</p>
               <div className="pillar-tags">{['Templates','Time Management','Goal Tracking','Business Tools'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-              <div className="pillar-arrow">→</div>
+              <div className="pillar-arrow">Effortless Works →</div>
             </Link>
 
             {/* ── 03: Community → Effortless Quest ── */}
@@ -345,19 +345,19 @@ export default function Home() {
               <div className="pillar-title">Community</div>
               <p className="pillar-desc">A gamified community platform where personal development and business growth become a real-life game — with leaderboards, rewards, and driven people.</p>
               <div className="pillar-tags">{['Effortless Quest','Leaderboards','Challenges','Coming Soon'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-              <div className="pillar-arrow">→</div>
+              <div className="pillar-arrow">Effortless Quest →</div>
             </Link>
 
             {/* ── 04: Luma AI ── */}
             <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="pillar reveal rd3">
               <div className="pillar-num">04</div>
               <span className="pillar-icon">🪞</span>
-              <div className="pillar-title">Luma AI</div>
+              <div className="pillar-title">Luma Ai</div>
               <p className="pillar-desc">
                 Your private AI companion for self-discovery. Journal your thoughts, and Luma remembers — drawing on your past reflections to help you understand yourself more deeply. Available on desktop so Luma is always with you.
               </p>
               <div className="pillar-tags">{['AI Journaling','Local AI','Recalls Memories','Desktop App','Inner Growth'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-              <div className="pillar-arrow">→</div>
+              <div className="pillar-arrow">Chat With Luma →</div>
             </a>
 
           </div>
