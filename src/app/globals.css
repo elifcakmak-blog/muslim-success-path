@@ -259,7 +259,8 @@ body {
 /* ── PILLARS ── */
 .pillars { background: var(--bg); }
 .pillars-head { display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 24px; margin-bottom: 56px; }
-.pillars-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+.pillars-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+@media (max-width: 540px) { .pillars-grid { grid-template-columns: 1fr; } }
 .pillar {
   border-radius: 12px; padding: 36px 32px;
   background: var(--surface); border: 1px solid var(--border);
@@ -327,7 +328,8 @@ body {
 
 /* ── RESOURCES ── */
 .resources { background: var(--bg); }
-.res-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; margin-top: 52px; max-width: calc(210px * 6 + 14px * 5); margin-left: auto; margin-right: auto; }
+.res-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 52px; }
+@media (max-width: 640px) { .res-grid { grid-template-columns: 1fr; } }
 .res-card {
   border-radius: 10px; padding: 26px 22px;
   background: var(--surface); border: 1px solid var(--border-dim);
