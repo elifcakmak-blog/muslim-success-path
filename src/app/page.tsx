@@ -335,7 +335,16 @@ export default function Home() {
               <div className="pillar-title">Organize Your Life</div>
               <p className="pillar-desc">Notion templates, Google Sheets, and time management systems built to help Muslims stay productive and intentional.</p>
               <div className="pillar-tags">{['Templates','Time Management','Goal Tracking','Business Tools'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-              <div className="pillar-arrow">Effortless Works →</div>
+              <div style={{ marginTop: 'auto', paddingTop: 20 }}>
+                <div style={{
+                  textAlign: 'center', padding: '8px 0',
+                  background: 'rgba(123,191,160,0.08)', border: '1px solid rgba(123,191,160,0.25)',
+                  borderRadius: 8, color: '#7BBFA0', fontSize: '.75rem', fontWeight: 700,
+                  letterSpacing: '.05em',
+                }}>
+                  🗂️ Effortless Works →
+                </div>
+              </div>
             </Link>
 
             {/* ── 03: Community → Effortless Quest ── */}
@@ -345,19 +354,37 @@ export default function Home() {
               <div className="pillar-title">Community</div>
               <p className="pillar-desc">A gamified community platform where personal development and business growth become a real-life game — with leaderboards, rewards, and driven people.</p>
               <div className="pillar-tags">{['Effortless Quest','Leaderboards','Challenges','Coming Soon'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-              <div className="pillar-arrow">Effortless Quest →</div>
+              <div style={{ marginTop: 'auto', paddingTop: 20 }}>
+                <div style={{
+                  textAlign: 'center', padding: '8px 0',
+                  background: 'rgba(245,200,66,0.08)', border: '1px solid rgba(245,200,66,0.25)',
+                  borderRadius: 8, color: '#F5C842', fontSize: '.75rem', fontWeight: 700,
+                  letterSpacing: '.05em',
+                }}>
+                  🏆 Effortless Quest →
+                </div>
+              </div>
             </Link>
 
             {/* ── 04: Luma AI ── */}
             <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="pillar reveal rd3">
               <div className="pillar-num">04</div>
               <span className="pillar-icon">🪞</span>
-              <div className="pillar-title">Luma Ai</div>
+              <div className="pillar-title">Luma AI</div>
               <p className="pillar-desc">
-                Your private AI companion for self-discovery. Journal your thoughts, and Luma remembers — drawing on your past reflections to help you understand yourself more deeply. Available on desktop so Luma is always with you.
+                Your Jarvis. Luma runs your businesses autonomously — ordering supplies, updating your shop, creating marketing content, and processing orders — while you focus on building the next thing.
               </p>
-              <div className="pillar-tags">{['AI Journaling','Local AI','Recalls Memories','Desktop App','Inner Growth'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
-              <div className="pillar-arrow">Chat With Luma →</div>
+              <div className="pillar-tags">{['Business Automation','Local AI','Order Management','Content Creation','Control Center'].map(t => <span className="ptag" key={t}>{t}</span>)}</div>
+              <div style={{ marginTop: 'auto', paddingTop: 20 }}>
+                <div style={{
+                  textAlign: 'center', padding: '8px 0',
+                  background: 'rgba(123,191,160,0.08)', border: '1px solid rgba(123,191,160,0.25)',
+                  borderRadius: 8, color: '#7BBFA0', fontSize: '.75rem', fontWeight: 700,
+                  letterSpacing: '.05em',
+                }}>
+                  🪞 Meet Luma →
+                </div>
+              </div>
             </a>
 
           </div>
@@ -383,6 +410,154 @@ export default function Home() {
 
       {/* ── PIPELINE — soft ripple ── */}
       <Pipeline />
+
+      {/* ── THE BUSINESS MODEL ── */}
+      <section id="business-model" style={{
+        position: 'relative', overflow: 'hidden',
+        background: '#0A0B0C',
+        borderTop: '1px solid rgba(245,200,66,0.15)',
+        borderBottom: '1px solid rgba(123,191,160,0.15)',
+        padding: 'clamp(64px, 10vw, 120px) clamp(24px, 6vw, 80px)',
+      }}>
+        <RippleCanvas intensity={0.3} />
+        <div style={{ position: 'relative', zIndex: 2, maxWidth: 1100, margin: '0 auto' }}>
+
+          {/* Header */}
+          <div className="reveal" style={{ marginBottom: 64 }}>
+            <div style={{ fontSize: '.65rem', fontWeight: 700, letterSpacing: '.18em', textTransform: 'uppercase', color: '#F5C842', marginBottom: 16 }}>
+              The Business Model
+            </div>
+            <h2 style={{
+              fontFamily: "'Cormorant Garamond', Georgia, serif",
+              fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 300,
+              color: '#E8E4DC', lineHeight: 1.1, margin: '0 0 20px',
+            }}>
+              Muslim Success Path<br />
+              <em style={{ fontStyle: 'italic', color: '#7BBFA0' }}>runs itself.</em>
+            </h2>
+            <p style={{ fontSize: '.95rem', color: 'rgba(232,228,220,0.45)', lineHeight: 1.8, maxWidth: 560, margin: 0 }}>
+              Everything you see here — the crocheting, the books, the content — is a real operating business. Luma handles the day-to-day. This is the model you can build too.
+            </p>
+          </div>
+
+          {/* Two business models side by side */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24, marginBottom: 64 }}>
+
+            {/* Model 1: Crocheting Business */}
+            <div className="reveal" style={{
+              background: '#131416',
+              border: '1px solid rgba(245,200,66,0.15)',
+              borderRadius: 16, padding: 32,
+              position: 'relative', overflow: 'hidden',
+            }}>
+              <div style={{
+                position: 'absolute', top: -40, right: -40, fontSize: '8rem',
+                opacity: 0.04, pointerEvents: 'none', userSelect: 'none',
+              }}>🧶</div>
+              <div style={{ fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: '#F5C842', marginBottom: 12 }}>
+                Business Model 01
+              </div>
+              <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.6rem', fontWeight: 400, color: '#E8E4DC', margin: '0 0 12px' }}>
+                Crocheting Business
+              </h3>
+              <p style={{ fontSize: '.85rem', color: 'rgba(232,228,220,0.4)', lineHeight: 1.75, margin: '0 0 24px' }}>
+                Sentro knitting machines produce the goods. Luma manages inventory, photographs finished products, lists them to the shop, handles orders, and notifies you only when it's time to ship.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[
+                  { icon: '⚙️', step: 'Machines produce the product' },
+                  { icon: '📸', step: 'Luma photographs & lists it' },
+                  { icon: '📦', step: 'Order comes in, Luma queues production' },
+                  { icon: '🔔', step: 'You get notified to ship' },
+                ].map(s => (
+                  <div key={s.step} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontSize: '1rem', flexShrink: 0 }}>{s.icon}</span>
+                    <span style={{ fontSize: '.8rem', color: 'rgba(232,228,220,0.5)' }}>{s.step}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="/crocheting" style={{
+                display: 'inline-block', marginTop: 24,
+                fontSize: '.75rem', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase',
+                color: '#F5C842', textDecoration: 'none',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
+                See the shop →
+              </a>
+            </div>
+
+            {/* Model 2: Content Creation Business */}
+            <div className="reveal" style={{
+              background: '#131416',
+              border: '1px solid rgba(123,191,160,0.15)',
+              borderRadius: 16, padding: 32,
+              position: 'relative', overflow: 'hidden',
+            }}>
+              <div style={{
+                position: 'absolute', top: -40, right: -40, fontSize: '8rem',
+                opacity: 0.04, pointerEvents: 'none', userSelect: 'none',
+              }}>📡</div>
+              <div style={{ fontSize: '.6rem', fontWeight: 700, letterSpacing: '.16em', textTransform: 'uppercase', color: '#7BBFA0', marginBottom: 12 }}>
+                Business Model 02
+              </div>
+              <h3 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontSize: '1.6rem', fontWeight: 400, color: '#E8E4DC', margin: '0 0 12px' }}>
+                Content Creation Business
+              </h3>
+              <p style={{ fontSize: '.85rem', color: 'rgba(232,228,220,0.4)', lineHeight: 1.75, margin: '0 0 24px' }}>
+                Books, podcasts, and YouTube — Luma handles the marketing pipeline. It creates short-form content, posts to social, updates the website when new material drops, and tracks what's growing.
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {[
+                  { icon: '✍️', step: 'You create the book, episode, or video' },
+                  { icon: '✂️', step: 'Luma clips & formats for social media' },
+                  { icon: '📢', step: 'Luma posts & updates the website' },
+                  { icon: '📊', step: 'Luma tracks growth & reports back' },
+                ].map(s => (
+                  <div key={s.step} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <span style={{ fontSize: '1rem', flexShrink: 0 }}>{s.icon}</span>
+                    <span style={{ fontSize: '.8rem', color: 'rgba(232,228,220,0.5)' }}>{s.step}</span>
+                  </div>
+                ))}
+              </div>
+              <a href="/books" style={{
+                display: 'inline-block', marginTop: 24,
+                fontSize: '.75rem', fontWeight: 700, letterSpacing: '.06em', textTransform: 'uppercase',
+                color: '#7BBFA0', textDecoration: 'none',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.7')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}>
+                See the content →
+              </a>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="reveal" style={{ textAlign: 'center' }}>
+            <p style={{ fontSize: '.8rem', letterSpacing: '.12em', textTransform: 'uppercase', color: 'rgba(232,228,220,0.3)', marginBottom: 20 }}>
+              Want to build a business like this?
+            </p>
+            <a
+              href="https://www.effortlessworks.store/"
+              target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 10,
+                padding: '14px 36px', borderRadius: 2,
+                background: 'linear-gradient(135deg, #F5C842, #e0b030)',
+                color: '#0A0B0C', fontSize: '.8rem', fontWeight: 700,
+                letterSpacing: '.1em', textTransform: 'uppercase',
+                textDecoration: 'none', fontFamily: "'DM Sans', sans-serif",
+                transition: 'opacity .2s',
+              }}
+              onMouseEnter={e => (e.currentTarget.style.opacity = '0.85')}
+              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
+            >
+              Browse Business Models on Effortless Works →
+            </a>
+          </div>
+
+        </div>
+      </section>
 
       {/* ── RESOURCES — soft ripple ── */}
       <style>{`
@@ -571,7 +746,7 @@ export default function Home() {
                   fontSize: '.95rem', color: 'rgba(232,228,220,0.5)',
                   lineHeight: 1.75, maxWidth: 480, margin: 0,
                 }}>
-                  Templates, spreadsheets, and courses for the person building something — in business, in life, and in faith.
+                  Pick a business. We build it. Luma runs it. From crocheting to content creation — every business model, fully automated.
                 </p>
               </div>
               <a
@@ -604,68 +779,72 @@ export default function Home() {
             transform: 'translateX(-50%)',
           }} />
 
-          {/* Zigzag grid clusters */}
+          {/* Zigzag business model clusters */}
           {[
             {
-              label: '💼 Business', align: 'right' as const,
-              href: 'https://www.effortlessworks.store/business',
-              desc: 'Tools for running and growing your business.',
+              label: '🧶 Crocheting Business', align: 'right' as const,
+              href: 'https://www.effortlessworks.store/',
+              tag: 'Available',
+              desc: 'Sentro knitting machines + Luma automation. Orders, Etsy listings, inventory, and marketing — all on autopilot.',
               links: [
-                { name: 'Back Office', sub: 'Sheets', href: 'https://www.effortlessworks.store/000009/bo-sheets', icon: '📊' },
-                { name: 'Back Office', sub: 'Notion', href: 'https://www.effortlessworks.store/000009/bo-notion', icon: '📋' },
-                { name: 'Project Mgmt', sub: 'Sheets', href: 'https://www.effortlessworks.store/000010/pm-sheets', icon: '📁' },
-                { name: 'Project Mgmt', sub: 'Notion', href: 'https://www.effortlessworks.store/000010/pm-notion', icon: '🗂️' },
-                { name: 'Product Videos', sub: 'How To', href: 'https://www.effortlessworks.store/000011/b-productvideos', icon: '▶️' },
-                { name: 'Self-Paced', sub: 'Course', href: 'https://www.effortlessworks.store/000011/b-selfpaced', icon: '🎓' },
-                { name: 'Instructor Led', sub: 'Course', href: 'https://www.effortlessworks.store/000011/b-instructorled', icon: '👩‍🏫' },
+                { name: 'Machine', sub: 'Setup', icon: '⚙️' },
+                { name: 'Luma', sub: 'Orders', icon: '🪞' },
+                { name: 'Auto', sub: 'Inventory', icon: '📦' },
               ],
             },
             {
-              label: '🧍 Individuals', align: 'left' as const,
-              href: 'https://www.effortlessworks.store/individuals',
-              desc: 'Tools for your personal goals, habits, and life.',
+              label: '📱 Content Creation', align: 'left' as const,
+              href: 'https://www.effortlessworks.store/',
+              tag: 'Available',
+              desc: 'Books, podcasts, YouTube — one automated pipeline. Luma schedules, promotes, and grows your audience while you create.',
               links: [
-                { name: 'Life Tracker', sub: 'Sheets', href: 'https://www.effortlessworks.store/000012/lt-sheets', icon: '🌱' },
-                { name: 'Life Tracker', sub: 'Notion', href: 'https://www.effortlessworks.store/000012/lt-notion', icon: '📓' },
-                { name: 'Personal Trackers', sub: 'Sheets', href: 'https://www.effortlessworks.store/000013/pt-sheets', icon: '✅' },
-                { name: 'Personal Trackers', sub: 'Notion', href: 'https://www.effortlessworks.store/000013/pt-notion', icon: '🗒️' },
-                { name: 'Personal Projects', sub: 'Sheets', href: 'https://www.effortlessworks.store/000014/pp-sheets', icon: '💡' },
-                { name: 'Personal Projects', sub: 'Notion', href: 'https://www.effortlessworks.store/000014/pp-notion', icon: '📌' },
-                { name: 'Product Videos', sub: 'How To', href: 'https://www.effortlessworks.store/000015/p-productvideos', icon: '▶️' },
-                { name: 'Self-Paced', sub: 'Course', href: 'https://www.effortlessworks.store/000015/p-selfpaced', icon: '🎓' },
-                { name: 'Instructor Led', sub: 'Course', href: 'https://www.effortlessworks.store/000015/p-instructorled', icon: '👩‍🏫' },
+                { name: 'Multi', sub: 'Platform', icon: '📹' },
+                { name: 'Luma', sub: 'Pipeline', icon: '🪞' },
+                { name: 'Auto', sub: 'Growth', icon: '📈' },
               ],
             },
             {
-              label: '🔨 Build Your Own', align: 'right' as const,
-              href: 'https://www.effortlessworks.store/build-your-own',
-              desc: 'Custom builds tailored to your exact needs.',
+              label: '📞 Automated Sales', align: 'right' as const,
+              href: 'https://www.effortlessworks.store/',
+              tag: 'Coming Soon',
+              desc: 'Companies need sales — you run it for them. Luma handles lead generation, outreach, follow-ups, and reporting automatically.',
               links: [
-                { name: 'Website', sub: 'Builder', href: 'https://www.effortlessworks.store/build-your-own', icon: '🌐' },
-                { name: 'App', sub: 'Builder', href: 'https://www.effortlessworks.store/build-your-own', icon: '📱' },
-                { name: 'Onboarding', sub: 'Builder', href: 'https://www.effortlessworks.store/build-your-own', icon: '🚀' },
-                { name: 'Custom', sub: 'Sheets', href: 'https://www.effortlessworks.store/build-your-own', icon: '📊' },
-                { name: 'Custom', sub: 'Notion', href: 'https://www.effortlessworks.store/build-your-own', icon: '📋' },
+                { name: 'Lead', sub: 'Gen', icon: '🎯' },
+                { name: 'Auto', sub: 'Outreach', icon: '📨' },
+                { name: 'Client', sub: 'Reports', icon: '📊' },
               ],
             },
             {
-              label: '🏆 Effortless Quest', align: 'left' as const,
-              href: 'https://www.effortlessworks.store/000005/about',
-              desc: 'A gamified community platform — coming soon.',
+              label: '🖨️ 3D Printing Business', align: 'left' as const,
+              href: 'https://www.effortlessworks.store/',
+              tag: 'Coming Soon',
+              desc: 'Print custom products on demand — decor, tools, accessories. Luma manages your store, orders, and reprint queue automatically.',
               links: [
-                { name: 'About', sub: 'Quest', href: 'https://www.effortlessworks.store/000005/about', icon: '✦' },
-                { name: 'How To', sub: 'Play', href: 'https://www.effortlessworks.store/000005/howtoplay', icon: '🎮' },
-                { name: 'Road', sub: 'Map', href: 'https://www.effortlessworks.store/000005/roadmap', icon: '🗺️' },
+                { name: 'Print', sub: 'On Demand', icon: '🖨️' },
+                { name: 'Luma', sub: 'Store', icon: '🪞' },
+                { name: 'Auto', sub: 'Reorder', icon: '🔄' },
+              ],
+            },
+            {
+              label: '✦ More Models', align: 'right' as const,
+              href: 'https://www.effortlessworks.store/',
+              tag: 'Coming Soon',
+              desc: 'Physical products, digital services, local businesses — new business-in-a-box models added regularly.',
+              links: [
+                { name: 'Plug', sub: 'Luma In', icon: '🔌' },
+                { name: 'Learn &', sub: 'Build', icon: '📚' },
+                { name: 'Full', sub: 'Kit', icon: '🚀' },
               ],
             },
           ].map((cluster, i) => {
             const quotes = [
-              '"Sales, clients, projects — all tracked and organised."',
-              '"Your whole life, in one place."',
-              '"Built exactly the way you need it."',
-              '"Where growth becomes a game."',
+              '"Machines produce. Luma sells. You profit."',
+              '"Write once. Luma distributes forever."',
+              '"Luma pitches. Clients close. You collect."',
+              '"Design once. Print forever. Luma ships it."',
+              '"Any business. Any niche. Fully automated."',
             ]
-            const watermarks = ['BUSINESS', 'PERSONAL', 'CUSTOM', 'QUEST']
+            const watermarks = ['CROCHET', 'CONTENT', 'SALES', 'PRINT', 'MORE']
             return (
               <div key={cluster.label} style={{ position: 'relative', marginBottom: 64 }}>
 
@@ -727,17 +906,28 @@ export default function Home() {
                   <div style={{ maxWidth: 440, width: '100%' }}>
                     {/* Cluster label + desc */}
                     <div style={{ marginBottom: 16 }}>
-                      <a href={cluster.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                        <div style={{
-                          fontFamily: "'Cormorant Garamond', Georgia, serif",
-                          fontSize: '1.4rem', fontWeight: 400, color: '#E8E4DC',
-                          marginBottom: 4, display: 'inline-block',
-                          transition: 'color .2s',
-                        }}
-                        onMouseEnter={e => (e.currentTarget.style.color = '#7BBFA0')}
-                        onMouseLeave={e => (e.currentTarget.style.color = '#E8E4DC')}
-                        >{cluster.label} →</div>
-                      </a>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 4 }}>
+                        <a href={cluster.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                          <div style={{
+                            fontFamily: "'Cormorant Garamond', Georgia, serif",
+                            fontSize: '1.4rem', fontWeight: 400, color: '#E8E4DC',
+                            display: 'inline-block',
+                            transition: 'color .2s',
+                          }}
+                          onMouseEnter={e => (e.currentTarget.style.color = '#7BBFA0')}
+                          onMouseLeave={e => (e.currentTarget.style.color = '#E8E4DC')}
+                          >{cluster.label} →</div>
+                        </a>
+                        <span style={{
+                          fontFamily: "'DM Sans', sans-serif",
+                          fontSize: '.52rem', fontWeight: 700, letterSpacing: '.12em',
+                          textTransform: 'uppercase',
+                          padding: '3px 8px', borderRadius: 3,
+                          background: (cluster as any).tag === 'Available' ? 'rgba(123,191,160,0.15)' : 'rgba(245,200,66,0.1)',
+                          color: (cluster as any).tag === 'Available' ? '#7BBFA0' : 'rgba(245,200,66,0.7)',
+                          border: `1px solid ${(cluster as any).tag === 'Available' ? 'rgba(123,191,160,0.3)' : 'rgba(245,200,66,0.2)'}`,
+                        }}>{(cluster as any).tag}</span>
+                      </div>
                       <p style={{
                         fontFamily: "'DM Sans', sans-serif",
                         fontSize: '.75rem', color: 'rgba(232,228,220,0.3)',
@@ -770,8 +960,8 @@ export default function Home() {
                       }} />
                       {cluster.links.map((link, li) => (
                         <a
-                          key={link.href + link.name + link.sub}
-                          href={link.href}
+                          key={link.name + link.sub}
+                          href={cluster.href}
                           target="_blank" rel="noopener noreferrer"
                           style={{
                             textDecoration: 'none',
