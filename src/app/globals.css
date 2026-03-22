@@ -264,7 +264,8 @@ body {
   border-radius: 12px; padding: 36px 32px;
   background: var(--surface); border: 1px solid var(--border);
   position: relative; overflow: hidden;
-  text-decoration: none; color: var(--text); display: block;
+  text-decoration: none; color: var(--text);
+  display: flex; flex-direction: column;
   transition: transform .3s, box-shadow .3s, border-color .3s;
 }
 .pillar::after {

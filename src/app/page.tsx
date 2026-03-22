@@ -9,8 +9,9 @@ import Footer from '@/components/Footer'
 import ParallaxStars from '@/components/ParallaxStars'
 import { books, tools, courses, episodes, featuredCrochet, videos, apps, etsySales, newsletterSubs } from '@/data/siteData'
 
-const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
-const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
+const FluidCanvas      = dynamic(() => import('@/components/FluidCanvas'),      { ssr: false })
+const Cursor           = dynamic(() => import('@/components/Cursor'),           { ssr: false })
+import LumaLogoSVG from '@/components/LumaLogoSVG'
 
 // ── Stats count-up hook ──
 function useCountUp(target: number, triggered: boolean, suffix = '+') {
@@ -369,8 +370,10 @@ export default function Home() {
             {/* ── 04: Luma AI ── */}
             <a href="https://www.effortless.quest/#luma" target="_blank" rel="noopener noreferrer" className="pillar reveal rd3">
               <div className="pillar-num">04</div>
-              <span className="pillar-icon">🪞</span>
-              <div className="pillar-title">Luma AI</div>
+              <div style={{ display: 'flex', justifyContent: 'center', margin: '8px 0 4px' }}>
+                <LumaLogoSVG size={80} />
+              </div>
+              <div className="pillar-title">Luma</div>
               <p className="pillar-desc">
                 Your Jarvis. Luma runs your businesses autonomously — ordering supplies, updating your shop, creating marketing content, and processing orders — while you focus on building the next thing.
               </p>

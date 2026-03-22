@@ -8,8 +8,9 @@ import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
 import AboutNewsletter from '@/components/AboutNewsletter'
 
-const FluidCanvas = dynamic(() => import('@/components/FluidCanvas'), { ssr: false })
-const Cursor      = dynamic(() => import('@/components/Cursor'),      { ssr: false })
+const FluidCanvas    = dynamic(() => import('@/components/FluidCanvas'),    { ssr: false })
+const Cursor         = dynamic(() => import('@/components/Cursor'),         { ssr: false })
+import LumaLogoSVG from '@/components/LumaLogoSVG'
 
 const values = [
   { icon: '🤲', title: 'Faith First',        desc: 'Every resource, product, and piece of content is created with taqwa at the centre — to please Allah and benefit the ummah.' },
@@ -325,8 +326,8 @@ export default function AboutPage() {
 
             {/* Luma AI */}
             <div className="reveal brand-card" style={{ background: 'rgba(245,200,66,0.03)', border: '1px solid rgba(245,200,66,0.15)', borderRadius: 16, padding: 32, display: 'flex', flexDirection: 'column' }}>
-              <div style={{ width: 52, height: 52, marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <span className="star" style={{ fontSize: '2.4rem', color: '#F5C842' }}>✦</span>
+              <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <LumaLogoSVG size={140} />
               </div>
               <div style={{ fontSize: '.68rem', fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: '#F5C842', marginBottom: 8 }}>Luma AI</div>
               <h3 style={{ fontSize: '1.4rem', fontWeight: 800, color: 'var(--text)', marginBottom: 12, lineHeight: 1.3 }}>AI Journaling</h3>
